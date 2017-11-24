@@ -3,6 +3,8 @@ package megadroid.drivinggame.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import megadroid.drivinggame.R;
+
 public class MenuActivity extends AppCompatActivity {
 
     @Override
