@@ -14,6 +14,7 @@ import megadroid.drivinggame.R;
  * Created by megadroids .
  */
 public class Player {
+
     //Bitmap to get character from image
     private Bitmap bitmap;
 
@@ -37,7 +38,13 @@ public class Player {
     //Limit the bounds of the ship's speed
     private final int MIN_SPEED = 1;
     private final int MAX_SPEED = 20;
+    private int Xpos;
 
+
+    private int screenX;
+    private int screenY;
+    private int minX;
+    private final int maxX;
 
     //constructor
     public Player(Context context, int screenX, int screenY) {
@@ -47,25 +54,35 @@ public class Player {
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.car);
 
         //calculating maxY
-        maxY = screenY - bitmap.getHeight();
+        maxY = screenY ;//- bitmap.getHeight();
 
         //top edge's y point is 0 so min y will always be zero
-        minY = 0;
+        minY = -200;//0;
 
         //setting the boosting value to false initially
         boosting = false;
+
+        maxX=screenX/2+50;
+        minX= screenX/2 -110;
+        Xpos=x;
     }
 
     //Method to update coordinate of character
     public void update(){
         //updating x coordinate
         //if the ship is boosting
-        if (boosting) {
+        if (!boosting) {
             //speeding up the ship
             speed += 2;
         } else {
             //slowing down if not boosting
-            speed -= 5;
+            //speed -= 5;
+            if(Xpos < x){
+                x= x -speed;
+            }
+            if(Xpos > x){
+                x= x +speed;
+            }
 
         }
         //controlling the top speed
@@ -78,26 +95,37 @@ public class Player {
             speed = MIN_SPEED;
         }
 
+
         //moving the ship down
         y -= speed + GRAVITY;
 
         //but controlling it also so that it won't go off the screen
         if (y < minY) {
-            y = minY;
+            y = maxY;
         }
         if (y > maxY) {
             y = maxY;
         }
+
+        //but controlling it also so that it won't go off the screen
+        if (x < minX) {
+            x = minX;
+        }
+        if (x > maxX) {
+            x = maxX;
+        }
     }
 
     //setting boosting true
-    public void setBoosting() {
+    public void setBoosting(int cellX) {
         boosting = true;
+        Xpos = cellX;
     }
 
     //setting boosting false
     public void stopBoosting() {
         boosting = false;
+
     }
 
 
