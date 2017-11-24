@@ -11,7 +11,7 @@ import android.graphics.BitmapFactory;
 import megadroid.drivinggame.R;
 
 /**
- * Created by Belal on 6/24/2016.
+ * Created by megadroids .
  */
 public class Player {
     //Bitmap to get character from image
@@ -41,7 +41,7 @@ public class Player {
 
     //constructor
     public Player(Context context, int screenX, int screenY) {
-        x = screenX/2+25;
+        x = screenX/2-30;
         y = screenY;
         speed = 1;
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.car);
@@ -79,7 +79,7 @@ public class Player {
         }
 
         //moving the ship down
-        y += speed + GRAVITY;
+        y -= speed + GRAVITY;
 
         //but controlling it also so that it won't go off the screen
         if (y < minY) {

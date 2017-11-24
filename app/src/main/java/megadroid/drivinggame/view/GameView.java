@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import megadroid.drivinggame.model.Player;
 
 /**
- * Created by Kiruthiga on 11/22/2017.
+ * Created by megadroids.
  */
 
 public class GameView extends SurfaceView implements Runnable {
@@ -119,14 +119,14 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_UP:
                 //When the user presses on the screen
                 //stopping the boosting when screen is released
-                player.setBoosting();
+                player.stopBoosting();
                 break;
 
 
             case MotionEvent.ACTION_DOWN:
                 //When the user releases the screen
                 //boosting the space jet when screen is pressed
-                player.stopBoosting();
+                player.setBoosting();
                 break;
 
         }
