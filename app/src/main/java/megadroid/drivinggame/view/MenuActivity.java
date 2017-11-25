@@ -3,13 +3,26 @@ package megadroid.drivinggame.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import megadroid.drivinggame.R;
-import android.app.Activity;
+import megadroid.drivinggame.controller.ScoreMonitor;
+
+
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private int highScore = 0;
+    private int points = 0;
+    private ArrayList<String> carlist = new ArrayList<String>();
+    private ArrayList<String> themelist = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +49,62 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         shopButton.setOnClickListener(this);
         muteSoundButton.setOnClickListener(this);
         exitButton.setOnClickListener(this);
+
+
+        //read scores from JSON file
+        ScoreMonitor monitor =new ScoreMonitor();
+        try {
+            JSONArray values =  monitor.readJSON(this);
+
+            if(values == null){
+                Toast.makeText(this,"No Scores",Toast.LENGTH_LONG).show();
+            }else
+            {
+                String textToPrint = "";
+                for (int i = 0; i < values.length(); i++) {
+                    try {
+                        JSONObject message = (JSONObject) values.get(i);
+                        highScore = message.getInt("highscore")  ;
+                        points =  message.getInt("points")  ;
+
+                        textToPrint += (message.get("highscore")) + "\n";
+                        textToPrint += (message.get("points")) + "\n";
+
+                        JSONArray carsArr = message.getJSONArray("cars");
+                        for(i=0;i<carsArr.length();i++){
+                            String car= (String) carsArr.get(i);
+
+                            carlist.add(car);
+
+                            textToPrint += car + "\n";
+                        }
+
+                        JSONArray themeArr = message.getJSONArray("themes");
+                        for(i=0;i<themeArr.length();i++) {
+                            String theme = (String) themeArr.get(i);
+
+                            themelist.add(theme);
+
+                            textToPrint += theme + "\n";
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                //TODO: remove toast after code completion
+                Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
+
+                TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
+                txtHighscore.setText("High Score : "+Integer.toString(highScore));
+
+            }
+
+        } catch (JSONException e) {
+            Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
     }
 
     // the onclick methods to handle clicking different buttons

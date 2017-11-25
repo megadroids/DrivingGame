@@ -1,9 +1,17 @@
 package megadroid.drivinggame.view;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import megadroid.drivinggame.controller.ScoreMonitor;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -27,6 +35,8 @@ public class GameActivity extends AppCompatActivity {
 
         //adding it to contentview
         setContentView(gameView);
+
+
     }
 
     //pausing the game when activity is paused
@@ -42,4 +52,41 @@ public class GameActivity extends AppCompatActivity {
         super.onResume();
         gameView.resume();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //write the score to Json File
+            ScoreMonitor monitor =new ScoreMonitor();
+
+            //toDO: get the highscore and points from gameview
+            int  highscore =220;
+            int  points = 2000;
+
+            //toDo: cars , themes and updated points should be written from shopActivity, will pass null here
+           // String[] cars = new String[]{"01", "02", "03"};
+            //String [] themes = new String[] {"christmas.png","farm.png","city.png"};
+
+            try {
+                monitor.writeJSON(this,highscore,points,null,null);
+            } catch (JSONException e) {
+                Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        }
+
+
+/*
+can be used if the Menu activity does not refersh
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(this,MenuActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        finish();
+    }
+*/
+
+
 }

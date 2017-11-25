@@ -9,8 +9,11 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
+import megadroid.drivinggame.controller.ScoreMonitor;
 import megadroid.drivinggame.model.Player;
 
 /**
@@ -88,7 +91,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void control() {
         try {
-            gameThread.sleep(17);
+            gameThread.sleep(27);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
