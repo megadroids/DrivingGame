@@ -1,15 +1,16 @@
 package megadroid.drivinggame.view;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import megadroid.drivinggame.R;
+import java.util.ArrayList;
+
 import megadroid.drivinggame.model.Player;
 
 /**
@@ -17,10 +18,6 @@ import megadroid.drivinggame.model.Player;
  */
 
 public class GameView extends SurfaceView implements Runnable {
-
-    public static final int WIDTH = 400;
-    public static final int HEIGHT = 800;
-    private Background bg;
 
     //boolean variable to track if the game is playing or not
     volatile boolean playing;
@@ -68,9 +65,6 @@ public class GameView extends SurfaceView implements Runnable {
         //updating player position
         player.update();
 
-        //updating the background
-        bg.update();
-
     }
 
     private void draw() {
@@ -86,23 +80,10 @@ public class GameView extends SurfaceView implements Runnable {
                     player.getX(),
                     player.getY(),
                     paint);
-
-
-            //Scaling the background for different sizes of screens
-            final float scaleFactorY = getHeight() / HEIGHT;
-            final float scaleFactorX = getWidth() / WIDTH;
-            if (canvas != null) {
-                //Saving the state of the canvas before scaling
-                final int savedState = canvas.save();
-                canvas.scale(scaleFactorY, scaleFactorX);
-                bg.draw(canvas);
-                canvas.restoreToCount(savedState);
-
-                //Unlocking the canvas
-                surfaceHolder.unlockCanvasAndPost(canvas);
-            }
-
+            //Unlocking the canvas
+            surfaceHolder.unlockCanvasAndPost(canvas);
         }
+
     }
 
     private void control() {
@@ -127,8 +108,6 @@ public class GameView extends SurfaceView implements Runnable {
     public void resume() {
         //when the game is resumed
         //starting the thread again
-        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.background));
-        bg.setVector(-10);
         playing = true;
         gameThread = new Thread(this);
         gameThread.start();
