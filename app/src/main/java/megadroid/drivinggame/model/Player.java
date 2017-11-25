@@ -95,7 +95,6 @@ public class Player {
             speed = MIN_SPEED;
         }
 
-
         //moving the ship down
         y -= speed + GRAVITY;
 
