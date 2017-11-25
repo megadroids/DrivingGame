@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DrivingGame.iml" filepath="$PROJECT_DIR$/DrivingGame.iml" />
-      <module fileurl="file://C:\Users\joyag\Downloads\2.5\DrivingGame\DrivingGame.iml" filepath="C:\Users\joyag\Downloads\2.5\DrivingGame\DrivingGame.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\joyag\Downloads\2.5\DrivingGame\app\app.iml" filepath="C:\Users\joyag\Downloads\2.5\DrivingGame\app\app.iml" />
     </modules>
   </component>
 </project>
