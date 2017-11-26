@@ -7,6 +7,7 @@ package megadroid.drivinggame.model;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 import megadroid.drivinggame.R;
 
@@ -46,6 +47,8 @@ public class Player {
     private int minX;
     private final int maxX;
 
+    private Rect detectCollision;
+
     //constructor
     public Player(Context context, int screenX, int screenY) {
         x = screenX/2-30;
@@ -65,6 +68,10 @@ public class Player {
         maxX=screenX/2+50;
         minX= screenX/2 -110;
         Xpos=x;
+
+        //initializing rect object
+        detectCollision =  new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
+
     }
 
     //Method to update coordinate of character
@@ -113,6 +120,13 @@ public class Player {
         if (x > maxX) {
             x = maxX;
         }
+
+        //adding top, left, bottom and right to the rect object
+        detectCollision.left = x+10;
+        detectCollision.top = y+10;
+        detectCollision.right = x + bitmap.getWidth()+10;
+        detectCollision.bottom = y + bitmap.getHeight()+10;
+
     }
 
     //setting boosting true
@@ -144,4 +158,10 @@ public class Player {
     public int getSpeed() {
         return speed;
     }
+
+    //one more getter for getting the rect object
+    public Rect getDetectCollision() {
+        return detectCollision;
+    }
+
 }
