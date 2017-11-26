@@ -28,17 +28,18 @@ public class JSONWriter {
         JSONReader reader = new JSONReader();
         JSONArray value = reader.load(context);
 
-        //JSONArray arr = new JSONArray();
+        JSONArray arr = new JSONArray();
 
         //JSONObject jsonObj = new JSONObject();
         JSONObject jsonObj ;
         //when there are no scores in the file its time application run
         if(value == null){
-            value = new JSONArray();
+
             jsonObj = new JSONObject();
         }
         else {
             jsonObj = (JSONObject) value.get(0);
+
         }
 
         //update only if the correct value has been pased
@@ -66,11 +67,12 @@ public class JSONWriter {
             jsonObj.put("themes", themeArr);
         }
 
-        value.put(jsonObj);
+
+        arr.put(jsonObj);
 
         try {
             FileOutputStream fos = context.getApplicationContext().openFileOutput("UserData.json", context.MODE_PRIVATE);
-            fos.write(value.toString().getBytes());
+            fos.write(arr.toString().getBytes());
             fos.close();
 
         } catch (IOException e) {
