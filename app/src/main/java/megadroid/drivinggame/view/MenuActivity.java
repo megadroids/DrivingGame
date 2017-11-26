@@ -8,6 +8,7 @@ import megadroid.drivinggame.controller.ScoreMonitor;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -21,13 +22,19 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     private int highScore = 0;
     private int points = 0;
-    private ArrayList<String> carlist = new ArrayList<String>();
-    private ArrayList<String> themelist = new ArrayList<String>();
+    private ArrayList<String> carlist;
+    private ArrayList<String> themelist;
+    private ScoreMonitor monitor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        carlist = new ArrayList<String>();
+        themelist = new ArrayList<String>();
+        monitor =new ScoreMonitor();
 
         //Crete image buttons
         ImageButton playButton;
@@ -52,7 +59,48 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //read scores from JSON file
-        ScoreMonitor monitor =new ScoreMonitor();
+        readJson();
+    }
+
+    // the onclick methods to handle clicking different buttons
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            //the transition from MenuActivity to GameActivity
+            case R.id.buttonPlay:
+                startActivity(new Intent(MenuActivity.this, GameActivity.class));
+                break;
+
+            //the transition from MenuActivity to ShopActivity
+            case R.id.buttonShop:
+                startActivity(new Intent(MenuActivity.this, ShopActivity.class));
+                break;
+
+            case R.id.muteSound:
+                break;
+
+            case R.id.exit:
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readJson();
+    }
+
+    private void readJson(){
+        //read scores from JSON file
+
         try {
             JSONArray values =  monitor.readJSON(this);
 
@@ -89,13 +137,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                         }
 
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.e("JSONReadException",e.getMessage());
                     }
 
                 }
 
-                //TODO: remove toast after code completion
-                Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
+
+                //Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
 
                 TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
                 txtHighscore.setText("High Score : "+Integer.toString(highScore));
@@ -104,36 +152,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
         } catch (JSONException e) {
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-    }
-
-    // the onclick methods to handle clicking different buttons
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            //the transition from MenuActivity to GameActivity
-            case R.id.buttonPlay:
-                startActivity(new Intent(MenuActivity.this, GameActivity.class));
-                break;
-
-            //the transition from MenuActivity to ShopActivity
-            case R.id.buttonShop:
-                startActivity(new Intent(MenuActivity.this, ShopActivity.class));
-                break;
-
-            case R.id.muteSound:
-                break;
-
-            case R.id.exit:
-                Intent startMain = new Intent(Intent.ACTION_MAIN);
-                startMain.addCategory(Intent.CATEGORY_HOME);
-                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(startMain);
-                break;
-
-            default:
-                break;
         }
     }
 }

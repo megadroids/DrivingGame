@@ -43,6 +43,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        writeJson();
         gameView.pause();
     }
 
@@ -53,40 +54,26 @@ public class GameActivity extends AppCompatActivity {
         gameView.resume();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
+    //write the score to Json when exiting the screen
+    private void writeJson(){
         //write the score to Json File
-            ScoreMonitor monitor =new ScoreMonitor();
+        ScoreMonitor monitor =new ScoreMonitor();
 
-            //toDO: get the highscore and points from gameview
-            int  highscore =220;
-            int  points = 2000;
+        //toDO: get the highscore and points from gameview
+        int  highscore =700;
+        int  points = 2000;
 
-            //toDo: cars , themes and updated points should be written from shopActivity, will pass null here
-           // String[] cars = new String[]{"01", "02", "03"};
-            //String [] themes = new String[] {"christmas.png","farm.png","city.png"};
+        //toDo: cars , themes and updated points should be written from shopActivity, will pass null here
+        // String[] cars = new String[]{"01", "02", "03"};
+        //String [] themes = new String[] {"christmas.png","farm.png","city.png"};
 
-            try {
-                monitor.writeJSON(this,highscore,points,null,null);
-            } catch (JSONException e) {
-                Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
-            }
+        try {
+            monitor.writeJSON(this,highscore,points,null,null);
+        } catch (JSONException e) {
+            Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
         }
 
-
-/*
-can be used if the Menu activity does not refersh
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent i=new Intent(this,MenuActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        finish();
     }
-*/
-
 
 }
