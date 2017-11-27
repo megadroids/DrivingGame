@@ -96,7 +96,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     private void readJson(){
         try {
 
-            String values = monitor.readJSON(this.getApplicationContext());
+            String values = monitor.readJSON(this.getApplicationContext(),"Menu");
 
             if(values.isEmpty()){
                 Toast.makeText(this,"No Scores",Toast.LENGTH_LONG).show();
@@ -108,7 +108,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             //Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
-
 
         } catch (JSONException e) {
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();

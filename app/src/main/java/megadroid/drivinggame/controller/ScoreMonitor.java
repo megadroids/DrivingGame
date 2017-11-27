@@ -26,29 +26,30 @@ public class ScoreMonitor {
     private int points;
     private ArrayList<String> carlist;
     private String textToPrint ;
-
+    private String currentCar;
+    private String currentTheme;
 
     //method to write data into JSON
-    public void writeJSON(Context context, int highscore, int points, ArrayList<String> cars, ArrayList<String> themes) throws JSONException {
+    public void writeJSON(Context context, int highscore, int points, ArrayList<String> cars, ArrayList<String> themes,String currentCar, String currentTheme) throws JSONException {
 
         JSONWriter writer = new JSONWriter();
-        writer.JSONWrite(context,highscore,points,cars,themes);
+        writer.JSONWrite(context,highscore,points,cars,themes,currentCar,currentTheme);
     }
 
     //Reading the complete Json File
-    public String readJSON(Context context) throws JSONException {
+    public String readJSON(Context context, String screenType) throws JSONException {
 
         textToPrint = "";
         JSONReader reader = new JSONReader();
         JSONArray value = reader.load(context);
 
         if(value != null){
-            readJsonArray(value);
+            readJsonArray(value,screenType);
         }
         return textToPrint;
     }
 
-    private void readJsonArray(JSONArray values ){
+    private void readJsonArray(JSONArray values ,String screenType){
         //read scores from JSON file
 
         carlist = new ArrayList<String>();
@@ -63,22 +64,31 @@ public class ScoreMonitor {
                 textToPrint += (message.get("highscore")) + "\n";
                 textToPrint += (message.get("points")) + "\n";
 
-                JSONArray carsArr = message.getJSONArray("cars");
-                for(i=0;i<carsArr.length();i++){
-                    String car= (String) carsArr.get(i);
+                if(screenType.equals("Shop")) {
+                    currentCar = message.getString("currentcar");
+                    currentTheme = message.getString("currenttheme");
 
-                    carlist.add(car);
+                    textToPrint += (message.getString("currentcar")) + "\n";
+                    textToPrint += (message.getString("currenttheme")) + "\n";
 
-                    textToPrint += car + "\n";
-                }
+                    JSONArray carsArr = message.getJSONArray("cars");
+                    for (i = 0; i < carsArr.length(); i++) {
+                        String car = (String) carsArr.get(i);
 
-                JSONArray themeArr = message.getJSONArray("themes");
-                for(i=0;i<themeArr.length();i++) {
-                    String theme = (String) themeArr.get(i);
+                        carlist.add(car);
 
-                    themelist.add(theme);
+                        textToPrint += car + "\n";
+                    }
 
-                    textToPrint += theme + "\n";
+                    JSONArray themeArr = message.getJSONArray("themes");
+                    for (i = 0; i < themeArr.length(); i++) {
+                        String theme = (String) themeArr.get(i);
+
+                        themelist.add(theme);
+
+                        textToPrint += theme + "\n";
+                    }
+
                 }
 
             } catch (JSONException e) {
@@ -107,4 +117,12 @@ public class ScoreMonitor {
     public ArrayList<String> getCarlist() {
         return carlist;
     }
+
+    public String getCurrentCar() {
+        return currentCar;
+    }
+    public String getCurrentTheme() {
+        return currentTheme;
+    }
+
 }

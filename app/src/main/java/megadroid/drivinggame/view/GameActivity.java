@@ -69,7 +69,7 @@ public class GameActivity extends AppCompatActivity {
         //String [] themes = new String[] {"christmas.png","farm.png","city.png"};
 
         try {
-            monitor.writeJSON(this,highscore,points,null,null);
+            monitor.writeJSON(this,highscore,points,null,null,null,null);
         } catch (JSONException e) {
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
         }

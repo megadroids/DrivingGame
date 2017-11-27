@@ -21,7 +21,8 @@ public class ShopActivity extends AppCompatActivity {
     private ScoreMonitor monitor;
     private ArrayList<String> carlist;
     private ArrayList<String> themelist;
-
+    private String currentCar;
+    private String currentTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,12 @@ public class ShopActivity extends AppCompatActivity {
         themelist.add("farm.png");
         themelist.add("city.png");
 
+        currentCar="01";
+        currentTheme="farm.png";
+
 
         try {
-            monitor.writeJSON(this, highscore, points, carlist, themelist);
+            monitor.writeJSON(this, highscore, points, carlist, themelist, currentCar,currentTheme);
         } catch (JSONException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -62,7 +66,7 @@ public class ShopActivity extends AppCompatActivity {
         //read scores from JSON file
         try {
 
-            String values = monitor.readJSON(this.getApplicationContext());
+            String values = monitor.readJSON(this.getApplicationContext(),"Shop");
 
             if (values.isEmpty()) {
                 Toast.makeText(this, "No Scores", Toast.LENGTH_LONG).show();
@@ -71,6 +75,8 @@ public class ShopActivity extends AppCompatActivity {
                 points = monitor.getPoints();
                 carlist = monitor.getCarlist();
                 themelist = monitor.getThemelist();
+                currentCar =monitor.getCurrentCar();
+                currentTheme = monitor.getCurrentTheme();
             }
 
             //Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
