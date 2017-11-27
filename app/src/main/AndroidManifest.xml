@@ -21,7 +21,8 @@
         <activity android:name=".view.GameActivity">
         </activity>
         <activity android:name=".view.exitButton"
-            android:theme="@style/AppTheme.exit">
+
+            android:theme="@style/Theme.AppCompat.Dialog.Alert">
         </activity>
     </application>
 

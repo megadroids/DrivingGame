@@ -2,6 +2,7 @@ package megadroid.drivinggame.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -16,8 +17,7 @@ import megadroid.drivinggame.R;
  */
 
 
-
-public class exitButton extends Activity {
+public class exitButton extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,30 +30,30 @@ public class exitButton extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (height*.6),(int) (width*.5));
+        getWindow().setLayout((int) (height * .6), (int) (width * .5));
 
     }
 
-    public static void dimBehind(PopupWindow popupWindow) {
-        View container;
-        if (popupWindow.getBackground() == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                container = (View) popupWindow.getContentView().getParent();
-            } else {
-                container = popupWindow.getContentView();
-            }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                container = (View) popupWindow.getContentView().getParent().getParent();
-            } else {
-                container = (View) popupWindow.getContentView().getParent();
-            }
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            //the transition from MenuActivity to GameActivity
+            case R.id.cross:
+                startActivity(new Intent(exitButton.this, MenuActivity.class));
+                break;
+
+            case R.id.checkmark:
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
+
+                break;
+            default:
+                break;
         }
-        Context context = popupWindow.getContentView().getContext();
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
-        p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        p.dimAmount = 0.3f;
-        wm.updateViewLayout(container, p);
+
+
     }
 }
