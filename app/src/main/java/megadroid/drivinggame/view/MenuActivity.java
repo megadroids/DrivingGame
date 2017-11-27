@@ -81,11 +81,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.exit:
-                Intent startMain = new Intent(Intent.ACTION_MAIN);
-                startMain.addCategory(Intent.CATEGORY_HOME);
-                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(startMain);
-                break;
+                //Intent startMain = new Intent(Intent.ACTION_MAIN);
+                //startMain.addCategory(Intent.CATEGORY_HOME);
+                //startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //startActivity(startMain);
+                //break;
+
+                startActivity(new Intent(MenuActivity.this,exitButton.class));
 
             default:
                 break;
