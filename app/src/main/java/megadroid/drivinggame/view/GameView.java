@@ -1,6 +1,7 @@
 package megadroid.drivinggame.view;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,8 +14,10 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
+import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
 import megadroid.drivinggame.model.Boom;
+import megadroid.drivinggame.model.Items;
 import megadroid.drivinggame.model.Obstacles;
 import megadroid.drivinggame.model.Player;
 
@@ -47,6 +50,13 @@ public class GameView extends SurfaceView implements Runnable {
     //defining a boom object to display blast
     private Boom boom;
 
+    //properties of the background image and instantiation of the background class
+    public static float WIDTH ;//640;
+    public static float HEIGHT ;//1440;
+    private Background bg;
+
+    private int screenX;
+    private int screenY;
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY) {
@@ -68,6 +78,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         isGameOver = false;
 
+        this.screenX = screenX;
+        this.screenY = screenY;
+
     }
 
     @Override
@@ -88,6 +101,9 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
         //updating player position
         player.update();
+
+        //Update background
+        bg.update();
 
         //setting boom outside the screen
         boom.setX(-250);
@@ -118,6 +134,22 @@ public class GameView extends SurfaceView implements Runnable {
             canvas = surfaceHolder.lockCanvas();
             //drawing a background color for canvas
             canvas.drawColor(Color.BLACK);
+
+            //Scaling the background for different sizes of screens
+
+            float scaleFactorX = (float) screenX / (WIDTH * 1.f);
+            float scaleFactorY = (float) screenY / (HEIGHT * 1.f);
+
+            if (canvas != null) {
+
+                //Saving the state of the canvas before scaling
+
+                final int savedState = canvas.save();
+                canvas.scale( scaleFactorX,scaleFactorY);
+                bg.draw(canvas);
+                canvas.restoreToCount(savedState);
+                }
+
             //Drawing the player
             canvas.drawBitmap(
                     player.getBitmap(),
@@ -160,7 +192,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void control() {
         try {
-            gameThread.sleep(27);
+            gameThread.sleep(17);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -179,6 +211,13 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void resume() {
         //when the game is resumed
+
+        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas));
+        bg.setVector(-10);
+
+        WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
+        HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
+
         //starting the thread again
         playing = true;
         gameThread = new Thread(this);
