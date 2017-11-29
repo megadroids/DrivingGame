@@ -88,8 +88,8 @@ public class GameView extends SurfaceView implements Runnable {
             bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
         }
 */
-        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap);
-        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar);
+        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2,3);
+        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+100,1);
 
         isGameOver = false;
 
@@ -129,6 +129,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         //updating the friend ships coordinates
         obstacles.update(player.getSpeed());
+        obstacles2.update(player.getSpeed()+10);
 
         //checking for a collision between player and a friend
         if(Rect.intersects(player.getDetectCollision(),obstacles.getDetectCollision())){
@@ -136,6 +137,17 @@ public class GameView extends SurfaceView implements Runnable {
             //displaying the boom at the collision
             boom.setX(obstacles.getX());
             boom.setY(obstacles.getY());
+            //setting playing false to stop the game
+            playing = false;
+            //setting the isGameOver true as the game is over
+            isGameOver = true;
+        }
+
+        if(Rect.intersects(player.getDetectCollision(),obstacles2.getDetectCollision())){
+
+            //displaying the boom at the collision
+            boom.setX(obstacles2.getX());
+            boom.setY(obstacles2.getY());
             //setting playing false to stop the game
             playing = false;
             //setting the isGameOver true as the game is over
@@ -187,6 +199,14 @@ public class GameView extends SurfaceView implements Runnable {
                     obstacles.getBitmap(),
                     obstacles.getX(),
                     obstacles.getY(),
+                    paint
+            );
+
+            canvas.drawBitmap(
+
+                    obstacles2.getBitmap(),
+                    obstacles2.getX(),
+                    obstacles2.getY(),
                     paint
             );
 

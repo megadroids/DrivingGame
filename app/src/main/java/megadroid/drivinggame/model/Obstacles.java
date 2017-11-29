@@ -31,13 +31,13 @@ public class Obstacles {
     private Rect detectCollision;
 
 
-    public Obstacles(Context context, int screenX, int screenY, Bitmap bitmap ) {
+    public Obstacles(Context context, int screenX, int screenY, Bitmap bitmap , int Xstart, int range) {
         this.bitmap = bitmap;
        // bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy);
        // maxX = screenX;
         maxY = screenY;
-        maxX=screenX/2+200;
-        minX= screenX/2 -180;
+        maxX=Xstart;
+        minX= Xstart -(90*range);
 
         //minX = 0;
         minY = 0;

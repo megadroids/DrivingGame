@@ -66,7 +66,7 @@ public class Player {
         boosting = false;
 
         maxX=screenX/2+90;
-        minX= screenX/2 -180;
+        minX= screenX/2 -220;
         Xpos=x;
 
         //initializing rect object
