@@ -3,6 +3,7 @@ package megadroid.drivinggame.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import megadroid.drivinggame.R;
@@ -15,14 +16,18 @@ import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 public class AdvActivity extends AppCompatActivity implements RewardedVideoAdListener {
     private RewardedVideoAd mRewardedVideoAd;
+    Button showAdvButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adv);
+
+        showAdvButton = ((Button) findViewById(R.id.button_adv));
+        showAdvButton.setEnabled(false);
+
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedVideoAd.setRewardedVideoAdListener(this);
-
         loadRewardedVideoAd();
     }
 
@@ -67,6 +72,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     @Override
     public void onRewardedVideoAdClosed() {
         Toast.makeText(this, "onRewardedVideoAdClosed", Toast.LENGTH_SHORT).show();
+        showAdvButton.setEnabled(false);
         loadRewardedVideoAd();
     }
 
@@ -78,6 +84,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     @Override
     public void onRewardedVideoAdLoaded() {
         Toast.makeText(this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
+        showAdvButton.setEnabled(true);
     }
 
     @Override
