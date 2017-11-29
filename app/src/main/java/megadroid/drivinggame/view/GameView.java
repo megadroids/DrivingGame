@@ -7,9 +7,19 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.util.FloatMath;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
+import android.view.Surface;
+
 
 import org.json.JSONException;
 
@@ -22,11 +32,20 @@ import megadroid.drivinggame.model.Items;
 import megadroid.drivinggame.model.Obstacles;
 import megadroid.drivinggame.model.Player;
 
+import static android.content.Context.WINDOW_SERVICE;
+
 /**
  * Created by megadroids.
  */
 
-public class GameView extends SurfaceView implements Runnable {
+public class GameView extends SurfaceView implements Runnable,SensorEventListener {
+
+    private SensorManager sensorMgr ;
+    private Sensor accelerometer;
+   // private float xPos, xAccel, xVel = 0.0f;
+    private float mAccel;
+    private float mAccelCurrent;
+    private float mAccelLast;
 
     //boolean variable to track if the game is playing or not
     volatile boolean playing;
@@ -63,6 +82,14 @@ public class GameView extends SurfaceView implements Runnable {
     //Class constructor
     public GameView(Context context, int screenX, int screenY) {
         super(context);
+
+        //declaring Sensor Manager and sensor type
+        sensorMgr = (SensorManager) context.getSystemService(context.SENSOR_SERVICE);
+        accelerometer = sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mAccel = 0.00f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
+
 
         //initializing player object
         //this time also passing screen size to player constructor
@@ -241,6 +268,8 @@ public class GameView extends SurfaceView implements Runnable {
             gameThread.join();
         } catch (InterruptedException e) {
         }
+        //unregister Sensor listener
+        sensorMgr.unregisterListener(this);
     }
 
     public void resume() {
@@ -258,6 +287,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         gameThread = new Thread(this);
         gameThread.start();
+
+        sensorMgr.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -287,5 +318,51 @@ public class GameView extends SurfaceView implements Runnable {
 
         }
         return true;
+    }
+
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        float x,y,z;
+        switch (getContext().getSystemService(WINDOW_SERVICE).getDefaultDisplay().getRotation()) {
+            case Surface.ROTATION_0:
+                x = sensorEvent.values[0];
+                y= sensorEvent.values[1];
+                break;
+            case Surface.ROTATION_90:
+                x= -sensorEvent.values[1];
+                y= sensorEvent.values[0];
+                break;
+            case Surface.ROTATION_180:
+                x= -sensorEvent.values[0];
+                y = -sensorEvent.values[1];
+                break;
+            case Surface.ROTATION_270:
+                x = sensorEvent.values[1];
+                y = -sensorEvent.values[0];
+                break;
+        }
+
+
+        //  = sensorEvent.values[0];
+            float y = sensorEvent.values[1];
+            float z = sensorEvent.values[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float)Math.sqrt(x * x + y * y + z * z);
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+
+            if(mAccel > 0.5) {
+
+                Toast.makeText(this.getContext(),"x: "+x,Toast.LENGTH_SHORT).show();
+                player.setBoosting(Math.round(x));
+            }
+        }
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 }

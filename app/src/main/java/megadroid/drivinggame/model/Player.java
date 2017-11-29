@@ -65,7 +65,7 @@ public class Player {
         //setting the boosting value to false initially
         boosting = false;
 
-        maxX=screenX/2+90;
+        maxX=screenX/2+100;
         minX= screenX/2 -220;
         Xpos=x;
 

@@ -37,12 +37,12 @@ public class Obstacles {
        // maxX = screenX;
         maxY = screenY;
         maxX=Xstart;
-        minX= Xstart -(90*range);
+        minX= Xstart -(80*range);
 
         //minX = 0;
         minY = 0;
         Random generator = new Random();
-        speed = generator.nextInt(6) + 15;
+        speed = generator.nextInt(6) + 5;
         x = generator.nextInt(maxX) - bitmap.getWidth();//screenX;
         y = 0;//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
 
@@ -57,7 +57,7 @@ public class Obstacles {
         y += speed;
         if (y > maxY + bitmap.getWidth()) {
             Random generator = new Random();
-            speed = generator.nextInt(6) + 15;
+            speed = generator.nextInt(6) + 5;
             x = generator.nextInt(maxX) - bitmap.getWidth();//maxX;
             y = 0;//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
         }
