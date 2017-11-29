@@ -52,21 +52,21 @@ public class Player {
     //constructor
     public Player(Context context, int screenX, int screenY) {
         x = screenX/2-30;
-        y = screenY;
+        y = screenY-340;
         speed = 1;
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.car);
 
         //calculating maxY
-        maxY = screenY ;//- bitmap.getHeight();
+       // maxY = screenY ;//- bitmap.getHeight();
 
         //top edge's y point is 0 so min y will always be zero
-        minY = -200;//0;
+       // minY = -200;//0;
 
         //setting the boosting value to false initially
         boosting = false;
 
-        maxX=screenX/2+50;
-        minX= screenX/2 -110;
+        maxX=screenX/2+90;
+        minX= screenX/2 -180;
         Xpos=x;
 
         //initializing rect object
@@ -103,6 +103,7 @@ public class Player {
         }
 
         //moving the ship down
+        /*
         y -= speed + GRAVITY;
 
         //but controlling it also so that it won't go off the screen
@@ -113,6 +114,8 @@ public class Player {
             y = maxY;
         }
 
+        */
+
         //but controlling it also so that it won't go off the screen
         if (x < minX) {
             x = minX;
@@ -121,11 +124,12 @@ public class Player {
             x = maxX;
         }
 
+
         //adding top, left, bottom and right to the rect object
         detectCollision.left = x+10;
         detectCollision.top = y+10;
-        detectCollision.right = x + bitmap.getWidth()+10;
-        detectCollision.bottom = y + bitmap.getHeight()+10;
+        detectCollision.right = x + bitmap.getWidth();
+        detectCollision.bottom = y + bitmap.getHeight();
 
     }
 

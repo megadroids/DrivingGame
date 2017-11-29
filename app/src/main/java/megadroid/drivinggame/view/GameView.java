@@ -1,6 +1,7 @@
 package megadroid.drivinggame.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -30,6 +31,8 @@ public class GameView extends SurfaceView implements Runnable {
     //boolean variable to track if the game is playing or not
     volatile boolean playing;
 
+    volatile int playCounter=0;
+
     //the game thread
     private Thread gameThread = null;
 
@@ -43,6 +46,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     //created a reference of the class Friend
     private Obstacles obstacles;
+    private Obstacles obstacles2;
 
     //an indicator if the game is Over
     private boolean isGameOver ;
@@ -74,7 +78,18 @@ public class GameView extends SurfaceView implements Runnable {
         boom = new Boom(context);
 
         //initializing the Friend class object
-        obstacles = new Obstacles(context, screenX, screenY);
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.enemy);
+        Bitmap bitmapcar = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
+
+  /*      if((playCounter%2)==0){
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.enemy);
+        }else
+        {
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
+        }
+*/
+        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap);
+        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar);
 
         isGameOver = false;
 
@@ -99,6 +114,8 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     private void update() {
+
+
         //updating player position
         player.update();
 
@@ -108,6 +125,7 @@ public class GameView extends SurfaceView implements Runnable {
         //setting boom outside the screen
         boom.setX(-250);
         boom.setY(-250);
+
 
         //updating the friend ships coordinates
         obstacles.update(player.getSpeed());
@@ -136,14 +154,12 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawColor(Color.BLACK);
 
             //Scaling the background for different sizes of screens
-
             float scaleFactorX = (float) screenX / (WIDTH * 1.f);
             float scaleFactorY = (float) screenY / (HEIGHT * 1.f);
 
             if (canvas != null) {
 
                 //Saving the state of the canvas before scaling
-
                 final int savedState = canvas.save();
                 canvas.scale( scaleFactorX,scaleFactorY);
                 bg.draw(canvas);
@@ -165,7 +181,7 @@ public class GameView extends SurfaceView implements Runnable {
                     paint
             );
 
-            //drawing friends image
+            //drawing obstacles image
             canvas.drawBitmap(
 
                     obstacles.getBitmap(),
@@ -213,13 +229,16 @@ public class GameView extends SurfaceView implements Runnable {
         //when the game is resumed
 
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas));
-        bg.setVector(-10);
+        bg.setVector(-45);
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
 
+        playCounter++;
+
         //starting the thread again
         playing = true;
+
         gameThread = new Thread(this);
         gameThread.start();
     }
@@ -231,7 +250,6 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_UP:
                 //When the user presses on the screen
                 //stopping the boosting when screen is released
-
 
                 //int cellY = (int)motionEvent.getY();
 

@@ -14,24 +14,36 @@ public class Background {
 
     public Background(Bitmap res) {
         image = res;
+
+        y= (int) GameView.HEIGHT;
     }
 
     public void update(){
-        y += dy;
+      //  y += dy;
 
-        if(y < -GameView.HEIGHT){
-            y = 0;
+        y -= dy;
 
+//        if(y < -GameView.HEIGHT){
+ //           y = 0;
+ //       }
+
+        if(y > GameView.HEIGHT){
+            y = y-(int)GameView.HEIGHT;
         }
+
 
     }
 
     public void draw(Canvas canvas){
         canvas.drawBitmap(image, x, y, null);
 
-        if(y < 0){
-            canvas.drawBitmap(image, x, y+GameView.HEIGHT, null);
-        }
+     //   if(y < 0){
+      //      canvas.drawBitmap(image, x, y+GameView.HEIGHT, null);
+      //  }
+
+        if(y > 0){
+            canvas.drawBitmap(image, x, y-GameView.HEIGHT, null);
+              }
     }
 
     public void setVector(int dy) {

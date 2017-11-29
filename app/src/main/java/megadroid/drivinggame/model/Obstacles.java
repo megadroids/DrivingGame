@@ -15,6 +15,7 @@ import megadroid.drivinggame.R;
 
 public class Obstacles {
 
+
     private Bitmap bitmap;
     private int x;
     private int y;
@@ -30,16 +31,20 @@ public class Obstacles {
     private Rect detectCollision;
 
 
-    public Obstacles(Context context, int screenX, int screenY) {
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy);
-        maxX = screenX;
+    public Obstacles(Context context, int screenX, int screenY, Bitmap bitmap ) {
+        this.bitmap = bitmap;
+       // bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy);
+       // maxX = screenX;
         maxY = screenY;
-        minX = 0;
+        maxX=screenX/2+200;
+        minX= screenX/2 -180;
+
+        //minX = 0;
         minY = 0;
         Random generator = new Random();
-        speed = generator.nextInt(6) + 10;
-        x = generator.nextInt(maxX) - bitmap.getWidth();;//screenX;
-        y = maxY;//generator.nextInt(maxY) - bitmap.getHeight();
+        speed = generator.nextInt(6) + 15;
+        x = generator.nextInt(maxX) - bitmap.getWidth();//screenX;
+        y = 0;//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
 
         //initializing rect object
         detectCollision = new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
@@ -48,18 +53,26 @@ public class Obstacles {
     }
 
     public void update(int playerSpeed) {
-        y -= playerSpeed;
-        y -= speed;
-        if (y < minY - bitmap.getWidth()) {
+        y += playerSpeed;
+        y += speed;
+        if (y > maxY + bitmap.getWidth()) {
             Random generator = new Random();
-            speed = generator.nextInt(10) + 10;
+            speed = generator.nextInt(6) + 15;
             x = generator.nextInt(maxX) - bitmap.getWidth();//maxX;
-            y = maxY;//generator.nextInt(maxY) - bitmap.getHeight();
+            y = 0;//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
+        }
+
+        //but controlling it also so that it won't go off the screen
+        if (x < minX) {
+            x = minX;
+        }
+        if (x > maxX) {
+            x = maxX;
         }
 
         //Adding the top, left, bottom and right to the rect object
-        detectCollision.left = x;
-        detectCollision.top = y;
+        detectCollision.left = x+10;
+        detectCollision.top = y+10;
         detectCollision.right = x + bitmap.getWidth();
         detectCollision.bottom = y + bitmap.getHeight();
 
@@ -83,5 +96,9 @@ public class Obstacles {
         return y;
     }
 
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
 }
