@@ -39,7 +39,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         monitor =new ScoreMonitor();
 
         msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer(this);
+        msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
         msoundHelper.playMusic();
 
         //Crete image buttons
@@ -75,7 +75,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             //the transition from MenuActivity to GameActivity
             case R.id.buttonPlay:
-                msoundHelper.pauseMusic();
+                //   msoundHelper.pauseMusic();
                 startActivity(new Intent(MenuActivity.this, GameActivity.class));
                 break;
 
@@ -105,6 +105,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         readJson();
+        msoundHelper.playMusic();
     }
 
     private void readJson(){
@@ -162,5 +163,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         } catch (JSONException e) {
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        msoundHelper.pauseMusic();
+
     }
 }

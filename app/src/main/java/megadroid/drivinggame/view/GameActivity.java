@@ -32,8 +32,8 @@ public class GameActivity extends AppCompatActivity {
 
 
         msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer(this);
-        msoundHelper.playMusic1();
+        msoundHelper.prepareMusicPlayer(this,R.raw.game_activity);
+        msoundHelper.playMusic();
 
         //Getting the screen resolution into point object
         Point size = new Point();
@@ -52,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        msoundHelper.pauseMusic1();
+        msoundHelper.pauseMusic();
         writeJson();
         gameView.pause();
     }
