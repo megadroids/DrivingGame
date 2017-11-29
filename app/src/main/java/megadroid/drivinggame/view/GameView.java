@@ -31,8 +31,6 @@ public class GameView extends SurfaceView implements Runnable {
     //boolean variable to track if the game is playing or not
     volatile boolean playing;
 
-    volatile int playCounter=0;
-
     //the game thread
     private Thread gameThread = null;
 
@@ -254,7 +252,6 @@ public class GameView extends SurfaceView implements Runnable {
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
 
-        playCounter++;
 
         //starting the thread again
         playing = true;
