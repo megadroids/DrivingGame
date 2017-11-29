@@ -5,18 +5,23 @@ import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.SoundHelper;
 
 public class GameActivity extends AppCompatActivity {
 
     //declaring gameview
     private GameView gameView;
+
+   private SoundHelper msoundHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,11 @@ public class GameActivity extends AppCompatActivity {
 
         //Getting display object
         Display display = getWindowManager().getDefaultDisplay();
+
+
+        msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer(this);
+        msoundHelper.playMusic1();
 
         //Getting the screen resolution into point object
         Point size = new Point();
@@ -36,13 +46,13 @@ public class GameActivity extends AppCompatActivity {
         //adding it to contentview
         setContentView(gameView);
 
-
     }
 
     //pausing the game when activity is paused
     @Override
     protected void onPause() {
         super.onPause();
+        msoundHelper.pauseMusic1();
         writeJson();
         gameView.pause();
     }
@@ -52,7 +62,9 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         gameView.resume();
+
     }
+
 
 
     //write the score to Json when exiting the screen

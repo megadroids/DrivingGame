@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import megadroid.drivinggame.controller.ScoreMonitor;
 import megadroid.drivinggame.model.Player;
+import megadroid.drivinggame.model.SoundHelper;
 
 /**
  * Created by megadroids.
@@ -27,6 +28,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     //the game thread
     private Thread gameThread = null;
+
 
     //adding the player to this class
     private Player player;
@@ -52,6 +54,7 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public void run() {
         while (playing) {
+
             //to update the frame
             update();
 
@@ -114,6 +117,7 @@ public class GameView extends SurfaceView implements Runnable {
         playing = true;
         gameThread = new Thread(this);
         gameThread.start();
+
     }
 
     @Override

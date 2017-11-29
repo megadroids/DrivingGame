@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.SoundHelper;
 
 
 import android.content.Intent;
@@ -25,6 +26,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> carlist;
     private ArrayList<String> themelist;
     private ScoreMonitor monitor;
+    private SoundHelper msoundHelper;
 
 
     @Override
@@ -35,6 +37,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         carlist = new ArrayList<String>();
         themelist = new ArrayList<String>();
         monitor =new ScoreMonitor();
+
+        msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer(this);
+        msoundHelper.playMusic();
 
         //Crete image buttons
         ImageButton playButton;
@@ -69,6 +75,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             //the transition from MenuActivity to GameActivity
             case R.id.buttonPlay:
+                msoundHelper.pauseMusic();
                 startActivity(new Intent(MenuActivity.this, GameActivity.class));
                 break;
 
