@@ -21,10 +21,6 @@ import org.json.JSONObject;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private int highScore = 0;
-    private int points = 0;
-    private ArrayList<String> carlist;
-    private ArrayList<String> themelist;
     private ScoreMonitor monitor;
     private SoundHelper msoundHelper;
 
@@ -34,8 +30,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        carlist = new ArrayList<String>();
-        themelist = new ArrayList<String>();
         monitor =new ScoreMonitor();
 
         msoundHelper = new SoundHelper(this);
@@ -75,7 +69,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             //the transition from MenuActivity to GameActivity
             case R.id.buttonPlay:
-                //   msoundHelper.pauseMusic();
                 startActivity(new Intent(MenuActivity.this, GameActivity.class));
                 break;
 
@@ -109,61 +102,26 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void readJson(){
-        //read scores from JSON file
-
         try {
-            JSONArray values =  monitor.readJSON(this);
 
-            if(values == null){
+            String values = monitor.readJSON(this.getApplicationContext(),"Menu");
+
+            if(values.isEmpty()){
                 Toast.makeText(this,"No Scores",Toast.LENGTH_LONG).show();
             }else
             {
-                String textToPrint = "";
-                for (int i = 0; i < values.length(); i++) {
-                    try {
-                        JSONObject message = (JSONObject) values.get(i);
-                        highScore = message.getInt("highscore")  ;
-                        points =  message.getInt("points")  ;
-
-                        textToPrint += (message.get("highscore")) + "\n";
-                        textToPrint += (message.get("points")) + "\n";
-
-                        JSONArray carsArr = message.getJSONArray("cars");
-                        for(i=0;i<carsArr.length();i++){
-                            String car= (String) carsArr.get(i);
-
-                            carlist.add(car);
-
-                            textToPrint += car + "\n";
-                        }
-
-                        JSONArray themeArr = message.getJSONArray("themes");
-                        for(i=0;i<themeArr.length();i++) {
-                            String theme = (String) themeArr.get(i);
-
-                            themelist.add(theme);
-
-                            textToPrint += theme + "\n";
-                        }
-
-                    } catch (JSONException e) {
-                        Log.e("JSONReadException",e.getMessage());
-                    }
-
-                }
-
-
-                //Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
 
                 TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
-                txtHighscore.setText("High Score : "+Integer.toString(highScore));
-
+                txtHighscore.setText("High Score : "+Integer.toString(monitor.getHighScore()));
             }
+
+            //Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
 
         } catch (JSONException e) {
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
         }
     }
+
 
     @Override
     protected void onPause() {
