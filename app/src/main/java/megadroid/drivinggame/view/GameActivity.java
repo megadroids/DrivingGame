@@ -54,36 +54,24 @@ public class GameActivity extends AppCompatActivity {
 
 
     //write the score to Json when exiting the screen
-    private void writeJson(){
+    private void writeJson() {
         //write the score to Json File
-        ScoreMonitor monitor =new ScoreMonitor();
+        ScoreMonitor monitor = new ScoreMonitor();
 
         //toDO: get the highscore and points from gameview
-        int  highscore =900;
-        int  points = 2000;
+        int highscore = 900;
+        int points = 2000;
 
         //toDo: cars , themes and updated points should be written from shopActivity, will pass null here
         // String[] cars = new String[]{"01", "02", "03"};
         //String [] themes = new String[] {"christmas.png","farm.png","city.png"};
 
         try {
-            monitor.writeJSON(this,highscore,points,null,null,null,null);
+            monitor.writeJSON(this, highscore, points, null, null, null, null);
         } catch (JSONException e) {
-            Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
 
-
-
     }
-/*
-can be used if the Menu activity does not refersh
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent i=new Intent(this,MenuActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        finish();
-    }
-
+}
