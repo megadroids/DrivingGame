@@ -39,7 +39,7 @@ public class Player {
     //Limit the bounds of the ship's speed
     private final int MIN_SPEED = 1;
     private final int MAX_SPEED = 20;
-    private int Xpos;
+    private float Xpos;
 
 
     private int screenX;
@@ -84,11 +84,32 @@ public class Player {
         } else {
             //slowing down if not boosting
             //speed -= 5;
-            if(Xpos < x){
-                x= x -speed;
+            /*      if (Xpos < x) {
+                    x = x - speed;
+                }
+                if (Xpos > x) {
+                    x = x + speed;
+                }*/
+
+            //moveleft
+            if(Xpos >0.02f) {
+
+                if (x > minX) {
+                    x = x - speed;
+                }else
+                {
+                    x=minX;
+                }
             }
-            if(Xpos > x){
-                x= x +speed;
+            //moveRight
+            if(Xpos < -0.02f){
+
+                if (x < maxX) {
+                    x = x - speed;
+                }else
+                {
+                    x=maxX;
+                }
             }
 
         }
@@ -134,7 +155,7 @@ public class Player {
     }
 
     //setting boosting true
-    public void setBoosting(int cellX) {
+    public void setBoosting(float cellX) {
         boosting = true;
         Xpos = cellX;
     }

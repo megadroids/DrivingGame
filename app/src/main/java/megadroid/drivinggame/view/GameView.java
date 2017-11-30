@@ -40,12 +40,11 @@ import static android.content.Context.WINDOW_SERVICE;
 
 public class GameView extends SurfaceView implements Runnable,SensorEventListener {
 
-    private SensorManager sensorMgr ;
+    private SensorManager manager;
     private Sensor accelerometer;
-   // private float xPos, xAccel, xVel = 0.0f;
-    private float mAccel;
-    private float mAccelCurrent;
-    private float mAccelLast;
+    private Sensor gyroscopeSensor;
+    private float xAcceleration,yAcceleration,zAcceleration;
+
 
     //boolean variable to track if the game is playing or not
     volatile boolean playing;
@@ -84,11 +83,14 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         super(context);
 
         //declaring Sensor Manager and sensor type
-        sensorMgr = (SensorManager) context.getSystemService(context.SENSOR_SERVICE);
-        accelerometer = sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mAccel = 0.00f;
-        mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        mAccelLast = SensorManager.GRAVITY_EARTH;
+        manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        gyroscopeSensor =  manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+
+// Register the listener
+       manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
+//        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
 
 
         //initializing player object
@@ -163,9 +165,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             boom.setX(obstacles.getX());
             boom.setY(obstacles.getY());
             //setting playing false to stop the game
-            playing = false;
+   //         playing = false;
             //setting the isGameOver true as the game is over
-            isGameOver = true;
+  //          isGameOver = true;
         }
 
         if(Rect.intersects(player.getDetectCollision(),obstacles2.getDetectCollision())){
@@ -174,9 +176,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             boom.setX(obstacles2.getX());
             boom.setY(obstacles2.getY());
             //setting playing false to stop the game
-            playing = false;
+   //         playing = false;
             //setting the isGameOver true as the game is over
-            isGameOver = true;
+ //           isGameOver = true;
         }
 
 
@@ -269,11 +271,15 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         } catch (InterruptedException e) {
         }
         //unregister Sensor listener
-        sensorMgr.unregisterListener(this);
+        manager.unregisterListener(this);
+
     }
 
     public void resume() {
+
         //when the game is resumed
+ //       manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas));
         bg.setVector(-45);
@@ -288,7 +294,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         gameThread = new Thread(this);
         gameThread.start();
 
-        sensorMgr.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override
@@ -322,42 +328,36 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
     @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        float x,y,z;
-        switch (getContext().getSystemService(WINDOW_SERVICE).getDefaultDisplay().getRotation()) {
-            case Surface.ROTATION_0:
-                x = sensorEvent.values[0];
-                y= sensorEvent.values[1];
-                break;
-            case Surface.ROTATION_90:
-                x= -sensorEvent.values[1];
-                y= sensorEvent.values[0];
-                break;
-            case Surface.ROTATION_180:
-                x= -sensorEvent.values[0];
-                y = -sensorEvent.values[1];
-                break;
-            case Surface.ROTATION_270:
-                x = sensorEvent.values[1];
-                y = -sensorEvent.values[0];
-                break;
-        }
+    public void onSensorChanged(SensorEvent event) {
+         //if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+           // xAcceleration = event.values[0];
+           // yAcceleration = event.values[1];
+           // zAcceleration = event.values[2];
+           // Toast.makeText(this.getContext(),"x:"+xAcceleration+"\nY:"+yAcceleration+"\nZ:"+zAcceleration,Toast.LENGTH_LONG).show();
+
+ //           player.setBoosting(xAcceleration);
 
 
-        //  = sensorEvent.values[0];
-            float y = sensorEvent.values[1];
-            float z = sensorEvent.values[2];
-            mAccelLast = mAccelCurrent;
-            mAccelCurrent = (float)Math.sqrt(x * x + y * y + z * z);
-            float delta = mAccelCurrent - mAccelLast;
-            mAccel = mAccel * 0.9f + delta;
+      //  }
+        if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
 
-            if(mAccel > 0.5) {
+            if (event.values[2] > 0.5f) { // anticlockwise
+                Toast.makeText(this.getContext(),"left",Toast.LENGTH_SHORT).show();
+                player.setBoosting(Math.round(event.values[2]));
 
-                Toast.makeText(this.getContext(),"x: "+x,Toast.LENGTH_SHORT).show();
-                player.setBoosting(Math.round(x));
+                Toast.makeText(this.getContext(),"val:"+event.values[2]/25,Toast.LENGTH_LONG).show();
+            } else if (event.values[2] < -0.5f) { // clockwise
+                Toast.makeText(this.getContext(),"right",Toast.LENGTH_SHORT).show();
+                player.setBoosting(Math.round(event.values[2]));
+                Toast.makeText(this.getContext(),"val:"+event.values[2]/25,Toast.LENGTH_LONG).show();
             }
+
+            player.setBoosting(event.values[2]);
         }
+
+
+
+
 
     }
 
@@ -365,4 +365,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
+
+
+
 }
