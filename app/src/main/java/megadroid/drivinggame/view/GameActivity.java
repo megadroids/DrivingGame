@@ -32,7 +32,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer(this,R.raw.game_activity);
+        msoundHelper.prepareMusicPlayer(this,R.raw.main_game1);
         msoundHelper.playMusic();
 
         //Getting the screen resolution into point object
