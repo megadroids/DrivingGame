@@ -1,5 +1,6 @@
 package megadroid.drivinggame.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,7 +33,6 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     }
 
     //admob code with real ad unit ID (code to be used)
-
     private void loadRewardedVideoAd() {
         mRewardedVideoAd.loadAd("ca-app-pub-1558090702648041/5920447341",
                 new AdRequest.Builder().build());
@@ -75,12 +75,18 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     public void onRewardedVideoAdClosed() {
         Toast.makeText(this, "onRewardedVideoAdClosed", Toast.LENGTH_SHORT).show();
         showAdvButton.setEnabled(false);
-        loadRewardedVideoAd();
+        //loadRewardedVideoAd();
+        //Intent myIntent = new Intent(AdvActivity.this, ShopActivity.class);
+        //AdvActivity.this.startActivity(myIntent);
+        finish();
     }
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int errorCode) {
         Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+        //Intent myIntent = new Intent(AdvActivity.this, ShopActivity.class);
+        //AdvActivity.this.startActivity(myIntent);
+        finish();
     }
 
     @Override

@@ -17,13 +17,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //admob code
-        MobileAds.initialize(this, "ca-app-pub-1558090702648041~7979634477");
+        //MobileAds.initialize(this, "ca-app-pub-1558090702648041~7979634477");
     }
 
     //test code
+    /*
     public void callAdvActivity(View view){
         Intent myIntent = new Intent(MainActivity.this, AdvActivity.class);
         MainActivity.this.startActivity(myIntent);
 
     }
+    */
 }
