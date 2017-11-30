@@ -18,7 +18,10 @@ public class SoundHelper {
     //this object is created for playing music
     private MediaPlayer mMusicPlayer;
     private SoundPool mSoundPool;
-    private int mSoundID;
+    private int  mcrashID;
+    private int  mcoinID;
+    private int mdiamondID;
+    private int moverID;
     private boolean mLoaded;
     private float mVolume;
 
@@ -48,21 +51,43 @@ public class SoundHelper {
                 mLoaded = true;
             }
         });
-        mSoundID = mSoundPool.load(activity, R.raw.explode, 1);
+        mcrashID = mSoundPool.load(activity, R.raw.car_crash, 1);
+        mcoinID = mSoundPool.load(activity, R.raw.buying_Items, 1);
+        mdiamondID = mSoundPool.load(activity, R.raw.crystal, 1);
+        moverID = mSoundPool.load(activity, R.raw.game_over, 1);
     }
 
-    public void playSound() {
+    public void CrashSound() {
         if (mLoaded) {
-            mSoundPool.play(mSoundID, mVolume, mVolume, 1, 0, 1f);
+            mSoundPool.play(mcrashID, mVolume, mVolume, 1, 0, 1f);
         }
     }
+
+    public void CoinCollection() {
+        if (mLoaded) {
+            mSoundPool.play(mcoinID, mVolume, mVolume, 1, 0, 1f);
+        }
+    }
+
+    public void diamondCollection() {
+        if (mLoaded) {
+            mSoundPool.play(mdiamondID, mVolume, mVolume, 1, 0, 1f);
+        }
+    }
+
+    public void gameOver() {
+        if (mLoaded) {
+            mSoundPool.play(moverID, mVolume, mVolume, 1, 0, 1f);
+        }
+    }
+
+
 
     public void prepareMusicPlayer(Context context, int musicfile)
     {
         mMusicPlayer = MediaPlayer.create(context.getApplicationContext(),
                 musicfile);
- //       mMusicPlayer1 = MediaPlayer.create(context.getApplicationContext(),
-   //             R.raw.game_activity);
+          //sets the volume of the music
         mMusicPlayer.setVolume(.5f,.5f);
         mMusicPlayer.setLooping(true);
     }
@@ -76,6 +101,7 @@ public class SoundHelper {
         }
     }
 
+    //to pause the music
     public void pauseMusic()
     {
         if(mMusicPlayer != null && mMusicPlayer.isPlaying())
