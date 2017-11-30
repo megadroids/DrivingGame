@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     //test code
     public void callAdvActivity(View view){
         Intent myIntent = new Intent(MainActivity.this, AdvActivity.class);
-
         MainActivity.this.startActivity(myIntent);
+
     }
 }
