@@ -19,11 +19,14 @@ import android.graphics.Canvas;
 
         }
 
-    public void update(){
+    public void update(int playerCounter){
 
         y += dy;
         if(y < -GameView.HEIGHT){
             y = 0;
+            if(playerCounter%5 == 0) {
+                dy -= 2;
+            }
         }
 
     }

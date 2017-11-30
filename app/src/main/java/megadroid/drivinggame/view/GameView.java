@@ -1,6 +1,7 @@
 package megadroid.drivinggame.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -32,7 +33,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int screenY;
     private Items[] item;
     //Adding 3 items you
-    private int itemCount = 2;
+    private int itemCount = 3;
     private ArrayList<Star> stars = new ArrayList<Star>();
 
     //Controls speed of the background scroll
@@ -69,6 +70,15 @@ public class GameView extends SurfaceView implements Runnable {
 
         }
 
+
+        Bitmap bitmapCoin = BitmapFactory.decodeResource(context.getResources(), R.drawable.coin_gold);
+        Bitmap bitmapCrystal = BitmapFactory.decodeResource(context.getResources(), R.drawable.crystal);
+        item = new Items[itemCount];
+        for (int j = 0; j < itemCount; j++) {
+
+            item[j] = new Items(this.getContext(), screenX, screenY, bitmapCoin);
+        }
+
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
@@ -76,26 +86,19 @@ public class GameView extends SurfaceView implements Runnable {
         this.screenX = screenX;
         this.screenY = screenY;
 
-
-        //initializing items object array
-        item = new Items[itemCount];
-        for (int j = 0; j < itemCount; j++) {
-            item[j] = new Items(this.getContext(), screenX, screenY);
-        }
-
     }
     public void run() {
-            while (playing) {
-                //to update the frame
-                update();
+        while (playing) {
+            //to update the frame
+            update();
 
-                //to draw the frame
-                draw();
+            //to draw the frame
+            draw();
 
-                //to control
-                control();
-            }
+            //to control
+            control();
         }
+    }
 
 
 
@@ -103,24 +106,24 @@ public class GameView extends SurfaceView implements Runnable {
         //updating player position
         player.update();
 
-        //Update background
 
-        bg.update();
+        bg.update(playingCounter);
 
         // update the stars
         for(Star s : stars) {
             s.update(player.getSpeed());
+
         }
 
-        //updating the item coordinate with respect to player speed
-        for(int i=0; i<itemCount; i++){
-            item[i].update(player.getSpeed());
+        for (int i = 0; i < itemCount; i++) {
+
+            item[i].update(player.getSpeed() );
 
             //if collision occurrs with player
             if (Rect.intersects(player.getDetectCollision(), item[i].getDetectCollision())) {
 
 
-                //moving item outside the left edge
+                //moving enemy outside the left edge
                 item[i].setY(-200);
             }
 
@@ -128,7 +131,13 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
+
+
     private void draw() {
+
+        playingCounter++;
+
+
 
         //checking if surface is valid
         if (surfaceHolder.getSurface().isValid()) {
@@ -151,14 +160,14 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.restoreToCount(savedState);
 
                 //drawing the items
-                    for (int i = 0; i < itemCount; i++) {
-                        canvas.drawBitmap(
-                                item[i].getBitmap(),
-                                item[i].getX(),
-                                item[i].getY(),
-                                paint
-                        );
-                    }
+            for (int i = 0; i < itemCount; i++) {
+                canvas.drawBitmap(
+                        item[i].getBitmap(),
+                        item[i].getX(),
+                        item[i].getY(),
+                        paint
+                );
+            }
 
 
                 //Draw the stars and set colour to white
@@ -181,6 +190,8 @@ public class GameView extends SurfaceView implements Runnable {
 
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
+
+
         }
     }
 
@@ -210,8 +221,12 @@ public class GameView extends SurfaceView implements Runnable {
         //when the game is resumed
         //starting the thread again
 
+
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas));
-        bg.setVector(-10);
+
+            //updating the item coordinate with respect to player speed
+            bg.setVector(-15);
+
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
         gameThread = new Thread(this);
