@@ -8,6 +8,7 @@ import megadroid.drivinggame.controller.ScoreMonitor;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,15 +20,15 @@ import org.json.JSONObject;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private int highScore = 0;
-    private int points = 0;
-    private ArrayList<String> carlist = new ArrayList<String>();
-    private ArrayList<String> themelist = new ArrayList<String>();
+    private ScoreMonitor monitor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        monitor =new ScoreMonitor();
 
         //Crete image buttons
         ImageButton playButton;
@@ -52,59 +53,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //read scores from JSON file
-        ScoreMonitor monitor =new ScoreMonitor();
-        try {
-            JSONArray values =  monitor.readJSON(this);
-
-            if(values == null){
-                Toast.makeText(this,"No Scores",Toast.LENGTH_LONG).show();
-            }else
-            {
-                String textToPrint = "";
-                for (int i = 0; i < values.length(); i++) {
-                    try {
-                        JSONObject message = (JSONObject) values.get(i);
-                        highScore = message.getInt("highscore")  ;
-                        points =  message.getInt("points")  ;
-
-                        textToPrint += (message.get("highscore")) + "\n";
-                        textToPrint += (message.get("points")) + "\n";
-
-                        JSONArray carsArr = message.getJSONArray("cars");
-                        for(i=0;i<carsArr.length();i++){
-                            String car= (String) carsArr.get(i);
-
-                            carlist.add(car);
-
-                            textToPrint += car + "\n";
-                        }
-
-                        JSONArray themeArr = message.getJSONArray("themes");
-                        for(i=0;i<themeArr.length();i++) {
-                            String theme = (String) themeArr.get(i);
-
-                            themelist.add(theme);
-
-                            textToPrint += theme + "\n";
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                //TODO: remove toast after code completion
-                Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
-
-                TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
-                txtHighscore.setText("High Score : "+Integer.toString(highScore));
-
-            }
-
-        } catch (JSONException e) {
-            Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
+        readJson();
     }
 
     // the onclick methods to handle clicking different buttons
@@ -126,14 +75,45 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.exit:
-                Intent startMain = new Intent(Intent.ACTION_MAIN);
-                startMain.addCategory(Intent.CATEGORY_HOME);
-                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(startMain);
-                break;
+                //Intent startMain = new Intent(Intent.ACTION_MAIN);
+                //startMain.addCategory(Intent.CATEGORY_HOME);
+                //startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //startActivity(startMain);
+                //break;
+
+                startActivity(new Intent(MenuActivity.this,exitButton.class));
 
             default:
                 break;
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+      readJson();
+
+    }
+
+    private void readJson(){
+        try {
+
+            String values = monitor.readJSON(this.getApplicationContext(),"Menu");
+
+            if(values.isEmpty()){
+                Toast.makeText(this,"No Scores",Toast.LENGTH_LONG).show();
+            }else
+            {
+
+                TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
+                txtHighscore.setText("High Score : "+Integer.toString(monitor.getHighScore()));
+            }
+
+            //Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
+
+        } catch (JSONException e) {
+            Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
