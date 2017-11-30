@@ -32,12 +32,12 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     }
 
     //admob code with real ad unit ID (code to be used)
-    /*
+
     private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd("ca-app-pub-4000901278297592/6305690228",
+        mRewardedVideoAd.loadAd("ca-app-pub-1558090702648041/5920447341",
                 new AdRequest.Builder().build());
     }
-    */
+
 
     //test code with test ad unit ID
     /*
@@ -48,6 +48,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     */
 
     //test code with real ad unit ID and bluestacks test device ID
+    /*
     private void loadRewardedVideoAd() {
         AdRequest request = new AdRequest.Builder()
                 .addTestDevice("759B17904BBE87AF2336E949621B3938")
@@ -55,6 +56,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
         mRewardedVideoAd.loadAd("ca-app-pub-4000901278297592/6305690228",
                 request);
     }
+    */
 
     @Override
     public void onRewarded(RewardItem reward) {

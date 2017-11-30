@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //admob code
-        MobileAds.initialize(this, "ca-app-pub-4000901278297592~9973472497");
+        MobileAds.initialize(this, "ca-app-pub-1558090702648041~7979634477");
     }
 
     //test code
