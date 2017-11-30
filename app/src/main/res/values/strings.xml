@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DrivingGame</string>
+    <string name="road1">backgroundCanvas</string>
 </resources>

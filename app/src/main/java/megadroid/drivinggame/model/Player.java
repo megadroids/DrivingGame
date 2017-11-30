@@ -3,10 +3,10 @@ package megadroid.drivinggame.model;
 /**
  * Created by megadroids on 11/23/2017.
  */
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 import megadroid.drivinggame.R;
 
@@ -17,6 +17,8 @@ public class Player {
 
     //Bitmap to get character from image
     private Bitmap bitmap;
+
+    private Rect detectCollision;
 
     //coordinates
     private int x;
@@ -65,6 +67,9 @@ public class Player {
         maxX=screenX/2+50;
         minX= screenX/2 -110;
         Xpos=x;
+
+        //initializing rect object
+        detectCollision =  new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
     }
 
     //Method to update coordinate of character
@@ -113,6 +118,17 @@ public class Player {
         if (x > maxX) {
             x = maxX;
         }
+
+        //adding top, left, bottom and right to the rect object
+        detectCollision.left = x;
+        detectCollision.top = y;
+        detectCollision.right = x + bitmap.getWidth();
+        detectCollision.bottom = y + bitmap.getHeight();
+
+    }
+    //one more getter for getting the rect object
+    public Rect getDetectCollision() {
+        return detectCollision;
     }
 
     //setting boosting true

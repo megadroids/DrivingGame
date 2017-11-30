@@ -1,15 +1,12 @@
 package megadroid.drivinggame.view;
 
-import android.content.Intent;
 import android.graphics.Point;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import megadroid.drivinggame.controller.ScoreMonitor;
 
@@ -17,6 +14,7 @@ public class GameActivity extends AppCompatActivity {
 
     //declaring gameview
     private GameView gameView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +31,9 @@ public class GameActivity extends AppCompatActivity {
         //this time we are also passing the screen size to the GameView constructor
         gameView = new GameView(this, size.x, size.y);
 
+
         //adding it to contentview
         setContentView(gameView);
-
 
     }
 
@@ -76,6 +74,9 @@ public class GameActivity extends AppCompatActivity {
         }
 
 
+
+
+    }
 /*
 can be used if the Menu activity does not refersh
     @Override
@@ -89,4 +90,3 @@ can be used if the Menu activity does not refersh
 */
 
 
-}
