@@ -61,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
         ScoreMonitor monitor =new ScoreMonitor();
 
         //toDO: get the highscore and points from gameview
-        int  highscore =700;
+        int  highscore =900;
         int  points = 2000;
 
         //toDo: cars , themes and updated points should be written from shopActivity, will pass null here
@@ -69,7 +69,7 @@ public class GameActivity extends AppCompatActivity {
         //String [] themes = new String[] {"christmas.png","farm.png","city.png"};
 
         try {
-            monitor.writeJSON(this,highscore,points,null,null);
+            monitor.writeJSON(this,highscore,points,null,null,null,null);
         } catch (JSONException e) {
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
         }
