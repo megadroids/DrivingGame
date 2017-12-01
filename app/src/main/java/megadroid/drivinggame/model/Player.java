@@ -51,7 +51,7 @@ public class Player {
         x = screenX/2-30;
         y = screenY;
         speed = 1;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.car);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.def_car);
 
         //calculating maxY
         maxY = screenY ;//- bitmap.getHeight();

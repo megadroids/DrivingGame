@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/bg"
     android:gravity="center"
     tools:context="megadroid.drivinggame.view.MenuActivity">
 
@@ -14,80 +14,108 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttonShop"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="632dp"
         android:background="@drawable/exit"
         android:onClick="onClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/muteSound"
+        android:id="@+id/Sound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttonShop"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/mute_sound"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="616dp"
+        android:background="@drawable/sound"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtHighScore"
-        android:layout_width="202dp"
-        android:layout_height="28dp"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
         android:fontFamily="serif-monospace"
-        android:text="High Score: "
+        android:text="Score: "
         android:textColor="#FFFFFF"
-        android:textSize="20dp"
+        android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.702"
+        app:layout_constraintHorizontal_bias="0.855"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.897"/>
+        app:layout_constraintVertical_bias="0.024" />
 
+    <ImageView
+        android:id="@+id/character1"
+        android:layout_width="240dp"
+        android:layout_height="313dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="168dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonShop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.64"
+        app:srcCompat="@drawable/character" />
 
     <ImageButton
         android:id="@+id/buttonPlay"
         android:layout_width="205dp"
         android:layout_height="98dp"
         android:layout_above="@+id/buttonShop"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="71dp"
-        android:layout_marginTop="245dp"
+        android:layout_marginTop="440dp"
+        android:adjustViewBounds="false"
         android:background="@drawable/button_play"
-        app:layout_constraintBottom_toTopOf="@+id/buttonShop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <ImageButton
         android:id="@+id/buttonShop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="180dp"
+        android:layout_width="205dp"
+        android:layout_height="98dp"
+        android:layout_alignParentBottom="false"
+        android:layout_marginBottom="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@drawable/button_shop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonPlay" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/gameLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/cup"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtHighScore"
+        app:layout_constraintHorizontal_bias="0.147"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/g_logo"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintVertical_bias="0.012"
+        app:srcCompat="@drawable/cup" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="152dp"
+        android:layout_height="199dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="256dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonShop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.787"
+        app:srcCompat="@drawable/character_2" />
+
 
 </android.support.constraint.ConstraintLayout>
