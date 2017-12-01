@@ -11,6 +11,7 @@ import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         //getting the buttons
         playButton = (ImageButton) findViewById(R.id.buttonPlay);
         shopButton = (ImageButton) findViewById(R.id.buttonShop);
-        muteSoundButton = (ImageButton) findViewById(R.id.muteSound);
+        muteSoundButton = (ImageButton) findViewById(R.id.Sound);
         exitButton = (ImageButton) findViewById(R.id.exit);
 
         //adding a click listener to buttons
@@ -51,6 +52,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         muteSoundButton.setOnClickListener(this);
         exitButton.setOnClickListener(this);
 
+        ImageView image = (ImageView) findViewById(R.id.Sound);
+        image.setTag(Integer.valueOf(R.drawable.sound));
 
         //read scores from JSON file
         readJson();
@@ -71,8 +74,15 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MenuActivity.this, ShopActivity.class));
                 break;
 
-            case R.id.muteSound:
-                startActivity(new Intent(MenuActivity.this, PauseActivity.class));
+            case R.id.Sound:
+                ImageView image = (ImageView) findViewById(R.id.Sound);
+                if(image.getTag().equals((Integer.valueOf(R.drawable.mute_sound)))) {
+                    image.setImageResource(R.drawable.sound);
+                    image.setTag(Integer.valueOf(R.drawable.sound));
+            } else {
+                    image.setImageResource(R.drawable.mute_sound);
+                    image.setTag(Integer.valueOf(R.drawable.mute_sound));
+                }
                 break;
 
             case R.id.exit:
@@ -108,6 +118,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
                 TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
                 txtHighscore.setText("High Score : "+Integer.toString(monitor.getHighScore()));
+
             }
 
             //Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();

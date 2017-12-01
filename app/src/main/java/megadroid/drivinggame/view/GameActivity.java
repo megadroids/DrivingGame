@@ -1,15 +1,12 @@
 package megadroid.drivinggame.view;
 
-import android.content.Intent;
 import android.graphics.Point;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
@@ -18,6 +15,7 @@ public class GameActivity extends AppCompatActivity {
 
     //declaring gameview
     private GameView gameView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +32,9 @@ public class GameActivity extends AppCompatActivity {
         //this time we are also passing the screen size to the GameView constructor
         gameView = new GameView(this, size.x, size.y);
 
+
         //adding it to contentview
         setContentView(gameView);
-
 
     }
 
@@ -57,24 +55,24 @@ public class GameActivity extends AppCompatActivity {
 
 
     //write the score to Json when exiting the screen
-    private void writeJson(){
+    private void writeJson() {
         //write the score to Json File
-        ScoreMonitor monitor =new ScoreMonitor();
+        ScoreMonitor monitor = new ScoreMonitor();
 
         //toDO: get the highscore and points from gameview
-        int  highscore =900;
-        int  points = 2000;
+        int highscore = 900;
+        int points = 2000;
 
         //toDo: cars , themes and updated points should be written from shopActivity, will pass null here
         // String[] cars = new String[]{"01", "02", "03"};
         //String [] themes = new String[] {"christmas.png","farm.png","city.png"};
 
         try {
-            monitor.writeJSON(this,highscore,points,null,null,null,null);
+            monitor.writeJSON(this, highscore, points, null, null, null, null);
         } catch (JSONException e) {
-            Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
-    }
 
+    }
 }
