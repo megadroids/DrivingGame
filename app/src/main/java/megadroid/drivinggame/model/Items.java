@@ -21,6 +21,8 @@ public class Items {
     private int maxY;
     private int minY;
 
+    private int counter;
+
     private int x;
     private int y;
 
@@ -37,14 +39,15 @@ public class Items {
         maxY = screenY;
 
         //minX = screenX - 400;
-        minY=0;
+        minY= 0;
         maxX= screenX/4;
         minX= screenX/4;
 
         Random generator = new Random();
-        speed = generator.nextInt(5) + 5;
-        y = generator.nextInt(maxY/2);
+        speed = generator.nextInt(5)+3;
+        y = generator.nextInt(minY + bitmap.getHeight());
         x = minX;
+
         //x = generator.nextInt(maxX) - bitmap.getWidth();
 
 
@@ -56,24 +59,26 @@ public class Items {
 
     }
     public void update(int playerSpeed) {
-        //decreasing x coordinate so that item will move top to bottom
-        //y += playerSpeed;
-        y += speed;
-        //if the item reaches the top edge
-        if (y > maxY - bitmap.getHeight()) {
-            //adding the item again to the right edge
-            Random generator = new Random();
-            speed = generator.nextInt(3) + 5;
-            y = generator.nextInt(maxY/2);
-            x = minX;
 
-        }
+        //decreasing x coordinate so that item will move top to bottom
+       // y += playerSpeed;
+        y += speed;
+        //if the item reaches the bottom edge
+        if (y > maxY - bitmap.getHeight()) {
+            //adding the item again to the top edge
+            Random generator = new Random();
+            y = generator.nextInt(minY + bitmap.getHeight());
+            x = minX;
+            speed+=1 ;
+           }
+
 
         //Adding the top, left, bottom and right to the rect object
         detectCollision.left = x;
         detectCollision.top = y;
         detectCollision.right = x + bitmap.getWidth();
         detectCollision.bottom = y + bitmap.getHeight();
+
 
 
     }
@@ -104,5 +109,10 @@ public class Items {
 
     public int getSpeed() {
         return speed;
+    }
+
+
+    public void setX(int x) {
+        this.x = x;
     }
 }

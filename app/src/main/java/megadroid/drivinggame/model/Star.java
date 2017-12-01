@@ -46,7 +46,7 @@ public class Star {
 
     public float getStarWidth(){
         float minX  = 1.0f;
-        float maxX = 4.0f;
+        float maxX = 6.0f;
 
         Random rand = new Random();
         float finalX = rand.nextFloat()*(maxX-minX)+minX;

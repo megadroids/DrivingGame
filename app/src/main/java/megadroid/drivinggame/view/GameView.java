@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.animation.Animation;
 
 import java.util.ArrayList;
 
@@ -32,9 +33,11 @@ public class GameView extends SurfaceView implements Runnable {
     private int screenX;
     private int screenY;
     private Items[] item;
+    private Items[] item1;
     //Adding 3 items you
-    private int itemCount = 3;
+    private int itemCount = 2;
     private ArrayList<Star> stars = new ArrayList<Star>();
+    private Animation animation;
 
     //Controls speed of the background scroll
     // public static final int MOVESPEED = -10;
@@ -63,7 +66,7 @@ public class GameView extends SurfaceView implements Runnable {
         //this time also passing screen size to player constructor
         player = new Player(context, screenX, screenY);
 
-        int starNums = 100;
+        int starNums = 800;
         for (int i = 0; i < starNums; i++) {
             Star s = new Star(screenX, screenY);
             stars.add(s);
@@ -76,7 +79,13 @@ public class GameView extends SurfaceView implements Runnable {
         item = new Items[itemCount];
         for (int j = 0; j < itemCount; j++) {
 
-            item[j] = new Items(this.getContext(), screenX, screenY, bitmapCoin);
+            item[j] = new Items(this.getContext(), screenX*2 -450 , screenY, bitmapCoin);
+        }
+
+        item1 = new Items[itemCount];
+        for (int k = 0; k < itemCount; k++) {
+
+            item1[k] = new Items(this.getContext(), screenX *3 -150, screenY, bitmapCoin);
         }
 
         //initializing drawing objects
@@ -85,6 +94,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         this.screenX = screenX;
         this.screenY = screenY;
+
 
     }
     public void run() {
@@ -121,14 +131,23 @@ public class GameView extends SurfaceView implements Runnable {
 
             //if collision occurrs with player
             if (Rect.intersects(player.getDetectCollision(), item[i].getDetectCollision())) {
-
-
-                //moving enemy outside the left edge
+                //moving item outside the topedge
                 item[i].setY(-200);
+
             }
 
         }
 
+        for (int j = 0; j < itemCount; j++) {
+
+            item1[j].update(player.getSpeed());
+
+            //if collision occurrs with player
+            if (Rect.intersects(player.getDetectCollision(), item1[j].getDetectCollision())) {
+                //moving item outside the topedge
+                item1[j].setY(-200);
+            }
+        }
     }
 
 
@@ -159,15 +178,29 @@ public class GameView extends SurfaceView implements Runnable {
                 bg.draw(canvas);
                 canvas.restoreToCount(savedState);
 
+            if(playingCounter > 100) {
                 //drawing the items
-            for (int i = 0; i < itemCount; i++) {
-                canvas.drawBitmap(
-                        item[i].getBitmap(),
-                        item[i].getX(),
-                        item[i].getY(),
-                        paint
-                );
+                for (int i = 0; i < itemCount; i++) {
+                    canvas.drawBitmap(
+                            item[i].getBitmap(),
+                            item[i].getX(),
+                            item[i].getY(),
+                            paint
+                    );
+                }
             }
+
+                if(playingCounter > 200) {
+                    //drawing the items
+                    for (int i = 0; i < itemCount; i++) {
+                        canvas.drawBitmap(
+                                item1[i].getBitmap(),
+                                item1[i].getX(),
+                                item1[i].getY(),
+                                paint
+                        );
+                    }
+                }
 
 
                 //Draw the stars and set colour to white
@@ -225,7 +258,7 @@ public class GameView extends SurfaceView implements Runnable {
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas));
 
             //updating the item coordinate with respect to player speed
-            bg.setVector(-15);
+            bg.setVector(-20);
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();

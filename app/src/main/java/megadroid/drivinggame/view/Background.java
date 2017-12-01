@@ -24,9 +24,12 @@ import android.graphics.Canvas;
         y += dy;
         if(y < -GameView.HEIGHT){
             y = 0;
-            if(playerCounter%5 == 0) {
+            if(playerCounter%3 == 0) {
                 dy -= 2;
             }
+          if(dy > 60){
+                dy = 60;
+          }
         }
 
     }
