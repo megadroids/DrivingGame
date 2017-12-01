@@ -22,15 +22,19 @@ import android.view.Surface;
 
 
 import org.json.JSONException;
+import android.view.animation.Animation;
 
 import java.util.ArrayList;
 
+import megadroid.drivinggame.R;
+import megadroid.drivinggame.model.Items;
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
 import megadroid.drivinggame.model.Boom;
 import megadroid.drivinggame.model.Items;
 import megadroid.drivinggame.model.Obstacles;
 import megadroid.drivinggame.model.Player;
+import megadroid.drivinggame.model.Star;
 
 import static android.content.Context.WINDOW_SERVICE;
 
@@ -46,8 +50,22 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private float xAcceleration,yAcceleration,zAcceleration;
 
 
+    //properties of the background image and instantiation of the background class
+    private GameActivity ga = new GameActivity();
+    private Items[] item;
+    private Items[] item1;
+    //Adding 3 items you
+    private int itemCount = 2;
+    private ArrayList<Star> stars = new ArrayList<Star>();
+    private Animation animation;
+
+    //Controls speed of the background scroll
+    // public static final int MOVESPEED = -10;
+
     //boolean variable to track if the game is playing or not
     volatile boolean playing;
+
+    volatile int playingCounter=0;
 
     //the game thread
     private Thread gameThread = null;
@@ -97,6 +115,28 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //this time also passing screen size to player constructor
         player = new Player(context, screenX, screenY);
 
+        int starNums = 800;
+        for (int i = 0; i < starNums; i++) {
+            Star s = new Star(screenX, screenY);
+            stars.add(s);
+
+        }
+
+
+        Bitmap bitmapCoin = BitmapFactory.decodeResource(context.getResources(), R.drawable.coin_gold);
+        Bitmap bitmapCrystal = BitmapFactory.decodeResource(context.getResources(), R.drawable.crystal);
+        item = new Items[itemCount];
+        for (int j = 0; j < itemCount; j++) {
+
+            item[j] = new Items(this.getContext(), screenX*2 -450 , screenY, bitmapCoin);
+        }
+
+        item1 = new Items[itemCount];
+        for (int k = 0; k < itemCount; k++) {
+
+            item1[k] = new Items(this.getContext(), screenX *3 -150, screenY, bitmapCoin);
+        }
+
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
@@ -123,9 +163,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         this.screenX = screenX;
         this.screenY = screenY;
 
-    }
 
-    @Override
+
+    }
     public void run() {
         while (playing) {
             //to update the frame
@@ -140,14 +180,45 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     }
 
 
+
     private void update() {
 
 
         //updating player position
         player.update();
 
-        //Update background
-        bg.update();
+
+        bg.update(playingCounter);
+
+        // update the stars
+        for(Star s : stars) {
+            s.update(player.getSpeed());
+
+        }
+
+        for (int i = 0; i < itemCount; i++) {
+
+            item[i].update(player.getSpeed() );
+
+            //if collision occurrs with player
+            if (Rect.intersects(player.getDetectCollision(), item[i].getDetectCollision())) {
+                //moving item outside the topedge
+                item[i].setY(-200);
+
+            }
+
+        }
+
+        for (int j = 0; j < itemCount; j++) {
+
+            item1[j].update(player.getSpeed());
+
+            //if collision occurrs with player
+            if (Rect.intersects(player.getDetectCollision(), item1[j].getDetectCollision())) {
+                //moving item outside the topedge
+                item1[j].setY(-200);
+            }
+        }
 
         //setting boom outside the screen
         boom.setX(-250);
@@ -165,9 +236,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             boom.setX(obstacles.getX());
             boom.setY(obstacles.getY());
             //setting playing false to stop the game
-   //         playing = false;
+            //         playing = false;
             //setting the isGameOver true as the game is over
-  //          isGameOver = true;
+            //          isGameOver = true;
         }
 
         if(Rect.intersects(player.getDetectCollision(),obstacles2.getDetectCollision())){
@@ -176,82 +247,125 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             boom.setX(obstacles2.getX());
             boom.setY(obstacles2.getY());
             //setting playing false to stop the game
-   //         playing = false;
+            //         playing = false;
             //setting the isGameOver true as the game is over
- //           isGameOver = true;
+            //           isGameOver = true;
         }
-
 
     }
 
+
+
     private void draw() {
+
+        playingCounter++;
+
+
+
         //checking if surface is valid
         if (surfaceHolder.getSurface().isValid()) {
+
             //locking the canvas
             canvas = surfaceHolder.lockCanvas();
             //drawing a background color for canvas
             canvas.drawColor(Color.BLACK);
+
 
             //Scaling the background for different sizes of screens
             float scaleFactorX = (float) screenX / (WIDTH * 1.f);
             float scaleFactorY = (float) screenY / (HEIGHT * 1.f);
 
             if (canvas != null) {
-
                 //Saving the state of the canvas before scaling
                 final int savedState = canvas.save();
                 canvas.scale( scaleFactorX,scaleFactorY);
                 bg.draw(canvas);
                 canvas.restoreToCount(savedState);
+
+            if(playingCounter > 100) {
+                //drawing the items
+                for (int i = 0; i < itemCount; i++) {
+                    canvas.drawBitmap(
+                            item[i].getBitmap(),
+                            item[i].getX(),
+                            item[i].getY(),
+                            paint
+                    );
                 }
-
-            //Drawing the player
-            canvas.drawBitmap(
-                    player.getBitmap(),
-                    player.getX(),
-                    player.getY(),
-                    paint);
-
-            //drawing boom image
-            canvas.drawBitmap(
-                    boom.getBitmap(),
-                    boom.getX(),
-                    boom.getY(),
-                    paint
-            );
-
-            //drawing obstacles image
-            canvas.drawBitmap(
-
-                    obstacles.getBitmap(),
-                    obstacles.getX(),
-                    obstacles.getY(),
-                    paint
-            );
-
-            canvas.drawBitmap(
-
-                    obstacles2.getBitmap(),
-                    obstacles2.getX(),
-                    obstacles2.getY(),
-                    paint
-            );
-
-            //draw game Over when the game is over
-            if(isGameOver){
-                paint.setTextSize(150);
-                paint.setTextAlign(Paint.Align.CENTER);
-                paint.setARGB(255,0,0,255);
-                int yPos=(int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
-                canvas.drawText("Game Over",canvas.getWidth()/2,yPos,paint);
             }
 
+                if(playingCounter > 200) {
+                    //drawing the items
+                    for (int i = 0; i < itemCount; i++) {
+                        canvas.drawBitmap(
+                                item1[i].getBitmap(),
+                                item1[i].getX(),
+                                item1[i].getY(),
+                                paint
+                        );
+                    }
+                }
+
+
+                //Draw the stars and set colour to white
+                paint.setColor(Color.WHITE);
+                for(Star s : stars) {
+                    paint.setStrokeWidth(s.getStarWidth());
+                    canvas.drawPoint(s.getX(), s.getY(), paint);
+                }
+
+
+                //Drawing the player
+                canvas.drawBitmap(
+                        player.getBitmap(),
+                        player.getX(),
+                        player.getY(),
+                        paint);
+
+                //drawing boom image
+                canvas.drawBitmap(
+                        boom.getBitmap(),
+                        boom.getX(),
+                        boom.getY(),
+                        paint
+                );
+
+                //drawing obstacles image
+                canvas.drawBitmap(
+
+                        obstacles.getBitmap(),
+                        obstacles.getX(),
+                        obstacles.getY(),
+                        paint
+                );
+
+                canvas.drawBitmap(
+
+                        obstacles2.getBitmap(),
+                        obstacles2.getX(),
+                        obstacles2.getY(),
+                        paint
+                );
+
+                //draw game Over when the game is over
+                if(isGameOver){
+                    paint.setTextSize(150);
+                    paint.setTextAlign(Paint.Align.CENTER);
+                    paint.setARGB(255,0,0,255);
+                    int yPos=(int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+                    canvas.drawText("Game Over",canvas.getWidth()/2,yPos,paint);
+                }
+
+
+            }
 
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
-        }
 
+
+        }
     }
+
 
     private void control() {
         try {
@@ -265,10 +379,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //when the game is paused
         //setting the variable to false
         playing = false;
+
         try {
             //stopping the thread
             gameThread.join();
         } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         //unregister Sensor listener
         manager.unregisterListener(this);
@@ -281,25 +397,29 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
  //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas));
-        bg.setVector(-45);
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
 
 
         //starting the thread again
-        playing = true;
 
+
+        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas));
+
+            //updating the item coordinate with respect to player speed
+            bg.setVector(-20);
+
+        WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
+        HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
         gameThread = new Thread(this);
         gameThread.start();
-
-
+        playing = true;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        int z=0;
+        int z = 0;
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
                 //When the user presses on the screen
@@ -317,7 +437,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
                 int w = getWidth();
                 int h = getHeight();
-                int cellX = (int)motionEvent.getX();
+                int cellX = (int) motionEvent.getX();
 
                 player.setBoosting(cellX);
                 break;

@@ -3,7 +3,6 @@ package megadroid.drivinggame.model;
 /**
  * Created by megadroids on 11/23/2017.
  */
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +17,8 @@ public class Player {
 
     //Bitmap to get character from image
     private Bitmap bitmap;
+
+    private Rect detectCollision;
 
     //coordinates
     private int x;
@@ -47,14 +48,12 @@ public class Player {
     private int minX;
     private final int maxX;
 
-    private Rect detectCollision;
-
     //constructor
     public Player(Context context, int screenX, int screenY) {
         x = screenX/2-30;
         y = screenY-340;
         speed = 1;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.car);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.def_car);
 
         //calculating maxY
        // maxY = screenY ;//- bitmap.getHeight();
