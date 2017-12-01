@@ -24,7 +24,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +57,11 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
 
+        MobileAds.initialize(this, "ca-app-pub-1558090702648041~7979634477");
+
+        monitor = new ScoreMonitor();
+        carlist = new ArrayList<String>();
+        themelist = new ArrayList<String>();
         alternativeImages = new HashMap<>();
         alternativeImages.put("FirstCar", R.drawable.def_car);
         alternativeImages.put("SecondCar", R.drawable.car3_unlocked);
@@ -157,5 +165,21 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         }catch(JSONException e){
             Toast.makeText(this, "Problem saving to the database", Toast.LENGTH_SHORT);
         }
+    }
+
+
+
+    protected void onClick(View view){
+
+        boolean watchAd = false;
+
+        //logic to set watchAd true
+        watchAd = true;
+
+        if(watchAd){
+            Intent myIntent = new Intent(ShopActivity.this, AdvActivity.class);
+            ShopActivity.this.startActivity(myIntent);
+        }
+
     }
 }
