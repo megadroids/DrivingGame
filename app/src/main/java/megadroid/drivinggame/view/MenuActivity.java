@@ -53,6 +53,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //read scores from JSON file
+        //write my code here, use JSONWrite to create a initial setup for the json file when menu activity is created
         readJson();
     }
 
