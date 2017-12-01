@@ -84,13 +84,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //declaring Sensor Manager and sensor type
         manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+//        accelerometer = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         gyroscopeSensor =  manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
 
 // Register the listener
        manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
-//        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+//        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
 
         //initializing player object
@@ -278,8 +278,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     public void resume() {
 
         //when the game is resumed
- //       manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
+ //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas));
         bg.setVector(-45);
@@ -329,27 +329,28 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-         //if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-           // xAcceleration = event.values[0];
-           // yAcceleration = event.values[1];
-           // zAcceleration = event.values[2];
-           // Toast.makeText(this.getContext(),"x:"+xAcceleration+"\nY:"+yAcceleration+"\nZ:"+zAcceleration,Toast.LENGTH_LONG).show();
+ /*        if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            xAcceleration = event.values[0];
+            yAcceleration = event.values[1];
+            zAcceleration = event.values[2];
+            Toast.makeText(this.getContext(),"x:"+xAcceleration+"\nY:"+yAcceleration+"\nZ:"+zAcceleration,Toast.LENGTH_LONG).show();
 
- //           player.setBoosting(xAcceleration);
+           player.setBoosting(xAcceleration);
 
 
-      //  }
-        if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+        }
+        */
+       if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
 
             if (event.values[2] > 0.5f) { // anticlockwise
                 Toast.makeText(this.getContext(),"left",Toast.LENGTH_SHORT).show();
                 player.setBoosting(Math.round(event.values[2]));
 
-                Toast.makeText(this.getContext(),"val:"+event.values[2]/25,Toast.LENGTH_LONG).show();
+                Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
             } else if (event.values[2] < -0.5f) { // clockwise
                 Toast.makeText(this.getContext(),"right",Toast.LENGTH_SHORT).show();
                 player.setBoosting(Math.round(event.values[2]));
-                Toast.makeText(this.getContext(),"val:"+event.values[2]/25,Toast.LENGTH_LONG).show();
+                Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
             }
 
             player.setBoosting(event.values[2]);

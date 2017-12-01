@@ -92,7 +92,7 @@ public class Player {
                 }*/
 
             //moveleft
-            if(Xpos >0.02f) {
+            if(Xpos >0.5f) {
 
                 if (x > minX) {
                     x = x - speed;
@@ -102,10 +102,10 @@ public class Player {
                 }
             }
             //moveRight
-            if(Xpos < -0.02f){
+            if(Xpos < -0.5f){
 
                 if (x < maxX) {
-                    x = x - speed;
+                    x = x + speed;
                 }else
                 {
                     x=maxX;
