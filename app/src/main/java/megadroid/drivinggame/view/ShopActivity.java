@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,18 +18,21 @@ import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
 import java.util.ArrayList;
 
-public class ShopActivity extends AppCompatActivity {
+public class ShopActivity extends AppCompatActivity{
 
     private int points;
     private ScoreMonitor monitor;
     private ArrayList<String> carlist;
     private ArrayList<String> themelist;
-
+    private String currentCar;
+    private String currentTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+
+        MobileAds.initialize(this, "ca-app-pub-1558090702648041~7979634477");
 
         monitor = new ScoreMonitor();
         carlist = new ArrayList<String>();
@@ -49,9 +56,12 @@ public class ShopActivity extends AppCompatActivity {
         themelist.add("farm.png");
         themelist.add("city.png");
 
+        currentCar="01";
+        currentTheme="farm.png";
+
 
         try {
-            monitor.writeJSON(this, highscore, points, carlist, themelist);
+            monitor.writeJSON(this, highscore, points, carlist, themelist, currentCar,currentTheme);
         } catch (JSONException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -59,42 +69,45 @@ public class ShopActivity extends AppCompatActivity {
 
     private void readJson() {
         //read scores from JSON file
-
         try {
-            JSONArray values = monitor.readJSON(this);
 
-            if (values == null) {
+            String values = monitor.readJSON(this.getApplicationContext(),"Shop");
+
+            if (values.isEmpty()) {
                 Toast.makeText(this, "No Scores", Toast.LENGTH_LONG).show();
             } else {
-                String textToPrint = "";
-                for (int i = 0; i < values.length(); i++) {
-                    try {
-                        JSONObject message = (JSONObject) values.get(i);
-                        points = message.getInt("points");
 
-                        JSONArray carsArr = message.getJSONArray("cars");
-                        for (i = 0; i < carsArr.length(); i++) {
-                            String car = (String) carsArr.get(i);
-                            carlist.add(car);
-                        }
-
-                        JSONArray themeArr = message.getJSONArray("themes");
-                        for (i = 0; i < themeArr.length(); i++) {
-                            String theme = (String) themeArr.get(i);
-                            themelist.add(theme);
-                        }
-
-                    } catch (JSONException e) {
-                        Log.e("JSONReadException", e.getMessage());
-                    }
-
-                }
-
+                points = monitor.getPoints();
+                carlist = monitor.getCarlist();
+                themelist = monitor.getThemelist();
+                currentCar =monitor.getCurrentCar();
+                currentTheme = monitor.getCurrentTheme();
             }
+
+            //Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
+
 
         } catch (JSONException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
+
+
+    }
+
+
+
+    protected void onClick(View view){
+
+        boolean watchAd = false;
+
+        //logic to set watchAd true
+        watchAd = true;
+
+        if(watchAd){
+            Intent myIntent = new Intent(ShopActivity.this, AdvActivity.class);
+            ShopActivity.this.startActivity(myIntent);
+        }
+
     }
 }
 
