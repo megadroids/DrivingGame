@@ -21,7 +21,7 @@ public class Items {
     private int maxY;
     private int minY;
 
-    private int counter;
+
 
     private int x;
     private int y;
