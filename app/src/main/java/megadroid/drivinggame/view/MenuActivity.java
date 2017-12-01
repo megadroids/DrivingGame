@@ -72,6 +72,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.muteSound:
+                startActivity(new Intent(MenuActivity.this, PauseActivity.class));
                 break;
 
             case R.id.exit:

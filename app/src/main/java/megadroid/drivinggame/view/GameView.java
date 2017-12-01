@@ -47,6 +47,10 @@ public class GameView extends SurfaceView implements Runnable {
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
+
+        //2 text views dinamically created text views !!!!!!!!!!!!!!!!!!
+
+
     }
 
     @Override

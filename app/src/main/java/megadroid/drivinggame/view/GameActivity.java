@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
 
 public class GameActivity extends AppCompatActivity {

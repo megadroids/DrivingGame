@@ -7,9 +7,15 @@ import megadroid.drivinggame.R;
 
 public class PauseActivity extends AppCompatActivity {
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pause);
+
+
+
     }
 }
