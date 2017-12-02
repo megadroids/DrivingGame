@@ -52,7 +52,7 @@ public class SoundHelper {
             }
         });
         mcrashID = mSoundPool.load(activity, R.raw.car_crash, 1);
-        mcoinID = mSoundPool.load(activity, R.raw.buying_Items, 1);
+        mcoinID = mSoundPool.load(activity, R.raw.coins, 1);
         mdiamondID = mSoundPool.load(activity, R.raw.crystal, 1);
         moverID = mSoundPool.load(activity, R.raw.game_over, 1);
     }
