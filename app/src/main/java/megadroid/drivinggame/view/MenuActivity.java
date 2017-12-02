@@ -117,7 +117,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             {
 
                 TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
-                txtHighscore.setText("High Score : "+Integer.toString(monitor.getHighScore()));
+                txtHighscore.setText("Score : "+Integer.toString(monitor.getHighScore()));
 
             }
 

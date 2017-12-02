@@ -63,7 +63,7 @@ public class GameActivity extends AppCompatActivity  {
         ScoreMonitor monitor = new ScoreMonitor();
 
         //toDO: get the highscore and points from gameview
-        int highscore = 900;
+        int highscore = 700;
         int points = 2000;
 
         //toDo: cars , themes and updated points should be written from shopActivity, will pass null here
