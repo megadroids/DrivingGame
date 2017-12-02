@@ -3,10 +3,10 @@ package megadroid.drivinggame.model;
 /**
  * Created by megadroids on 11/23/2017.
  */
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 import megadroid.drivinggame.R;
 
@@ -17,6 +17,8 @@ public class Player {
 
     //Bitmap to get character from image
     private Bitmap bitmap;
+
+    private Rect detectCollision;
 
     //coordinates
     private int x;
@@ -38,33 +40,40 @@ public class Player {
     //Limit the bounds of the ship's speed
     private final int MIN_SPEED = 1;
     private final int MAX_SPEED = 20;
-    private int Xpos;
+    private float Xpos;
 
 
     private int screenX;
     private int screenY;
     private int minX;
     private final int maxX;
-
+private boolean ontouch;
     //constructor
     public Player(Context context, int screenX, int screenY) {
         x = screenX/2-30;
-        y = screenY;
+        y = screenY-340;
         speed = 1;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.car);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.def_car);
 
         //calculating maxY
-        maxY = screenY ;//- bitmap.getHeight();
+       // maxY = screenY ;//- bitmap.getHeight();
 
         //top edge's y point is 0 so min y will always be zero
-        minY = -200;//0;
+       // minY = -200;//0;
 
         //setting the boosting value to false initially
         boosting = false;
 
-        maxX=screenX/2+50;
-        minX= screenX/2 -110;
+        maxX=screenX/2+160;
+        minX= screenX/2 -280;
         Xpos=x;
+
+        //initializing rect object
+        detectCollision =  new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
+
+        //set touch to false
+        ontouch= false;
+
     }
 
     //Method to update coordinate of character
@@ -77,11 +86,36 @@ public class Player {
         } else {
             //slowing down if not boosting
             //speed -= 5;
-            if(Xpos < x){
-                x= x -speed;
+            if(ontouch){
+                //calculation on touch event
+                if (Xpos < x) {
+                    x = x - speed;
+                }
+                if (Xpos > x) {
+                    x = x + speed;
+                }
+
             }
-            if(Xpos > x){
-                x= x +speed;
+            else {
+                //calculation on sensor changed
+                //moveleft
+                if (Xpos > 0.5f) {
+
+                    if (x > minX) {
+                        x = x - speed;
+                    } else {
+                        x = minX;
+                    }
+                }
+                //moveRight
+                if (Xpos < -0.5f) {
+
+                    if (x < maxX) {
+                        x = x + speed;
+                    } else {
+                        x = maxX;
+                    }
+                }
             }
 
         }
@@ -96,6 +130,7 @@ public class Player {
         }
 
         //moving the ship down
+        /*
         y -= speed + GRAVITY;
 
         //but controlling it also so that it won't go off the screen
@@ -106,6 +141,8 @@ public class Player {
             y = maxY;
         }
 
+        */
+
         //but controlling it also so that it won't go off the screen
         if (x < minX) {
             x = minX;
@@ -113,12 +150,21 @@ public class Player {
         if (x > maxX) {
             x = maxX;
         }
+
+
+        //adding top, left, bottom and right to the rect object
+        detectCollision.left = x+10;
+        detectCollision.top = y+10;
+        detectCollision.right = x + bitmap.getWidth();
+        detectCollision.bottom = y + bitmap.getHeight();
+
     }
 
     //setting boosting true
-    public void setBoosting(int cellX) {
+    public void setBoosting(float cellX,boolean touchflag) {
         boosting = true;
         Xpos = cellX;
+        ontouch = touchflag;
     }
 
     //setting boosting false
@@ -144,4 +190,10 @@ public class Player {
     public int getSpeed() {
         return speed;
     }
+
+    //one more getter for getting the rect object
+    public Rect getDetectCollision() {
+        return detectCollision;
+    }
+
 }

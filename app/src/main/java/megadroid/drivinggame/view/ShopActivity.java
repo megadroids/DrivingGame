@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +20,7 @@ import megadroid.drivinggame.model.SoundHelper;
 
 import java.util.ArrayList;
 
-public class ShopActivity extends AppCompatActivity {
+public class ShopActivity extends AppCompatActivity{
 
     private int points;
     private ScoreMonitor monitor;
@@ -32,6 +35,8 @@ public class ShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+
+        MobileAds.initialize(this, "ca-app-pub-1558090702648041~7979634477");
 
         monitor = new ScoreMonitor();
         carlist = new ArrayList<String>();
@@ -98,6 +103,21 @@ public class ShopActivity extends AppCompatActivity {
 
     }
 
+
+
+    protected void onClick(View view){
+
+        boolean watchAd = false;
+
+        //logic to set watchAd true
+        watchAd = true;
+
+        if(watchAd){
+            Intent myIntent = new Intent(ShopActivity.this, AdvActivity.class);
+            ShopActivity.this.startActivity(myIntent);
+        }
+
+    }
 
     @Override
     protected void onPause() {
