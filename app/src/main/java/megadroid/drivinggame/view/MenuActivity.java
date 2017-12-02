@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.SoundHelper;
 
 
 import android.content.Intent;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ScoreMonitor monitor;
+    private SoundHelper msoundHelper;
 
 
     @Override
@@ -30,6 +32,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_menu);
 
         monitor =new ScoreMonitor();
+
+        msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
+        msoundHelper.playMusic();
 
         //Crete image buttons
         ImageButton playButton;
@@ -102,8 +108,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-      readJson();
-
+        readJson();
+        msoundHelper.playMusic();
     }
 
     private void readJson(){
@@ -128,4 +134,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        msoundHelper.pauseMusic();
+
+    }
 }

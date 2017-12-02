@@ -6,11 +6,14 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 
+import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.SoundHelper;
 
 public class GameActivity extends AppCompatActivity  {
 
@@ -18,6 +21,7 @@ public class GameActivity extends AppCompatActivity  {
     //declaring gameview
     private GameView gameView;
 
+   private SoundHelper msoundHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,11 @@ public class GameActivity extends AppCompatActivity  {
 
         //Getting display object
         Display display = getWindowManager().getDefaultDisplay();
+
+
+        msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer(this,R.raw.main_game1);
+        msoundHelper.playMusic();
 
         //Getting the screen resolution into point object
         Point size = new Point();
@@ -45,6 +54,7 @@ public class GameActivity extends AppCompatActivity  {
     protected void onPause() {
 
         super.onPause();
+        msoundHelper.pauseMusic();
         writeJson();
         gameView.pause();
     }
@@ -54,7 +64,9 @@ public class GameActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
         gameView.resume();
+
     }
+
 
 
     //write the score to Json when exiting the screen

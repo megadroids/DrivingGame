@@ -21,6 +21,7 @@ import megadroid.drivinggame.model.Boom;
 import megadroid.drivinggame.model.Obstacles;
 import megadroid.drivinggame.model.Player;
 import megadroid.drivinggame.model.Star;
+import megadroid.drivinggame.model.SoundHelper;
 
 /**
  * Created by megadroids.
