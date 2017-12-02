@@ -47,7 +47,7 @@ public class Player {
     private int screenY;
     private int minX;
     private final int maxX;
-
+private boolean ontouch;
     //constructor
     public Player(Context context, int screenX, int screenY) {
         x = screenX/2-30;
@@ -64,12 +64,15 @@ public class Player {
         //setting the boosting value to false initially
         boosting = false;
 
-        maxX=screenX/2+100;
-        minX= screenX/2 -220;
+        maxX=screenX/2+160;
+        minX= screenX/2 -280;
         Xpos=x;
 
         //initializing rect object
         detectCollision =  new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
+
+        //set touch to false
+        ontouch= false;
 
     }
 
@@ -83,31 +86,35 @@ public class Player {
         } else {
             //slowing down if not boosting
             //speed -= 5;
-            /*      if (Xpos < x) {
+            if(ontouch){
+                //calculation on touch event
+                if (Xpos < x) {
                     x = x - speed;
                 }
                 if (Xpos > x) {
                     x = x + speed;
-                }*/
-
-            //moveleft
-            if(Xpos >0.5f) {
-
-                if (x > minX) {
-                    x = x - speed;
-                }else
-                {
-                    x=minX;
                 }
-            }
-            //moveRight
-            if(Xpos < -0.5f){
 
-                if (x < maxX) {
-                    x = x + speed;
-                }else
-                {
-                    x=maxX;
+            }
+            else {
+                //calculation on sensor changed
+                //moveleft
+                if (Xpos > 0.5f) {
+
+                    if (x > minX) {
+                        x = x - speed;
+                    } else {
+                        x = minX;
+                    }
+                }
+                //moveRight
+                if (Xpos < -0.5f) {
+
+                    if (x < maxX) {
+                        x = x + speed;
+                    } else {
+                        x = maxX;
+                    }
                 }
             }
 
@@ -154,9 +161,10 @@ public class Player {
     }
 
     //setting boosting true
-    public void setBoosting(float cellX) {
+    public void setBoosting(float cellX,boolean touchflag) {
         boosting = true;
         Xpos = cellX;
+        ontouch = touchflag;
     }
 
     //setting boosting false
