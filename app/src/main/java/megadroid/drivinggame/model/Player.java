@@ -133,6 +133,8 @@ private boolean ontouch;
         /*
         y -= speed + GRAVITY;
 
+
+
         //but controlling it also so that it won't go off the screen
         if (y < minY) {
             y = maxY;

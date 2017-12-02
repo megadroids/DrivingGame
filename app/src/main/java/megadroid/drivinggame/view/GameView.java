@@ -14,14 +14,15 @@ import android.hardware.SensorManager;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 import java.util.ArrayList;
+
 import megadroid.drivinggame.R;
-import megadroid.drivinggame.model.Items;
 import megadroid.drivinggame.model.Boom;
+import megadroid.drivinggame.model.Items;
 import megadroid.drivinggame.model.Obstacles;
 import megadroid.drivinggame.model.Player;
 import megadroid.drivinggame.model.Star;
-import megadroid.drivinggame.model.SoundHelper;
 
 /**
  * Created by megadroids.

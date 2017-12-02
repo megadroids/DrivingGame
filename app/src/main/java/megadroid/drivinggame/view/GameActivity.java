@@ -1,12 +1,9 @@
 package megadroid.drivinggame.view;
 
 import android.graphics.Point;
-import android.hardware.SensorListener;
-import android.hardware.SensorManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -22,6 +19,7 @@ public class GameActivity extends AppCompatActivity  {
     private GameView gameView;
 
    private SoundHelper msoundHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,4 +88,7 @@ public class GameActivity extends AppCompatActivity  {
 
 
     }
+
+
+
 }
