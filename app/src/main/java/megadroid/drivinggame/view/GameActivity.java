@@ -1,8 +1,10 @@
 package megadroid.drivinggame.view;
 
 import android.graphics.Point;
-import android.os.Bundle;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.Display;
 import android.widget.Toast;
 
@@ -10,7 +12,8 @@ import org.json.JSONException;
 
 import megadroid.drivinggame.controller.ScoreMonitor;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity  {
+
 
     //declaring gameview
     private GameView gameView;
@@ -40,6 +43,7 @@ public class GameActivity extends AppCompatActivity {
     //pausing the game when activity is paused
     @Override
     protected void onPause() {
+
         super.onPause();
         writeJson();
         gameView.pause();
