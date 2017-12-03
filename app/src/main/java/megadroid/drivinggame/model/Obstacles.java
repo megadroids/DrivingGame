@@ -2,12 +2,9 @@ package megadroid.drivinggame.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 import java.util.Random;
-
-import megadroid.drivinggame.R;
 
 /**
  * Created by megadroids.
@@ -42,7 +39,7 @@ public class Obstacles {
         //minX = 0;
         minY = 0;
         Random generator = new Random();
-        speed = generator.nextInt(6) + 5;
+        speed = generator.nextInt(6)+6 ;
         x = generator.nextInt(maxX) - bitmap.getWidth();//screenX;
         y = 0;//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
 

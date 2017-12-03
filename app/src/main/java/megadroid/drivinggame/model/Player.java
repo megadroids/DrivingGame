@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 import megadroid.drivinggame.R;
+import megadroid.drivinggame.view.GameView;
 
 /**
  * Created by megadroids .
@@ -20,9 +21,11 @@ public class Player {
 
     private Rect detectCollision;
 
+
+
     //coordinates
     private int x;
-    private int y;
+    private int y ;
 
     //motion speed of the character
     private int speed = 0;
@@ -35,7 +38,7 @@ public class Player {
 
     //Controlling Y coordinate so that ship won't go outside the screen
     private int maxY;
-    private int minY;
+    private int minY = 0;
 
     //Limit the bounds of the ship's speed
     private final int MIN_SPEED = 1;
@@ -50,13 +53,13 @@ public class Player {
 private boolean ontouch;
     //constructor
     public Player(Context context, int screenX, int screenY) {
-        x = screenX/2-30;
-        y = screenY-340;
+        this.x = screenX/2 + 30;
+           y = screenY - 340;
         speed = 1;
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.def_car);
 
         //calculating maxY
-       // maxY = screenY ;//- bitmap.getHeight();
+        maxY = screenY -340 ;//- bitmap.getHeight();
 
         //top edge's y point is 0 so min y will always be zero
        // minY = -200;//0;
@@ -67,6 +70,8 @@ private boolean ontouch;
         maxX=screenX/2+160;
         minX= screenX/2 -280;
         Xpos=x;
+
+
 
         //initializing rect object
         detectCollision =  new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
@@ -198,4 +203,30 @@ private boolean ontouch;
         return detectCollision;
     }
 
+
+    public void updatetilt() {
+
+
+        float frameTime = 1.666f;
+        GameView.xVel = (GameView.xAccel * frameTime);
+        GameView.yVel += (GameView.yAccel * frameTime);
+
+        float xS = (GameView.xVel / 2) * frameTime;
+        float yS = (GameView.yVel / 2) * frameTime;
+
+        x -= xS;
+        y -= yS;
+
+        if (x > maxX) {
+            x = maxX;
+        } else if (x < minX) {
+            x = minX;
+        }
+
+        if (y > maxY) {
+            y = maxY;
+        } else if (y < 0) {
+            y = 0;
+        }
+    }
 }

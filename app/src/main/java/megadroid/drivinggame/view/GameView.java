@@ -30,10 +30,15 @@ import megadroid.drivinggame.model.Star;
 
 public class GameView extends SurfaceView implements Runnable,SensorEventListener {
 
-    private SensorManager manager;
-    private Sensor accelerometer;
-    private Sensor gyroscopeSensor;
-    private float xAcceleration,yAcceleration,zAcceleration;
+    public static float xAccel, xVel = 0.0f;
+    public static float yAccel, yVel = 0.0f;
+
+    private SensorManager sensorManager;
+
+    //private SensorManager manager;
+    //private Sensor accelerometer;
+    //private Sensor gyroscopeSensor;
+    // private float xAcceleration,yAcceleration,zAcceleration;
 
 
     //properties of the background image and instantiation of the background class
@@ -50,7 +55,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     //boolean variable to track if the game is playing or not
     volatile boolean playing;
 
-    volatile int playingCounter=0;
+    volatile int playingCounter = 0;
 
     //the game thread
     private Thread gameThread = null;
@@ -68,14 +73,14 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private Obstacles obstacles2;
 
     //an indicator if the game is Over
-    private boolean isGameOver ;
+    private boolean isGameOver;
 
     //defining a boom object to display blast
     private Boom boom;
 
     //properties of the background image and instantiation of the background class
-    public static float WIDTH ;//640;
-    public static float HEIGHT ;//1440;
+    public static float WIDTH;//640;
+    public static float HEIGHT;//1440;
     private Background bg;
 
     private int screenX;
@@ -86,14 +91,15 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         super(context);
 
         //declaring Sensor Manager and sensor type
-        manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 //        accelerometer = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        gyroscopeSensor =  manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        // gyroscopeSensor =  manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
 
 // Register the listener
-       manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        //manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
 //        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
 
 
         //initializing player object
@@ -113,13 +119,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         item = new Items[itemCount];
         for (int j = 0; j < itemCount; j++) {
 
-            item[j] = new Items(this.getContext(), screenX*2 -450 , screenY, bitmapCoin);
+            item[j] = new Items(this.getContext(), screenX * 2 - 450, screenY, bitmapCoin);
         }
 
         item1 = new Items[itemCount];
         for (int k = 0; k < itemCount; k++) {
 
-            item1[k] = new Items(this.getContext(), screenX *3 -150, screenY, bitmapCoin);
+            item1[k] = new Items(this.getContext(), screenX * 3 - 150, screenY, bitmapCoin);
         }
 
         //initializing drawing objects
@@ -140,8 +146,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
         }
 */
-        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2,3);
-        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+200,1);
+        obstacles = new Obstacles(this.getContext(), screenX, screenY, bitmap, screenX / 2, 3);
+        obstacles2 = new Obstacles(this.getContext(), screenX, screenY, bitmapcar, screenX / 2 + 200, 1);
 
         isGameOver = false;
 
@@ -149,8 +155,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         this.screenY = screenY;
 
 
-
     }
+
     public void run() {
         while (playing) {
             //to update the frame
@@ -165,7 +171,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     }
 
 
-
     private void update() {
 
 
@@ -176,14 +181,14 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         bg.update(playingCounter);
 
         // update the stars
-        for(Star s : stars) {
+        for (Star s : stars) {
             s.update(player.getSpeed());
 
         }
 
         for (int i = 0; i < itemCount; i++) {
 
-            item[i].update(player.getSpeed() );
+            item[i].update(player.getSpeed());
 
             //if collision occurrs with player
             if (Rect.intersects(player.getDetectCollision(), item[i].getDetectCollision())) {
@@ -212,7 +217,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //updating the friend ships coordinates
         obstacles.update(player.getSpeed());
-        obstacles2.update(player.getSpeed()+10);
+        obstacles2.update(player.getSpeed() + 10);
 
         //checking for a collision between player and a friend
         if (playingCounter > 100) {
@@ -223,9 +228,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 boom.setX(obstacles.getX());
                 boom.setY(obstacles.getY());
                 //setting playing false to stop the game
-                         playing = false;
+                playing = false;
                 //setting the isGameOver true as the game is over
-                          isGameOver = true;
+                isGameOver = true;
             }
         }
 
@@ -237,14 +242,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 boom.setX(obstacles2.getX());
                 boom.setY(obstacles2.getY());
                 //setting playing false to stop the game
-                         playing = false;
+                playing = false;
                 //setting the isGameOver true as the game is over
-                           isGameOver = true;
+                isGameOver = true;
             }
         }
 
     }
-
 
 
     private void draw() {
@@ -369,6 +373,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     }
 
     public void pause() {
+        sensorManager.unregisterListener(this);
         //when the game is paused
         //setting the variable to false
         playing = false;
@@ -380,15 +385,16 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             e.printStackTrace();
         }
         //unregister Sensor listener
-        manager.unregisterListener(this);
+        // manager.unregisterListener(this);
 
     }
 
     public void resume() {
 
         //when the game is resumed
-        manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
- //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+
+        //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
@@ -401,10 +407,10 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas));
 
         //updating the item coordinate with respect to player speed
-        bg.setVector(-20);
+        bg.setVector(-25);
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
-        HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
+        HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
         gameThread = new Thread(this);
         gameThread.start();
         playing = true;
@@ -432,7 +438,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 int h = getHeight();
                 int cellX = (int) motionEvent.getX();
 
-                player.setBoosting(cellX,true);
+                player.setBoosting(cellX, true);
                 break;
 
         }
@@ -442,22 +448,29 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-       if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
 
-            if (event.values[2] > 0.5f) { // anticlockwise
-                player.setBoosting(Math.round(event.values[2]),false);
-               // Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
-            } else if (event.values[2] < -0.5f) { // clockwise
-                player.setBoosting(Math.round(event.values[2]),false);
-              //  Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
-            }
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            xAccel = event.values[0];
+            yAccel = -event.values[1];
+            player.updatetilt();
+
+            /** if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+
+             if (event.values[2] > 0.5f) { // anticlockwise
+             player.setBoosting(Math.round(event.values[2]),false);
+             // Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
+             } else if (event.values[2] < -0.5f) { // clockwise
+             player.setBoosting(Math.round(event.values[2]),false);
+             //  Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
+             }
+             }**/
+
+        }
+    }
+
+        public void onAccuracyChanged (Sensor sensor,int i){
+
         }
 
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
-    }
 
 }
