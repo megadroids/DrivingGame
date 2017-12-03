@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.JSONReader;
+import megadroid.drivinggame.model.JSONWriter;
 
 
 import android.content.Intent;
@@ -24,7 +26,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
@@ -53,7 +55,21 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //read scores from JSON file
-        //write my code here, use JSONWrite to create a initial setup for the json file when menu activity is created
+        //change carDefault and themeDefault
+        ScoreMonitor monitor = new ScoreMonitor();
+        ArrayList<String> cars = new ArrayList<>();
+        cars.add("carDefault");
+        ArrayList<String> themes = new ArrayList<>();
+        themes.add("themeDefault");
+
+        try {
+            if(monitor.readJSON(this, "Menu").equals("")) {
+                monitor.writeJSON(this, 0, 0, cars, themes, "carDefault", "themeDefault");
+            }
+        } catch (JSONException e) {
+            Log.e("JSONException",e.getMessage());
+        }
+
         readJson();
     }
 
