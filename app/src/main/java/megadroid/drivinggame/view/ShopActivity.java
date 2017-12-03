@@ -16,6 +16,8 @@ import org.json.JSONObject;
 
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.SoundHelper;
+
 import java.util.ArrayList;
 
 public class ShopActivity extends AppCompatActivity{
@@ -26,6 +28,8 @@ public class ShopActivity extends AppCompatActivity{
     private ArrayList<String> themelist;
     private String currentCar;
     private String currentTheme;
+    private SoundHelper msoundHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,11 @@ public class ShopActivity extends AppCompatActivity{
         monitor = new ScoreMonitor();
         carlist = new ArrayList<String>();
         themelist = new ArrayList<String>();
+
+        msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
+        msoundHelper.playMusic();
+
 
 
         //read points, cars and themes from JSON file
@@ -108,6 +117,18 @@ public class ShopActivity extends AppCompatActivity{
             ShopActivity.this.startActivity(myIntent);
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        msoundHelper.pauseMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        msoundHelper.playMusic();
     }
 }
 

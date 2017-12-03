@@ -6,12 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     tools:context="megadroid.drivinggame.view.ShopActivity">
-    <Button
-        android:id="@+id/button_adv"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:onClick="onClick"
-        android:text="CAR1" />
 
     <TextView
         android:layout_width="wrap_content"
