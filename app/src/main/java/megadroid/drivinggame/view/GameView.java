@@ -92,11 +92,6 @@ public class GameView extends SurfaceView implements Runnable {
         surfaceHolder = getHolder();
         paint = new Paint();
 
-        //2 text views dinamically created text views !!!!!!!!!!!!!!!!!!
-
-
-    }
-
         this.screenX = screenX;
         this.screenY = screenY;
 

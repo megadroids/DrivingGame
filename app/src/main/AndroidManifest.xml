@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.PauseActivity">
+        <activity android:name=".view.MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,15 +20,14 @@
         <activity android:name=".view.ShopActivity" />
         <activity android:name=".view.GameActivity" />
         <activity android:name=".view.AdvActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert">
-        <activity android:name=".view.GameActivity"/>
-        <activity android:name=".view.MenuActivity">
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
 
-        </activity>
+         <activity android:name=".view.PauseActivity"/>
+
+
 
 
         <activity android:name=".view.exitButton"
-
             android:theme="@style/Theme.AppCompat.Dialog.Alert">
         </activity>
     </application>

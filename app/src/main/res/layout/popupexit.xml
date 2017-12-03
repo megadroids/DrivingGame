@@ -13,16 +13,19 @@
         style="@android:style/TextAppearance.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="20sp"
-        android:paddingBottom="20sp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="20sp"
+        android:paddingTop="20sp"
         android:text="Do you really want to exit ?"
         android:textColor="#FFFFFF"
         android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="238dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/cross"
@@ -45,6 +48,7 @@
         android:layout_width="70dp"
         android:layout_height="65dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="76dp"
         android:layout_marginRight="76dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/yes"
