@@ -1,13 +1,15 @@
-package megadroid.drivinggame.view;
+package megadroid.drivinggame.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+
+import megadroid.drivinggame.view.GameView;
 
 /**
  * Created by Megadroids .
  */
 
- class Background {
+public class Background {
 
     private Bitmap image;
     private int x, y, dy;

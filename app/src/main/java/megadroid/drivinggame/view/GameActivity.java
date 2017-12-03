@@ -21,7 +21,7 @@ public class GameActivity extends AppCompatActivity  {
     //declaring gameview
     private GameView gameView;
 
-   private SoundHelper msoundHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +31,7 @@ public class GameActivity extends AppCompatActivity  {
         Display display = getWindowManager().getDefaultDisplay();
 
 
-        msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer(this,R.raw.main_game1);
-        msoundHelper.playMusic();
+
 
         //Getting the screen resolution into point object
         Point size = new Point();
@@ -54,8 +52,7 @@ public class GameActivity extends AppCompatActivity  {
     protected void onPause() {
 
         super.onPause();
-        msoundHelper.pauseMusic();
-        writeJson();
+
         gameView.pause();
     }
 
@@ -69,25 +66,5 @@ public class GameActivity extends AppCompatActivity  {
 
 
 
-    //write the score to Json when exiting the screen
-    private void writeJson() {
-        //write the score to Json File
-        ScoreMonitor monitor = new ScoreMonitor();
 
-        //toDO: get the highscore and points from gameview
-        int highscore = 700;
-        int points = 2000;
-
-        //toDo: cars , themes and updated points should be written from shopActivity, will pass null here
-        // String[] cars = new String[]{"01", "02", "03"};
-        //String [] themes = new String[] {"christmas.png","farm.png","city.png"};
-
-        try {
-            monitor.writeJSON(this, highscore, points, null, null, null, null);
-        } catch (JSONException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-
-
-    }
 }

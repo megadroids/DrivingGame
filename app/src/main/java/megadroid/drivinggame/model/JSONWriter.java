@@ -43,6 +43,8 @@ public class JSONWriter {
         }
         else {
             jsonObj = (JSONObject) value.get(0);
+            //carArr = new JSONArray();
+            //carArr.put("def_car");
             carArr = jsonObj.getJSONArray("cars");
             //if no cars bought yet
             if(carArr == null){
@@ -50,6 +52,9 @@ public class JSONWriter {
             }
             //if no themes bought yet
             themeArr = jsonObj.getJSONArray("themes");
+           // themeArr = new JSONArray();
+           // themeArr.put("backgroundcanvas");
+
             if(themeArr == null){
                 themeArr = new JSONArray();
             }
