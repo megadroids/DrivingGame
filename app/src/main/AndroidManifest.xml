@@ -29,10 +29,10 @@
 
 
 
-
         <activity android:name=".view.exitButton"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+
+
     </application>
 
 </manifest>
