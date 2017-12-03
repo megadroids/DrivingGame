@@ -64,7 +64,7 @@ public class ScoreMonitor {
                 textToPrint += (message.get("highscore")) + "\n";
                 textToPrint += (message.get("points")) + "\n";
 
-                if(screenType.equals("Shop")) {
+                if(screenType.equals("Shop")|| screenType.equals("Game")) {
                     currentCar = message.getString("currentcar");
                     currentTheme = message.getString("currenttheme");
 

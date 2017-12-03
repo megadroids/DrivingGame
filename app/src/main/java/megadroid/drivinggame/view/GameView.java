@@ -1,5 +1,6 @@
 package megadroid.drivinggame.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +17,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import java.util.ArrayList;
 import megadroid.drivinggame.R;
+import megadroid.drivinggame.controller.Generator;
+import megadroid.drivinggame.model.Background;
 import megadroid.drivinggame.model.Items;
 import megadroid.drivinggame.model.Boom;
 import megadroid.drivinggame.model.Obstacles;
@@ -30,13 +33,14 @@ import megadroid.drivinggame.model.SoundHelper;
 public class GameView extends SurfaceView implements Runnable,SensorEventListener {
 
     private SensorManager manager;
-    private Sensor accelerometer;
+//    private Sensor accelerometer;
     private Sensor gyroscopeSensor;
-    private float xAcceleration,yAcceleration,zAcceleration;
+//    private float xAcceleration,yAcceleration,zAcceleration;
 
+    //music player
+    private SoundHelper msoundHelper;
 
     //properties of the background image and instantiation of the background class
-    private GameActivity ga = new GameActivity();
     private Items[] item;
     private Items[] item1;
     //Adding 3 items you
@@ -65,6 +69,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     //created a reference of the class Friend
     private Obstacles obstacles;
     private Obstacles obstacles2;
+    private Obstacles obstacles3;
 
     //an indicator if the game is Over
     private boolean isGameOver ;
@@ -79,10 +84,28 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     private int screenX;
     private int screenY;
+    private int score;
+    private int highScore;
+    private int points;
+    private Generator generator;
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY) {
         super(context);
+
+        generator = new Generator(context);
+        //setting the score to 0 initially
+        score = 0;
+        points=0;
+        //get JSON values
+        highScore = generator.getHighScore();
+        int selectedCar = generator.getSelectedCar();
+
+        //play the music
+        msoundHelper = new SoundHelper((Activity)this.getContext());
+        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),R.raw.main_game1);
+        msoundHelper.playMusic();
+
 
         //declaring Sensor Manager and sensor type
         manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -97,7 +120,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //initializing player object
         //this time also passing screen size to player constructor
-        player = new Player(context, screenX, screenY);
+        player = new Player(context, screenX, screenY,selectedCar);
 
         int starNums = 800;
         for (int i = 0; i < starNums; i++) {
@@ -108,13 +131,15 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
         Bitmap bitmapCoin = BitmapFactory.decodeResource(context.getResources(), R.drawable.coin_gold);
-        Bitmap bitmapCrystal = BitmapFactory.decodeResource(context.getResources(), R.drawable.crystal);
+        //Bitmap bitmapCrystal = BitmapFactory.decodeResource(context.getResources(), R.drawable.crystal);
+        //coins on the left side
         item = new Items[itemCount];
         for (int j = 0; j < itemCount; j++) {
 
             item[j] = new Items(this.getContext(), screenX*2 -450 , screenY, bitmapCoin);
         }
 
+        //coins on the right side
         item1 = new Items[itemCount];
         for (int k = 0; k < itemCount; k++) {
 
@@ -129,27 +154,21 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         boom = new Boom(context);
 
         //initializing the Friend class object
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.enemy);
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.car);
         Bitmap bitmapcar = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
+        Bitmap bitmapSecond = BitmapFactory.decodeResource(this.getResources(), R.drawable.enemy);
 
-  /*      if((playCounter%2)==0){
-            bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.enemy);
-        }else
-        {
-            bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
-        }
-*/
-        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2,3);
-        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+200,1);
+        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2-240,screenX/2);
+        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+100,screenX/2+200);
+        obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,screenX/2+20,screenX/2+280);
 
         isGameOver = false;
 
         this.screenX = screenX;
         this.screenY = screenY;
 
-
-
     }
+
     public void run() {
         while (playing) {
             //to update the frame
@@ -167,11 +186,15 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     private void update() {
 
+        //incrementing score as time passes
+        if(playingCounter%22==0) {
+            score++;
+        }
 
         //updating player position
         player.update();
 
-
+        //update the background to move
         bg.update(playingCounter);
 
         // update the stars
@@ -188,6 +211,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             if (Rect.intersects(player.getDetectCollision(), item[i].getDetectCollision())) {
                 //moving item outside the topedge
                 item[i].setY(-200);
+                points++;
+                msoundHelper.CoinCollection();
 
             }
 
@@ -201,6 +226,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             if (Rect.intersects(player.getDetectCollision(), item1[j].getDetectCollision())) {
                 //moving item outside the topedge
                 item1[j].setY(-200);
+                points++;
+                msoundHelper.CoinCollection();
             }
         }
 
@@ -212,38 +239,54 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //updating the friend ships coordinates
         obstacles.update(player.getSpeed());
         obstacles2.update(player.getSpeed()+10);
+        obstacles3.update(player.getSpeed()+15);
 
-        //checking for a collision between player and a friend
-        if (playingCounter > 100) {
 
-            if (Rect.intersects(player.getDetectCollision(), obstacles.getDetectCollision())) {
+        //checking for a collision between player and a racecar
+        if (playingCounter > 20 && playingCounter < 1000) {
 
-                //displaying the boom at the collision
-                boom.setX(obstacles.getX());
-                boom.setY(obstacles.getY());
-                //setting playing false to stop the game
-                         playing = false;
-                //setting the isGameOver true as the game is over
-                          isGameOver = true;
+            if (Rect.intersects(player.getDetectCollision(), obstacles2.getDetectCollision())) {
+                gameOver(obstacles2);
             }
         }
 
-        if (playingCounter > 50) {
 
-            if (Rect.intersects(player.getDetectCollision(), obstacles2.getDetectCollision())) {
+        //checking for a collision between player and a car
+        if (playingCounter > 120) {
 
-                //displaying the boom at the collision
-                boom.setX(obstacles2.getX());
-                boom.setY(obstacles2.getY());
-                //setting playing false to stop the game
-                         playing = false;
-                //setting the isGameOver true as the game is over
-                           isGameOver = true;
+            if (Rect.intersects(player.getDetectCollision(), obstacles.getDetectCollision())) {
+
+                gameOver(obstacles);
+            }
+        }
+
+        //checking for a collision between player and a enemy
+        if (playingCounter > 1000) {
+
+            if (Rect.intersects(player.getDetectCollision(), obstacles3.getDetectCollision())) {
+                gameOver(obstacles3);
             }
         }
 
     }
 
+    private void gameOver(Obstacles obstacles){
+        //displaying the boom at the collision
+        boom.setX(obstacles.getX());
+        boom.setY(obstacles.getY());
+        //setting playing false to stop the game
+        playing = false;
+        //setting the isGameOver true as the game is over
+        isGameOver = true;
+        //get the highscore
+        if(highScore< score){
+            highScore = score;
+        }
+
+        //crash sound
+        msoundHelper.CrashSound();
+
+    }
 
 
     private void draw() {
@@ -304,6 +347,15 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 canvas.drawPoint(s.getX(), s.getY(), paint);
             }
 
+            //drawing the score on the game screen
+            paint.setTextSize(50);
+            canvas.drawText("Score:"+score,40,50,paint);
+
+
+            //drawing the points on the game screen
+            paint.setTextSize(50);
+            canvas.drawText("Points : "+points,screenX-300,50,paint);
+
 
             //Drawing the player
             canvas.drawBitmap(
@@ -321,7 +373,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             );
 
             //drawing obstacles image
-            if (playingCounter > 100) {
+            //draw white car
+            if (playingCounter > 120) {
 
                 canvas.drawBitmap(
 
@@ -331,7 +384,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                         paint
                 );
             }
-            if (playingCounter > 50) {
+            //draw race car
+            if (playingCounter > 20 && playingCounter < 1000) {
 
                 canvas.drawBitmap(
 
@@ -341,7 +395,22 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                         paint
                 );
 
-            }            //draw game Over when the game is over
+            }
+
+            //draw red car
+            if (playingCounter > 1000) {
+
+                canvas.drawBitmap(
+
+                        obstacles3.getBitmap(),
+                        obstacles3.getX(),
+                        obstacles3.getY(),
+                        paint
+                );
+
+            }
+
+            //draw game Over when the game is over
             if (isGameOver) {
                 paint.setTextSize(150);
                 paint.setTextAlign(Paint.Align.CENTER);
@@ -372,6 +441,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //setting the variable to false
         playing = false;
 
+
         try {
             //stopping the thread
             gameThread.join();
@@ -380,6 +450,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         }
         //unregister Sensor listener
         manager.unregisterListener(this);
+
+        //write the score and points to JSON
+        generator.writeJson(this.getContext(),highScore,points);
+
+        //stop the music
+        msoundHelper.pauseMusic();
 
     }
 
@@ -393,11 +469,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
 
-
+        int selectedTheme =generator.getSelectedTheme();
         //starting the thread again
-
-
-        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas));
+        bg = new Background(BitmapFactory.decodeResource(getResources(), selectedTheme));
 
         //updating the item coordinate with respect to player speed
         bg.setVector(-20);
@@ -438,7 +512,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         return true;
     }
 
-
     @Override
     public void onSensorChanged(SensorEvent event) {
        if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
@@ -458,5 +531,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
+
 
 }
