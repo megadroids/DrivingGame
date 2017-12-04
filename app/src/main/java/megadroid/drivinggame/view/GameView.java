@@ -2,6 +2,7 @@ package megadroid.drivinggame.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -28,6 +29,8 @@ import megadroid.drivinggame.model.Obstacles;
 import megadroid.drivinggame.model.Player;
 import megadroid.drivinggame.model.SoundHelper;
 import megadroid.drivinggame.model.Star;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 /**
  * Created by megadroids.
@@ -170,6 +173,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         this.screenX = screenX;
         this.screenY = screenY;
+
+
+
 
     }
 
@@ -414,7 +420,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
             }
 
+            //todo: move the button to a static place
             //draw pause button
+
             canvas.drawBitmap(
 
                     pauseButton,
@@ -492,6 +500,10 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
+
+        //stop the music
+        msoundHelper.playMusic();
+
         gameThread = new Thread(this);
         gameThread.start();
         playing = true;
@@ -506,7 +518,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 (motionEvent.getY(0)<=pauseButton.getHeight()))
         {
             //pause button selected
-            Toast.makeText(this.getContext(),"paused",Toast.LENGTH_SHORT).show();
+            this.getContext().startActivity(new Intent( this.getContext(), PauseActivity.class));
+           // Toast.makeText(this.getContext(),"paused",Toast.LENGTH_SHORT).show();
         }
         else {
 
