@@ -32,14 +32,32 @@ public class JSONWriter {
 
         //JSONObject jsonObj = new JSONObject();
         JSONObject jsonObj ;
+        JSONArray carArr;
+        JSONArray themeArr;
         //when there are no scores in the file its time application run
         if(value == null){
 
             jsonObj = new JSONObject();
+            carArr = new JSONArray();
+            themeArr = new JSONArray();
         }
         else {
             jsonObj = (JSONObject) value.get(0);
+            //carArr = new JSONArray();
+            //carArr.put("def_car");
+            carArr = jsonObj.getJSONArray("cars");
+            //if no cars bought yet
+            if(carArr == null){
+                carArr = new JSONArray();
+            }
+            //if no themes bought yet
+            themeArr = jsonObj.getJSONArray("themes");
+           // themeArr = new JSONArray();
+           // themeArr.put("backgroundcanvas");
 
+            if(themeArr == null){
+                themeArr = new JSONArray();
+            }
         }
 
         //update only if the correct value has been passed
@@ -51,7 +69,7 @@ public class JSONWriter {
         }
 
         if(cars != null) {
-            JSONArray carArr = new JSONArray();
+            //JSONArray carArr = new JSONArray();
             for (int i = 0; i < cars.size(); i++) {
                 carArr.put(cars.get(i));
             }
@@ -60,7 +78,7 @@ public class JSONWriter {
 
 
         if(themes != null) {
-            JSONArray themeArr = new JSONArray();
+            //JSONArray themeArr = new JSONArray();
             for (int i = 0; i < themes.size(); i++) {
                 themeArr.put(themes.get(i));
             }

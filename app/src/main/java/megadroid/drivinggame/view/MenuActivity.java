@@ -9,16 +9,13 @@ import megadroid.drivinggame.model.SoundHelper;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.ArrayList;
-import org.json.JSONArray;
+
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -98,7 +95,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 //startActivity(startMain);
                 //break;
 
-                startActivity(new Intent(MenuActivity.this,exitButton.class));
+                startActivity(new Intent(MenuActivity.this,ExitActivity.class));
 
             default:
                 break;
@@ -123,7 +120,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             {
 
                 TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
-                txtHighscore.setText("High Score : "+Integer.toString(monitor.getHighScore()));
+                txtHighscore.setText("Score : "+Integer.toString(monitor.getHighScore()));
 
             }
 

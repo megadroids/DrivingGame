@@ -54,19 +54,21 @@ public class ShopActivity extends AppCompatActivity{
         //toDo: cars , themes and updated points should be written from the method of buy button click
         //toDo: but highscore should not be updated from ShopActivity so pass -1 as given below
         int highscore = -1;
-        // points = 800;
+
+       highscore = 0;
+        points = 0;
         //ArrayList<String> cars = new ArrayList<String>(); //{"01", "02", "03"};
-        carlist.add("01");
+        carlist.add("def_car");
         carlist.add("02");
         carlist.add("03");
 
         //ArrayList<String> themes = new ArrayList<String>(); //{"christmas.png", "farm.png", "city.png"};
-        themelist.add("christmas.png");
+        themelist.add("backgroundcanvas");
         themelist.add("farm.png");
         themelist.add("city.png");
 
-        currentCar="01";
-        currentTheme="farm.png";
+        currentCar="def_car";
+        currentTheme="backgroundcanvas";
 
 
         try {
@@ -74,6 +76,8 @@ public class ShopActivity extends AppCompatActivity{
         } catch (JSONException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
+
+
     }
 
     private void readJson() {
