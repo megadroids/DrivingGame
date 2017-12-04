@@ -54,17 +54,16 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         exitButton.setOnClickListener(this);
 
 
-        //read scores from JSON file
-        //change carDefault and themeDefault
+        //read scores from JSON file, initial setup
         ScoreMonitor monitor = new ScoreMonitor();
         ArrayList<String> cars = new ArrayList<>();
-        cars.add("carDefault");
+        cars.add("def_car");
         ArrayList<String> themes = new ArrayList<>();
-        themes.add("themeDefault");
+        themes.add("backgroundcanvas");
 
         try {
             if(monitor.readJSON(this, "Menu").equals("")) {
-                monitor.writeJSON(this, 0, 0, cars, themes, "carDefault", "themeDefault");
+                monitor.writeJSON(this, 0, 0, cars, themes, "def_car", "backgroundcanvas");
             }
         } catch (JSONException e) {
             Log.e("JSONException",e.getMessage());
