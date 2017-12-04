@@ -16,6 +16,8 @@ import org.json.JSONObject;
 
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.SoundHelper;
+
 import java.util.ArrayList;
 
 public class ShopActivity extends AppCompatActivity{
@@ -26,6 +28,8 @@ public class ShopActivity extends AppCompatActivity{
     private ArrayList<String> themelist;
     private String currentCar;
     private String currentTheme;
+    private SoundHelper msoundHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,11 @@ public class ShopActivity extends AppCompatActivity{
         carlist = new ArrayList<String>();
         themelist = new ArrayList<String>();
 
+        msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
+        msoundHelper.playMusic();
+
+
 
         //read points, cars and themes from JSON file
         readJson();
@@ -45,19 +54,21 @@ public class ShopActivity extends AppCompatActivity{
         //toDo: cars , themes and updated points should be written from the method of buy button click
         //toDo: but highscore should not be updated from ShopActivity so pass -1 as given below
         int highscore = -1;
-        // points = 800;
+
+       highscore = 0;
+        points = 0;
         //ArrayList<String> cars = new ArrayList<String>(); //{"01", "02", "03"};
-        carlist.add("01");
+        carlist.add("def_car");
         carlist.add("02");
         carlist.add("03");
 
         //ArrayList<String> themes = new ArrayList<String>(); //{"christmas.png", "farm.png", "city.png"};
-        themelist.add("christmas.png");
+        themelist.add("backgroundcanvas");
         themelist.add("farm.png");
         themelist.add("city.png");
 
-        currentCar="01";
-        currentTheme="farm.png";
+        currentCar="def_car";
+        currentTheme="backgroundcanvas";
 
 
         try {
@@ -65,6 +76,8 @@ public class ShopActivity extends AppCompatActivity{
         } catch (JSONException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
+
+
     }
 
     private void readJson() {
@@ -106,6 +119,18 @@ public class ShopActivity extends AppCompatActivity{
             ShopActivity.this.startActivity(myIntent);
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        msoundHelper.pauseMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        msoundHelper.playMusic();
     }
 }
 

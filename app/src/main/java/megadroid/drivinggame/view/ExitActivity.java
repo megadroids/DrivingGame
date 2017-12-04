@@ -1,14 +1,10 @@
 package megadroid.drivinggame.view;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
 
 import megadroid.drivinggame.R;
 
@@ -17,12 +13,12 @@ import megadroid.drivinggame.R;
  */
 
 
-public class exitButton extends Activity implements View.OnClickListener {
+public class ExitActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.popupexit);
+        setContentView(R.layout.activity_exit);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -40,7 +36,7 @@ public class exitButton extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             //the transition from MenuActivity to GameActivity
             case R.id.cross:
-                startActivity(new Intent(exitButton.this, MenuActivity.class));
+                startActivity(new Intent(ExitActivity.this, MenuActivity.class));
                 break;
 
             case R.id.checkmark:
@@ -48,8 +44,8 @@ public class exitButton extends Activity implements View.OnClickListener {
                 startMain.addCategory(Intent.CATEGORY_HOME);
                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(startMain);
-
                 break;
+
             default:
                 break;
         }

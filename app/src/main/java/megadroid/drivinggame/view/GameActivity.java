@@ -8,12 +8,17 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.SoundHelper;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity  {
+
 
     //declaring gameview
     private GameView gameView;
+
+
 
 
     @Override
@@ -22,6 +27,9 @@ public class GameActivity extends AppCompatActivity {
 
         //Getting display object
         Display display = getWindowManager().getDefaultDisplay();
+
+
+
 
         //Getting the screen resolution into point object
         Point size = new Point();
@@ -40,8 +48,9 @@ public class GameActivity extends AppCompatActivity {
     //pausing the game when activity is paused
     @Override
     protected void onPause() {
+
         super.onPause();
-        writeJson();
+
         gameView.pause();
     }
 
@@ -50,28 +59,10 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         gameView.resume();
-    }
-
-
-    //write the score to Json when exiting the screen
-    private void writeJson() {
-        //write the score to Json File
-        ScoreMonitor monitor = new ScoreMonitor();
-
-        //toDO: get the highscore and points from gameview
-        int highscore = 900;
-        int points = 2000;
-
-        //toDo: cars , themes and updated points should be written from shopActivity, will pass null here
-        // String[] cars = new String[]{"01", "02", "03"};
-        //String [] themes = new String[] {"christmas.png","farm.png","city.png"};
-
-        try {
-            monitor.writeJSON(this, highscore, points, null, null, null, null);
-        } catch (JSONException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-
 
     }
+
+
+
+
 }

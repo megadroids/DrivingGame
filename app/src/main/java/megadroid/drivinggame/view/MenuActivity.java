@@ -4,25 +4,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.SoundHelper;
 import megadroid.drivinggame.model.JSONReader;
 import megadroid.drivinggame.model.JSONWriter;
 
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.ArrayList;
-import org.json.JSONArray;
+
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ScoreMonitor monitor;
+    private SoundHelper msoundHelper;
 
 
     @Override
@@ -31,6 +31,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_menu);
 
         monitor =new ScoreMonitor();
+
+        msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
+        msoundHelper.playMusic();
 
         //Crete image buttons
         ImageButton playButton;
@@ -44,7 +48,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         //getting the buttons
         playButton = (ImageButton) findViewById(R.id.buttonPlay);
         shopButton = (ImageButton) findViewById(R.id.buttonShop);
-        muteSoundButton = (ImageButton) findViewById(R.id.muteSound);
+        muteSoundButton = (ImageButton) findViewById(R.id.Sound);
         exitButton = (ImageButton) findViewById(R.id.exit);
 
         //adding a click listener to buttons
@@ -53,6 +57,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         muteSoundButton.setOnClickListener(this);
         exitButton.setOnClickListener(this);
 
+        ImageView image = (ImageView) findViewById(R.id.Sound);
+        image.setTag(Integer.valueOf(R.drawable.sound));
 
         //read scores from JSON file, initial setup
         ScoreMonitor monitor = new ScoreMonitor();
@@ -87,7 +93,15 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MenuActivity.this, ShopActivity.class));
                 break;
 
-            case R.id.muteSound:
+            case R.id.Sound:
+                ImageView image = (ImageView) findViewById(R.id.Sound);
+                if(image.getTag().equals((Integer.valueOf(R.drawable.mute_sound)))) {
+                    image.setImageResource(R.drawable.sound);
+                    image.setTag(Integer.valueOf(R.drawable.sound));
+            } else {
+                    image.setImageResource(R.drawable.mute_sound);
+                    image.setTag(Integer.valueOf(R.drawable.mute_sound));
+                }
                 break;
 
             case R.id.exit:
@@ -97,7 +111,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 //startActivity(startMain);
                 //break;
 
-                startActivity(new Intent(MenuActivity.this,exitButton.class));
+                startActivity(new Intent(MenuActivity.this,ExitActivity.class));
 
             default:
                 break;
@@ -107,8 +121,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-      readJson();
-
+        readJson();
+        msoundHelper.playMusic();
     }
 
     private void readJson(){
@@ -122,7 +136,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             {
 
                 TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
-                txtHighscore.setText("High Score : "+Integer.toString(monitor.getHighScore()));
+                txtHighscore.setText("Score : "+Integer.toString(monitor.getHighScore()));
+
             }
 
             //Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
@@ -132,4 +147,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        msoundHelper.pauseMusic();
+
+    }
 }
