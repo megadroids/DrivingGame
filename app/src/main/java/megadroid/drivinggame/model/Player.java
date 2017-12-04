@@ -49,11 +49,11 @@ public class Player {
     private final int maxX;
 private boolean ontouch;
     //constructor
-    public Player(Context context, int screenX, int screenY) {
+    public Player(Context context, int screenX, int screenY,int carID) {
         x = screenX/2-30;
         y = screenY-340;
         speed = 1;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.def_car);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), carID);
 
         //calculating maxY
        // maxY = screenY ;//- bitmap.getHeight();

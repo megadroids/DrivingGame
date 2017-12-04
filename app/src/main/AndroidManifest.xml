@@ -27,7 +27,7 @@
         </activity>
 
 
-        <activity android:name=".view.exitButton"
+        <activity android:name=".view.ExitActivity"
 
             android:theme="@style/Theme.AppCompat.Dialog.Alert">
         </activity>
