@@ -15,6 +15,7 @@ import android.hardware.SensorManager;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -90,6 +91,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private int highScore;
     private int points;
     private Generator generator;
+    private Bitmap pauseButton;
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY) {
@@ -131,7 +133,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         }
 
-
+        pauseButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.button_pause);
         Bitmap bitmapCoin = BitmapFactory.decodeResource(context.getResources(), R.drawable.coin_gold);
         //Bitmap bitmapCrystal = BitmapFactory.decodeResource(context.getResources(), R.drawable.crystal);
         //coins on the left side
@@ -412,6 +414,16 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
             }
 
+            //draw pause button
+            canvas.drawBitmap(
+
+                    pauseButton,
+                    screenX-pauseButton.getWidth(),
+                    0,
+                    paint
+            );
+
+
             //draw game Over when the game is over
             if (isGameOver) {
                 paint.setTextSize(150);
@@ -487,29 +499,41 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        int z = 0;
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_UP:
-                //When the user presses on the screen
-                //stopping the boosting when screen is released
 
-                //int cellY = (int)motionEvent.getY();
+        if((motionEvent.getX(0)>=screenX - pauseButton.getWidth()) &&
+                (motionEvent.getY(0)>=0) &&
+                ( motionEvent.getX(0)<=screenX) &&
+                (motionEvent.getY(0)<=pauseButton.getHeight()))
+        {
+            //pause button selected
+            Toast.makeText(this.getContext(),"paused",Toast.LENGTH_SHORT).show();
+        }
+        else {
 
-                player.stopBoosting();
-                break;
+            int z = 0;
+            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_UP:
+                    //When the user presses on the screen
+                    //stopping the boosting when screen is released
+
+                    //int cellY = (int)motionEvent.getY();
+
+                    player.stopBoosting();
+                    break;
 
 
-            case MotionEvent.ACTION_DOWN:
-                //When the user releases the screen
-                //boosting the space jet when screen is pressed
+                case MotionEvent.ACTION_DOWN:
+                    //When the user releases the screen
+                    //boosting the space jet when screen is pressed
 
-                int w = getWidth();
-                int h = getHeight();
-                int cellX = (int) motionEvent.getX();
+                    int w = getWidth();
+                    int h = getHeight();
+                    int cellX = (int) motionEvent.getX();
 
-                player.setBoosting(cellX,true);
-                break;
+                    player.setBoosting(cellX, true);
+                    break;
 
+            }
         }
         return true;
     }
