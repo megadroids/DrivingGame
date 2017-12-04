@@ -63,7 +63,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         ImageView image = (ImageView) findViewById(R.id.Sound);
         image.setTag(Integer.valueOf(R.drawable.sound));
 
-        //read scores from JSON file, initial setup
+        //read scores from JSON file, initial json setup
         ScoreMonitor monitor = new ScoreMonitor();
         ArrayList<String> cars = new ArrayList<>();
         cars.add("def_car");
