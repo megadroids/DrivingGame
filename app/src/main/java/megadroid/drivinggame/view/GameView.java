@@ -29,6 +29,10 @@ import megadroid.drivinggame.model.SoundHelper;
 
 public class GameView extends SurfaceView implements Runnable,SensorEventListener {
 
+    //Hardcoded score and points
+    int score = 700;
+    int points = 2000;
+
     private SensorManager manager;
     private Sensor accelerometer;
     private Sensor gyroscopeSensor;
@@ -295,6 +299,18 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     );
                 }
             }
+
+            //drawing the score on the game screen
+            paint.setColor(Color.MAGENTA);
+            paint.setTextSize(40);
+            canvas.drawText("Score:"+score,40,50,paint);
+
+
+
+            //drawing the points on the game screen
+            paint.setColor(Color.MAGENTA);
+            paint.setTextSize(40);
+            canvas.drawText("Points : "+ points,screenX-300,50,paint);
 
 
             //Draw the stars and set colour to white
