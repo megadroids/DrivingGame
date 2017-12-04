@@ -31,7 +31,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         monitor =new ScoreMonitor();
 
         msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
+        msoundHelper.prepareMusicPlayer2(this,R.raw.simple_game_music);
         msoundHelper.playMusic();
 
         //Crete image buttons
@@ -82,9 +82,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 if(image.getTag().equals((Integer.valueOf(R.drawable.mute_sound)))) {
                     image.setImageResource(R.drawable.sound);
                     image.setTag(Integer.valueOf(R.drawable.sound));
+                    onResume();
             } else {
                     image.setImageResource(R.drawable.mute_sound);
                     image.setTag(Integer.valueOf(R.drawable.mute_sound));
+                    onPause();
                 }
                 break;
 

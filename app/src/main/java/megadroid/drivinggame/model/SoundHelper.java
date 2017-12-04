@@ -92,6 +92,15 @@ public class SoundHelper {
         mMusicPlayer.setLooping(true);
     }
 
+    public void prepareMusicPlayer2(Context context, int musicfile)
+    {
+        mMusicPlayer = MediaPlayer.create(context.getApplicationContext(),
+                musicfile);
+        //sets the volume of the music
+        mMusicPlayer.setVolume(1f,1f);
+        mMusicPlayer.setLooping(true);
+    }
+
     //to play the music
     public void playMusic()
     {
