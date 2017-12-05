@@ -1,5 +1,9 @@
 package megadroid.drivinggame.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,17 +23,12 @@ public class GameActivity extends AppCompatActivity  {
     private GameView gameView;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Getting display object
         Display display = getWindowManager().getDefaultDisplay();
-
-
-
 
         //Getting the screen resolution into point object
         Point size = new Point();
@@ -61,8 +60,5 @@ public class GameActivity extends AppCompatActivity  {
         gameView.resume();
 
     }
-
-
-
 
 }

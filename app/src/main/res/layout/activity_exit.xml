@@ -35,7 +35,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
-        android:text="QUIT"
+        android:text="QUIT GAME"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -74,7 +74,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-
+        android:background="@drawable/close"
         android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/checkmark"

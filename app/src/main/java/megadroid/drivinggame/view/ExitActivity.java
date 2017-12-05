@@ -16,7 +16,7 @@ import megadroid.drivinggame.R;
 public class ExitActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme_Dialog);
+      //  setTheme(R.style.AppTheme_Dialog);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exit);
 
@@ -28,7 +28,8 @@ public class ExitActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             //the transition from MenuActivity to GameActivity
             case R.id.cross:
-                startActivity(new Intent(ExitActivity.this, MenuActivity.class));
+                //startActivity(new Intent(ExitActivity.this, MenuActivity.class));
+                this.finish();
                 break;
 
             case R.id.checkmark:

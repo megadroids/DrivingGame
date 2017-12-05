@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DrivingGame</string>
+    <string name="app_name">Need For Slow</string>
     <string name="road1">backgroundCanvas</string>
     <string name="sound">DrivingGameSound</string>
     <color name="purple">#551a8b</color>

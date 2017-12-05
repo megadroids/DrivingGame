@@ -13,6 +13,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -95,6 +96,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private int points;
     private Generator generator;
     private Bitmap pauseButton;
+    private boolean pausePop;
+
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY) {
@@ -174,7 +177,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         this.screenX = screenX;
         this.screenY = screenY;
 
-
+        pausePop = false;
 
 
     }
@@ -481,6 +484,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     public void resume() {
 
+
+        pausePop = false;
+
         //when the game is resumed
         manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
  //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -507,6 +513,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         playing = true;
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
@@ -516,8 +523,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 (motionEvent.getY(0)<=pauseButton.getHeight()))
         {
             //pause button selected
-            this.getContext().startActivity(new Intent( this.getContext(), PauseActivity.class));
-           // Toast.makeText(this.getContext(),"paused",Toast.LENGTH_SHORT).show();
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                if(!pausePop) {
+                    getContext().startActivity(new Intent(getContext(), PauseActivity.class));
+                    pausePop = true;
+                }
+            }
+            // Toast.makeText(this.getContext(),"paused",Toast.LENGTH_SHORT).show();
         }
         else {
 

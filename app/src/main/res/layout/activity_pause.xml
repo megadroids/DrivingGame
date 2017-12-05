@@ -17,7 +17,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
         android:src="@drawable/popup"
+        android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,14 +29,14 @@
 
     <TextView
         android:id="@+id/txtHighScore"
-        android:layout_width="138dp"
-        android:layout_height="29dp"
+        android:layout_width="176dp"
+        android:layout_height="26dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
-        android:text="Paused"
+        android:text="Game Paused"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -77,7 +79,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.723" />
-
+       app:layout_constraintVertical_bias="0.723" />
 
 </android.support.constraint.ConstraintLayout>
