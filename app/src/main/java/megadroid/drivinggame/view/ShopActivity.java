@@ -1,24 +1,20 @@
 package megadroid.drivinggame.view;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
 import megadroid.drivinggame.model.SoundHelper;
-
-import java.util.ArrayList;
 
 public class ShopActivity extends AppCompatActivity{
 
@@ -64,11 +60,11 @@ public class ShopActivity extends AppCompatActivity{
 
         //ArrayList<String> themes = new ArrayList<String>(); //{"christmas.png", "farm.png", "city.png"};
         themelist.add("backgroundcanvas");
-        themelist.add("farm.png");
+        themelist.add("bg2");
         themelist.add("city.png");
 
-        currentCar="def_car";
-        currentTheme="backgroundcanvas";
+        currentCar="rocket_unlocked";
+        currentTheme="bg2";
 
 
         try {

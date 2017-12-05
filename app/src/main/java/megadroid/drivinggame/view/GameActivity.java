@@ -4,19 +4,17 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.widget.Toast;
 
-import org.json.JSONException;
-
-import megadroid.drivinggame.R;
-import megadroid.drivinggame.controller.ScoreMonitor;
-import megadroid.drivinggame.model.SoundHelper;
+import megadroid.drivinggame.controller.Generator;
 
 public class GameActivity extends AppCompatActivity  {
 
 
     //declaring gameview
     private GameView gameView;
+    private SpaceGameView spaceGameView;
+    private Generator generator;
+
 
 
 
@@ -28,7 +26,8 @@ public class GameActivity extends AppCompatActivity  {
         //Getting display object
         Display display = getWindowManager().getDefaultDisplay();
 
-
+        //initializing generator controller
+        generator = new Generator(this);
 
 
         //Getting the screen resolution into point object
@@ -39,9 +38,15 @@ public class GameActivity extends AppCompatActivity  {
         //this time we are also passing the screen size to the GameView constructor
         gameView = new GameView(this, size.x, size.y);
 
+        //Initializing game view object
+        spaceGameView = new SpaceGameView(this, size.x, size.y);
 
-        //adding it to contentview
-        setContentView(gameView);
+        //if(generator.getSelectedTheme()== R.drawable.backgroundcanvas) {
+            //adding it to contentview
+          //  setContentView(gameView);
+        //}else{
+            setContentView(spaceGameView);
+       // }
 
     }
 
@@ -52,6 +57,7 @@ public class GameActivity extends AppCompatActivity  {
         super.onPause();
 
         gameView.pause();
+        spaceGameView.pause();
     }
 
     //running the game when activity is resumed
@@ -59,7 +65,7 @@ public class GameActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
         gameView.resume();
-
+        spaceGameView.resume();
     }
 
 
