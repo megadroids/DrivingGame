@@ -20,6 +20,7 @@ import android.view.SurfaceView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.Generator;
@@ -39,13 +40,19 @@ import static android.support.v4.content.ContextCompat.startActivity;
 
 public class GameView extends SurfaceView implements Runnable,SensorEventListener {
 
-    private SensorManager manager;
-//    private Sensor accelerometer;
-    private Sensor gyroscopeSensor;
-//    private float xAcceleration,yAcceleration,zAcceleration;
+    public static float xAccel, xVel = 0.0f;
+    public static float yAccel, yVel = 0.0f;
+
+    private SensorManager sensorManager;
+
+    //private SensorManager manager;
+    //private Sensor accelerometer;
+    //private Sensor gyroscopeSensor;
+    // private float xAcceleration,yAcceleration,zAcceleration;
 
     //music player
     private SoundHelper msoundHelper;
+    private Random random = new Random();
 
     //properties of the background image and instantiation of the background class
     private Items[] item;
@@ -60,7 +67,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     //boolean variable to track if the game is playing or not
     volatile boolean playing;
 
-    volatile int playingCounter=0;
+    volatile int playingCounter = 0;
 
     //the game thread
     private Thread gameThread = null;
@@ -79,14 +86,14 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private Obstacles obstacles3;
 
     //an indicator if the game is Over
-    private boolean isGameOver ;
+    private boolean isGameOver;
 
     //defining a boom object to display blast
     private Boom boom;
 
     //properties of the background image and instantiation of the background class
-    public static float WIDTH ;//640;
-    public static float HEIGHT ;//1440;
+    public static float WIDTH;//640;
+    public static float HEIGHT;//1440;
     private Background bg;
 
     private int screenX;
@@ -95,13 +102,16 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private int highScore;
     private int points;
     private Generator generator;
+private int muteFlag;
     private Bitmap pauseButton;
     private boolean pausePop;
 
 
     //Class constructor
-    public GameView(Context context, int screenX, int screenY) {
+    public GameView(Context context, int screenX, int screenY, int muteFlag) {
         super(context);
+
+        this.muteFlag = muteFlag;
 
         generator = new Generator(context);
         //setting the score to 0 initially
@@ -113,19 +123,25 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //play the music
         msoundHelper = new SoundHelper((Activity)this.getContext());
-        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),R.raw.main_game1);
-        msoundHelper.playMusic();
+        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),randomMainMusic());
+        if(muteFlag == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
 
 
         //declaring Sensor Manager and sensor type
-        manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 //        accelerometer = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        gyroscopeSensor =  manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        // gyroscopeSensor =  manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
 
 // Register the listener
-       manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        //manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
 //        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
 
 
         //initializing player object
@@ -146,14 +162,14 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         item = new Items[itemCount];
         for (int j = 0; j < itemCount; j++) {
 
-            item[j] = new Items(this.getContext(), screenX*2 -450 , screenY, bitmapCoin);
+            item[j] = new Items(this.getContext(), screenX * 2 - 450, screenY, bitmapCoin);
         }
 
         //coins on the right side
         item1 = new Items[itemCount];
         for (int k = 0; k < itemCount; k++) {
 
-            item1[k] = new Items(this.getContext(), screenX *3 -150, screenY, bitmapCoin);
+            item1[k] = new Items(this.getContext(), screenX * 3 - 150, screenY, bitmapCoin);
         }
 
         //initializing drawing objects
@@ -196,7 +212,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     }
 
 
-
     private void update() {
 
         //incrementing score as time passes
@@ -211,21 +226,27 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         bg.update(playingCounter);
 
         // update the stars
-        for(Star s : stars) {
+        for (Star s : stars) {
             s.update(player.getSpeed());
 
         }
 
         for (int i = 0; i < itemCount; i++) {
 
-            item[i].update(player.getSpeed() );
+            item[i].update(player.getSpeed());
 
             //if collision occurrs with player
             if (Rect.intersects(player.getDetectCollision(), item[i].getDetectCollision())) {
                 //moving item outside the topedge
                 item[i].setY(-200);
                 points++;
-                msoundHelper.CoinCollection();
+                if(muteFlag == 0) {
+                    msoundHelper.CoinCollection();
+                }else
+                {
+                    msoundHelper.pauseMusic();
+                }
+
 
             }
 
@@ -240,7 +261,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 //moving item outside the topedge
                 item1[j].setY(-200);
                 points++;
-                msoundHelper.CoinCollection();
+                if(muteFlag == 0) {
+                    msoundHelper.CoinCollection();
+                }else
+                {
+                    msoundHelper.pauseMusic();
+                }
+
             }
         }
 
@@ -295,10 +322,14 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         }
 
         //crash sound
-        msoundHelper.CrashSound();
+        if(muteFlag == 0) {
+            msoundHelper.CrashSound();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
 
     }
-
 
     private void draw() {
 
@@ -466,6 +497,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     }
 
     public void pause() {
+        sensorManager.unregisterListener(this);
         //when the game is paused
         //setting the variable to false
         playing = false;
@@ -478,7 +510,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             e.printStackTrace();
         }
         //unregister Sensor listener
-        manager.unregisterListener(this);
+        // manager.unregisterListener(this);
 
         //write the score and points to JSON
         generator.writeJson(this.getContext(),highScore,points);
@@ -494,9 +526,16 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         pausePop = false;
 
         //when the game is resumed
-        manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
- //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
 
+        //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
+        if(muteFlag == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
@@ -506,7 +545,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         bg = new Background(BitmapFactory.decodeResource(getResources(), selectedTheme));
 
         //updating the item coordinate with respect to player speed
-        bg.setVector(-20);
+        bg.setVector(-25);
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
@@ -568,8 +607,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     int h = getHeight();
                     int cellX = (int) motionEvent.getX();
 
-                    player.setBoosting(cellX, true);
-                    break;
+                player.setBoosting(cellX, true);
+                break;
 
             }
         }
@@ -578,23 +617,33 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-       if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
 
-            if (event.values[2] > 0.5f) { // anticlockwise
-                player.setBoosting(Math.round(event.values[2]),false);
-               // Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
-            } else if (event.values[2] < -0.5f) { // clockwise
-                player.setBoosting(Math.round(event.values[2]),false);
-              //  Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
-            }
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            xAccel = event.values[0];
+            yAccel = -event.values[1];
+            player.updatetilt();
+
+            /** if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+
+             if (event.values[2] > 0.5f) { // anticlockwise
+             player.setBoosting(Math.round(event.values[2]),false);
+             // Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
+             } else if (event.values[2] < -0.5f) { // clockwise
+             player.setBoosting(Math.round(event.values[2]),false);
+             //  Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
+             }
+             }**/
+
+        }
+    }
+
+        public void onAccuracyChanged (Sensor sensor,int i){
+
         }
 
+    public int randomMainMusic() {
+        int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
+        int x = random.nextInt(randommusic.length);
+        return randommusic[x];
     }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
-    }
-
-
 }
