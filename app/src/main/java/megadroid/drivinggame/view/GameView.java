@@ -358,15 +358,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 canvas.drawPoint(s.getX(), s.getY(), paint);
             }
 
-            //drawing the score on the game screen
-            paint.setTextSize(50);
-            canvas.drawText("Score:"+score,40,50,paint);
-
-
-            //drawing the points on the game screen
-            paint.setTextSize(50);
-            canvas.drawText("Points : "+points,screenX-300,50,paint);
-
 
             //Drawing the player
             canvas.drawBitmap(
@@ -421,9 +412,24 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
             }
 
-            //todo: move the button to a static place
-            //draw pause button
+            // create a rectangle that we'll draw later
+            Rect rectangle = new Rect(0, 0, screenX, 90 );
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(rectangle, paint);
 
+
+            //drawing the score on the game screen
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(45);
+            canvas.drawText("Score: " + score, screenX - 310, 50, paint);
+
+            //drawing the points on the game screen
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(45);
+            canvas.drawBitmap(item1[0].getBitmap(),20,0,paint);
+            canvas.drawText(": " + points, item1[0].getBitmap().getWidth()+20, 50, paint);
+
+            //pause button
             canvas.drawBitmap(
 
                     pauseButton,
