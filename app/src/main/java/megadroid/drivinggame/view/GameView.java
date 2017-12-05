@@ -268,7 +268,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             if (Rect.intersects(player.getDetectCollision(), item2[m].getDetectCollision())) {
                 //moving item outside the topedge
                 item2[m].setY(-200);
-                points++;
+                points+=5;
                 msoundHelper.CoinCollection();
             }
         }
