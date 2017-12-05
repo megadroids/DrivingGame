@@ -40,27 +40,11 @@ public class Purchase {
         scoreMonitor.readJSON(context, screenType);
 
         currentCar = scoreMonitor.getCurrentCar();
-        if (currentCar == null){
-            currentCar = "def_car";
-        }
+        currentCar = scoreMonitor.getCurrentCar();
         currentTheme = scoreMonitor.getCurrentTheme();
-        if(currentTheme == null){
-            currentTheme = "def_theme";
-        }
-
-        points = scoreMonitor.getPoints();
-
         carlist = scoreMonitor.getCarlist();
-        if (carlist == null){
-            carlist = new ArrayList<>();
-            carlist.add("def_car");
-        }
-
         themelist = scoreMonitor.getThemelist();
-        if(themelist == null){
-            themelist = new ArrayList<>();
-            themelist.add("def_theme");
-        }
+        points = scoreMonitor.getPoints();
     }
 
 
@@ -97,7 +81,7 @@ public class Purchase {
      * @return true, if the user can afford the car chosen
      */
     public boolean carAffordable(String itemToPurchase){
-        if(themePrices.containsKey(itemToPurchase)) {
+        if(carPrices.containsKey(itemToPurchase)) {
             int price = carPrices.get(itemToPurchase);
             if (points >= price) {
                 return true;
@@ -150,6 +134,10 @@ public class Purchase {
      */
     public int getPoints(){
         return points;
+    }
+
+    public void addPoints(int addedpoints){
+        points += addedpoints;
     }
 
     public void closeShop(Context context) throws JSONException{

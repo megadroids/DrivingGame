@@ -72,7 +72,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
         try {
             if(monitor.readJSON(this, "Menu").equals("")) {
-                monitor.writeJSON(this, 0, 0, cars, themes, "def_car", "backgroundcanvas");
+                monitor.writeJSON(this, 0, 600, cars, themes, "def_car", "backgroundcanvas");
             }
         } catch (JSONException e) {
             Log.e("JSONException",e.getMessage());

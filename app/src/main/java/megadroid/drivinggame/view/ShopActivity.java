@@ -1,6 +1,7 @@
 package megadroid.drivinggame.view;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +42,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     private Purchase purchaser;
     private List<ImageButton> carButtons;
     private List<ImageButton> themeButtons;
-private int muteFlag;
+    private int muteFlag;
 
     HashMap<String, Integer> alternativeImages;
     HashMap<Integer, String> intIdToString;
@@ -61,6 +62,9 @@ private int muteFlag;
         setContentView(R.layout.activity_shop);
 
         MobileAds.initialize(this, "ca-app-pub-1558090702648041~7979634477");
+
+        //set the orientation to landscape
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         alternativeImages = new HashMap<>();
         alternativeImages.put("def_car", R.drawable.def_car);
@@ -85,43 +89,12 @@ private int muteFlag;
         Intent intent = getIntent();
         muteFlag = intent.getIntExtra("muteFlag", 0); //if it's a string you stored.
 
-
         msoundHelper = new SoundHelper(this);
         msoundHelper.prepareMusicPlayer(this, R.raw.simple_game_music);
         if (muteFlag == 0) {
             msoundHelper.playMusic();
         } else {
             msoundHelper.pauseMusic();
-        }
-
-
-        //read points, cars and themes from JSON file
-        readJson();
-
-        //toDo: cars , themes and updated points should be written from the method of buy button click
-        //toDo: but highscore should not be updated from ShopActivity so pass -1 as given below
-        int highscore = -1;
-
-        highscore = 0;
-        points = 0;
-        //ArrayList<String> cars = new ArrayList<String>(); //{"01", "02", "03"};
-        carlist.add("def_car");
-        carlist.add("02");
-        carlist.add("03");
-
-        //ArrayList<String> themes = new ArrayList<String>(); //{"christmas.png", "farm.png", "city.png"};
-        themelist.add("backgroundcanvas");
-        themelist.add("farm.png");
-        themelist.add("city.png");
-
-        currentCar = "def_car";
-        currentTheme = "backgroundcanvas";
-
-
-        try {
-            monitor.writeJSON(this, highscore, points, carlist, themelist, currentCar, currentTheme);
-        } catch (JSONException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
     /**
@@ -131,17 +104,21 @@ private int muteFlag;
      */
     private void redrawScreen() {
         TextView pointsView = (TextView) findViewById(R.id.points);
-        pointsView.setText("Points: " + purchaser.getPoints());
+
+        pointsView.setText(Integer.toString(purchaser.getPoints()));
         //Setting the appropriate images for each car button item
         for (ImageButton imageButton : carButtons) {
             String carName = intIdToString.get(imageButton.getId());
+
             if (purchaser.carSelected(carName)) {
                 imageButton.setImageResource(alternativeImages.get(carName));
                 imageButton.setBackgroundResource(R.drawable.shop_frame3);
-            } else if (purchaser.isCarBought(carName)) {
+            }
+            else if (purchaser.isCarBought(carName)) {
                 imageButton.setImageResource(alternativeImages.get(carName));
                 imageButton.setBackgroundResource(android.R.color.transparent);
-            } else {
+            }
+            else {
                 imageButton.setBackgroundResource(android.R.color.transparent); // todo find out how to remove background image
             }
         }
@@ -178,8 +155,6 @@ private int muteFlag;
     protected void onStart() {
         super.onStart();
 
-        Intent intent = getIntent();
-        mute = intent.getBooleanExtra("isMuted", false);
 
         redrawScreen();
     }
@@ -211,12 +186,32 @@ private int muteFlag;
             purchaser.purchaseTheme(viewName);
             purchaser.selectTheme(viewName);
         } else {
-            //Call to Advert popup activity.
-            Intent myIntent = new Intent(ShopActivity.this, AdvActivity.class);
-            ShopActivity.this.startActivity(myIntent);
+            //try{
+               // purchaser.closeShop(this);
+                //Call to Advert popup activity.
+                Intent myIntent = new Intent(ShopActivity.this, AdvActivity.class);
+                ShopActivity.this.startActivityForResult(myIntent, 1);
+
+                //purchaser = new Purchase(this, "Shop");
+
+           // }catch(JSONException e){
+            //    Toast.makeText(this, "problems occured", Toast.LENGTH_SHORT);
+            //}
         }
         redrawScreen();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                int newPoints = data.getIntExtra("Added points", 0);
+                purchaser.addPoints(newPoints);
+            }
+        }
+        redrawScreen();
+    }
+
 
     /**
      * Overriden method for when the user leaves the shopactivity,

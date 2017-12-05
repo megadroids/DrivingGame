@@ -21,7 +21,7 @@ import org.json.JSONException;
 public class AdvActivity extends AppCompatActivity implements RewardedVideoAdListener {
     private RewardedVideoAd mRewardedVideoAd;
     Button showAdvButton;
-    private static final int POINTS_REWARD = 50;
+    private static final int POINTS_REWARD = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +37,19 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     }
 
     //admob code with real ad unit ID (code to be used)
-
+    /*
     private void loadRewardedVideoAd() {
          mRewardedVideoAd.loadAd("ca-app-pub-1558090702648041/5920447341",
               new AdRequest.Builder().build());
     }
-
+    */
     //test code with test ad unit ID
-    /*
+
     private void loadRewardedVideoAd() {
         mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
                 new AdRequest.Builder().build());
     }
-    *
+
     //test code with real ad unit ID and bluestacks test device ID
     /*
     private void loadRewardedVideoAd() {
@@ -67,16 +67,19 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
                 //reward.getAmount(), Toast.LENGTH_SHORT).show();
         // Rewards the user
         ScoreMonitor monitor = new ScoreMonitor();
-
+        /*
         try {
-            monitor.readJSON(this, "Adv");
+            monitor.readJSON(this, "Shop");
             int totalPoints = monitor.getPoints() + POINTS_REWARD;
             monitor.writeJSON(this, monitor.getHighScore(), totalPoints, monitor.getCarlist(),
                     monitor.getThemelist(), monitor.getCurrentCar(), monitor.getCurrentTheme());
         } catch (JSONException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+        }*/
 
+        Intent intent = new Intent();
+        intent.putExtra("Added points", POINTS_REWARD);
+        setResult(RESULT_OK, intent);
     }
 
     @Override
@@ -95,8 +98,6 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
         finish();
     }
 
-
-    //todo this was called
     @Override
     public void onRewardedVideoAdFailedToLoad(int errorCode) {
         Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
