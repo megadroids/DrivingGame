@@ -13,4 +13,12 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
+    <!-- custom dialog activity theme -->
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
 </resources>

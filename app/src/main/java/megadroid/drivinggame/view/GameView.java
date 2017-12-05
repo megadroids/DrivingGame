@@ -2,6 +2,7 @@ package megadroid.drivinggame.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,9 +13,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -28,6 +31,8 @@ import megadroid.drivinggame.model.Obstacles;
 import megadroid.drivinggame.model.Player;
 import megadroid.drivinggame.model.SoundHelper;
 import megadroid.drivinggame.model.Star;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 /**
  * Created by megadroids.
@@ -97,7 +102,11 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private int highScore;
     private int points;
     private Generator generator;
-private int muteFlag;
+    private int muteFlag;
+    private Bitmap pauseButton;
+    private boolean pausePop;
+
+
     //Class constructor
     public GameView(Context context, int screenX, int screenY, int muteFlag) {
         super(context);
@@ -146,7 +155,7 @@ private int muteFlag;
 
         }
 
-
+        pauseButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.button_pause);
         Bitmap bitmapCoin = BitmapFactory.decodeResource(context.getResources(), R.drawable.coin_gold);
         //Bitmap bitmapCrystal = BitmapFactory.decodeResource(context.getResources(), R.drawable.crystal);
         //coins on the left side
@@ -175,14 +184,16 @@ private int muteFlag;
         Bitmap bitmapcar = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
         Bitmap bitmapSecond = BitmapFactory.decodeResource(this.getResources(), R.drawable.enemy);
 
-        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2-240,screenX/2);
-        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+100,screenX/2+200);
+        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2-300,screenX/2);
+        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+120,screenX/2+200);
         obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,screenX/2+20,screenX/2+280);
 
         isGameOver = false;
 
         this.screenX = screenX;
         this.screenY = screenY;
+
+        pausePop = false;
 
 
     }
@@ -266,14 +277,11 @@ private int muteFlag;
 
 
         //updating the friend ships coordinates
-        obstacles.update(player.getSpeed());
-        obstacles2.update(player.getSpeed()+10);
-        obstacles3.update(player.getSpeed()+15);
 
 
         //checking for a collision between player and a racecar
         if (playingCounter > 20 && playingCounter < 1000) {
-
+            obstacles2.update(player.getSpeed()+10);
             if (Rect.intersects(player.getDetectCollision(), obstacles2.getDetectCollision())) {
                 gameOver(obstacles2);
             }
@@ -281,8 +289,8 @@ private int muteFlag;
 
 
         //checking for a collision between player and a car
-        if (playingCounter > 120) {
-
+        if (playingCounter > 180) {
+            obstacles.update(player.getSpeed());
             if (Rect.intersects(player.getDetectCollision(), obstacles.getDetectCollision())) {
 
                 gameOver(obstacles);
@@ -292,6 +300,7 @@ private int muteFlag;
         //checking for a collision between player and a enemy
         if (playingCounter > 1000) {
 
+            obstacles3.update(player.getSpeed()+15);
             if (Rect.intersects(player.getDetectCollision(), obstacles3.getDetectCollision())) {
                 gameOver(obstacles3);
             }
@@ -380,15 +389,6 @@ private int muteFlag;
                 canvas.drawPoint(s.getX(), s.getY(), paint);
             }
 
-            //drawing the score on the game screen
-            paint.setTextSize(50);
-            canvas.drawText("Score:"+score,40,50,paint);
-
-
-            //drawing the points on the game screen
-            paint.setTextSize(50);
-            canvas.drawText("Points : "+points,screenX-300,50,paint);
-
 
             //Drawing the player
             canvas.drawBitmap(
@@ -407,7 +407,7 @@ private int muteFlag;
 
             //drawing obstacles image
             //draw white car
-            if (playingCounter > 120) {
+            if (playingCounter > 180) {
 
                 canvas.drawBitmap(
 
@@ -442,6 +442,33 @@ private int muteFlag;
                 );
 
             }
+
+            // create a rectangle that we'll draw later
+            Rect rectangle = new Rect(0, 0, screenX, 90 );
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(rectangle, paint);
+
+
+            //drawing the score on the game screen
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(45);
+            canvas.drawText("Score: " + score, screenX - 310, 50, paint);
+
+            //drawing the points on the game screen
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(45);
+            canvas.drawBitmap(item1[0].getBitmap(),20,0,paint);
+            canvas.drawText(": " + points, item1[0].getBitmap().getWidth()+20, 50, paint);
+
+            //pause button
+            canvas.drawBitmap(
+
+                    pauseButton,
+                    screenX-pauseButton.getWidth(),
+                    0,
+                    paint
+            );
+
 
             //draw game Over when the game is over
             if (isGameOver) {
@@ -495,6 +522,9 @@ private int muteFlag;
 
     public void resume() {
 
+
+        pausePop = false;
+
         //when the game is resumed
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
 
@@ -518,37 +548,69 @@ private int muteFlag;
         bg.setVector(-25);
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
-        HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
+        HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
+
+        //stop the music
+        msoundHelper.playMusic();
+
         gameThread = new Thread(this);
         gameThread.start();
         playing = true;
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        int z = 0;
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_UP:
-                //When the user presses on the screen
-                //stopping the boosting when screen is released
 
-                //int cellY = (int)motionEvent.getY();
+        if((motionEvent.getX(0)>=screenX - pauseButton.getWidth()) &&
+                (motionEvent.getY(0)>=0) &&
+                ( motionEvent.getX(0)<=screenX) &&
+                (motionEvent.getY(0)<=pauseButton.getHeight()))
+        {
+            //pause button selected
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                if(!pausePop) {
 
-                player.stopBoosting();
-                break;
+                    pausePop = true;
+                    //write the score and points to JSON
+                    //get the highscore
+                    if(highScore< score){
+                        highScore = score;
+                    }
+                    generator.writeJson(this.getContext(),highScore,points);
+
+                    getContext().startActivity(new Intent(getContext(), PauseActivity.class));
+
+                }
+            }
+            // Toast.makeText(this.getContext(),"paused",Toast.LENGTH_SHORT).show();
+        }
+        else {
+
+            int z = 0;
+            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_UP:
+                    //When the user presses on the screen
+                    //stopping the boosting when screen is released
+
+                    //int cellY = (int)motionEvent.getY();
+
+                    player.stopBoosting();
+                    break;
 
 
-            case MotionEvent.ACTION_DOWN:
-                //When the user releases the screen
-                //boosting the space jet when screen is pressed
+                case MotionEvent.ACTION_DOWN:
+                    //When the user releases the screen
+                    //boosting the space jet when screen is pressed
 
-                int w = getWidth();
-                int h = getHeight();
-                int cellX = (int) motionEvent.getX();
+                    int w = getWidth();
+                    int h = getHeight();
+                    int cellX = (int) motionEvent.getX();
 
-                player.setBoosting(cellX, true);
-                break;
+                    player.setBoosting(cellX, true);
+                    break;
 
+            }
         }
         return true;
     }
@@ -575,9 +637,9 @@ private int muteFlag;
         }
     }
 
-        public void onAccuracyChanged (Sensor sensor,int i){
+    public void onAccuracyChanged (Sensor sensor,int i){
 
-        }
+    }
 
     public int randomMainMusic() {
         int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
