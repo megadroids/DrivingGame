@@ -37,6 +37,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     public static float xAccel, xVel = 0.0f;
     public static float yAccel, yVel = 0.0f;
 
+
     private SensorManager sensorManager;
 
     //private SensorManager manager;
@@ -44,14 +45,19 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     //private Sensor gyroscopeSensor;
     // private float xAcceleration,yAcceleration,zAcceleration;
 
+    //used to count when the crystal item will be released
+       private int counter;
+
     //music player
     private SoundHelper msoundHelper;
 
     //properties of the background image and instantiation of the background class
     private Items[] item;
     private Items[] item1;
+    private Items[] item2;
     //Adding 3 items you
     private int itemCount = 2;
+    private int itemCount1 =2;
     private ArrayList<Star> stars = new ArrayList<Star>();
 
     //Controls speed of the background scroll
@@ -96,6 +102,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private int points;
     private Generator generator;
 
+
     //Class constructor
     public GameView(Context context, int screenX, int screenY) {
         super(context);
@@ -139,7 +146,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
         Bitmap bitmapCoin = BitmapFactory.decodeResource(context.getResources(), R.drawable.coin_gold);
-        //Bitmap bitmapCrystal = BitmapFactory.decodeResource(context.getResources(), R.drawable.crystal);
+        Bitmap bitmapCrystal = BitmapFactory.decodeResource(context.getResources(), R.drawable.crystal);
+
         //coins on the left side
         item = new Items[itemCount];
         for (int j = 0; j < itemCount; j++) {
@@ -152,6 +160,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         for (int k = 0; k < itemCount; k++) {
 
             item1[k] = new Items(this.getContext(), screenX * 3 - 150, screenY, bitmapCoin);
+        }
+
+        //the crystal item
+        //coins on the right side
+        item2 = new Items[itemCount1];
+        for (int m = 0; m < itemCount1; m++) {
+        item2[m] = new Items(this.getContext(), screenX * 2 - 400, screenY, bitmapCrystal);
         }
 
         //initializing drawing objects
@@ -193,6 +208,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
     private void update() {
+
+
+        //increament counter for the release of the crystal
+        if(playingCounter%50==0){
+            counter++;
+        }
 
         //incrementing score as time passes
         if(playingCounter%22==0) {
@@ -239,19 +260,30 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             }
         }
 
+        for (int m = 0; m < itemCount1; m++) {
+
+            item2[m].update(player.getSpeed());
+
+            //if collision occurrs with player
+            if (Rect.intersects(player.getDetectCollision(), item2[m].getDetectCollision())) {
+                //moving item outside the topedge
+                item2[m].setY(-200);
+                points++;
+                msoundHelper.CoinCollection();
+            }
+        }
+
         //setting boom outside the screen
         boom.setX(-250);
         boom.setY(-250);
 
 
         //updating the friend ships coordinates
-        obstacles.update(player.getSpeed());
-        obstacles2.update(player.getSpeed()+10);
-        obstacles3.update(player.getSpeed()+15);
 
 
         //checking for a collision between player and a racecar
         if (playingCounter > 20 && playingCounter < 1000) {
+            obstacles2.update(player.getSpeed()+10);
 
             if (Rect.intersects(player.getDetectCollision(), obstacles2.getDetectCollision())) {
                 gameOver(obstacles2);
@@ -260,7 +292,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
         //checking for a collision between player and a car
-        if (playingCounter > 120) {
+        if (playingCounter > 100) {
+            obstacles.update(player.getSpeed());
 
             if (Rect.intersects(player.getDetectCollision(), obstacles.getDetectCollision())) {
 
@@ -270,6 +303,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //checking for a collision between player and a enemy
         if (playingCounter > 1000) {
+            obstacles3.update(player.getSpeed()+15);
 
             if (Rect.intersects(player.getDetectCollision(), obstacles3.getDetectCollision())) {
                 gameOver(obstacles3);
@@ -341,6 +375,17 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                             item1[i].getBitmap(),
                             item1[i].getX(),
                             item1[i].getY(),
+                            paint
+                    );
+                }
+            }
+            if (counter%30 ==0 ) {
+                //drawing the items
+                for (int i = 0; i < itemCount1; i++) {
+                    canvas.drawBitmap(
+                            item2[i].getBitmap(),
+                            item2[i].getX(),
+                            item2[i].getY(),
                             paint
                     );
                 }
