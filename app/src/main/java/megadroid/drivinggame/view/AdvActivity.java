@@ -82,8 +82,8 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
 
     @Override
     public void onRewardedVideoAdLeftApplication() {
-        //Toast.makeText(this, "onRewardedVideoAdLeftApplication",
-                //Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onRewardedVideoAdLeftApplication",
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -98,7 +98,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int errorCode) {
-        //Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
         //Intent myIntent = new Intent(AdvActivity.this, ShopActivity.class);
         //AdvActivity.this.startActivity(myIntent);
         finish();
