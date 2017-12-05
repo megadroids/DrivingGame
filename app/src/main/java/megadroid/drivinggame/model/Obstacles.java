@@ -2,12 +2,9 @@ package megadroid.drivinggame.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 import java.util.Random;
-
-import megadroid.drivinggame.R;
 
 /**
  * Created by megadroids.
