@@ -36,6 +36,7 @@ import java.util.ArrayList;
 public class ShopActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundHelper msoundHelper;
+    private boolean mute;
 
     private Purchase purchaser;
     private List<ImageButton> carButtons;
@@ -92,7 +93,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void redrawScreen() {
         TextView pointsView = (TextView) findViewById(R.id.points);
-        pointsView.setText(Integer.toString(purchaser.getPoints()));
+        pointsView.setText("Points: " + purchaser.getPoints());
         //Setting the appropriate images for each car button item
         for (ImageButton imageButton : carButtons) {
             String carName = intIdToString.get(imageButton.getId());
@@ -121,6 +122,8 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         carButtons.add((ImageButton) findViewById(R.id.secondCar));
         carButtons.add((ImageButton) findViewById(R.id.thirdCar));
 
+        //carButtons.add((ImageButton) findViewById(R.id.fourthCar));
+
         for (ImageButton imageButton : carButtons) {
             imageButton.setOnClickListener(this);
         }
@@ -136,6 +139,9 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
+
+        Intent intent = getIntent();
+        mute = intent.getBooleanExtra("isMuted", false);
 
         redrawScreen();
     }
@@ -167,9 +173,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
             purchaser.purchaseTheme(viewName);
             purchaser.selectTheme(viewName);
         } else {
-            //Intent ad = new Intent(this, advActivity.class);
-            //todo CALL JOAO's advert
-            //todo check for point increment logic
+            //Call to Advert popup activity.
             Intent myIntent = new Intent(ShopActivity.this, AdvActivity.class);
             ShopActivity.this.startActivity(myIntent);
         }
