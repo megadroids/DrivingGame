@@ -17,6 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.Generator;
@@ -41,6 +42,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     //music player
     private SoundHelper msoundHelper;
+    private Random random = new Random();
 
     //properties of the background image and instantiation of the background class
     private Items[] item;
@@ -105,7 +107,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //play the music
         msoundHelper = new SoundHelper((Activity)this.getContext());
-        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),R.raw.main_game1);
+        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),randomMainMusic());
         msoundHelper.playMusic();
 
 
@@ -534,5 +536,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     }
 
-
+    public int randomMainMusic() {
+        int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
+        int x = random.nextInt(randommusic.length);
+        return randommusic[x];
+    }
 }
