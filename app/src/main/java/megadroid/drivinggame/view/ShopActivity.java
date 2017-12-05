@@ -107,9 +107,7 @@ public class ShopActivity extends AppCompatActivity{
 
     }
 
-
-
-    protected void onClick(View view){
+    public void onClick(View view){
 
         boolean watchAd = false;
 
