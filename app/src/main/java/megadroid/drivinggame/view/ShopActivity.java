@@ -29,9 +29,13 @@ import org.json.JSONException;
 
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.SoundHelper;
+
 import java.util.ArrayList;
 
 public class ShopActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SoundHelper msoundHelper;
 
     private Purchase purchaser;
     private List<ImageButton> carButtons;
@@ -43,8 +47,8 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * initializes the adSense
      * creates two hashmaps, one for storing the image without the pricetag(as the default is with a pricetag),
-     *                      the other is responsible for converting the int Id to a string for easier checking mechanics
-     *
+     * the other is responsible for converting the int Id to a string for easier checking mechanics
+     * <p>
      * lastly makes a controller for the activity of class Purchase.
      *
      * @param savedInstanceState
@@ -71,10 +75,14 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
 
         try {
             purchaser = new Purchase(this, "Shop");
-        }catch (JSONException e){
+        } catch (JSONException e) {
             Toast.makeText(this, "Problem loading from the database", Toast.LENGTH_SHORT);
         }
         initializeButtons();
+
+        msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer(this, R.raw.simple_game_music);
+        msoundHelper.playMusic();
     }
 
     /**
@@ -103,10 +111,8 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Will find all the button id's and add them to an array list of imagebuttons
      * so that it may be easier to call, it will also set their onCLickListeners.
-     *
-     *
      */
-    private void initializeButtons(){
+    private void initializeButtons() {
 
         carButtons = new ArrayList<>();
         themeButtons = new ArrayList<>();
@@ -115,7 +121,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         carButtons.add((ImageButton) findViewById(R.id.secondCar));
         carButtons.add((ImageButton) findViewById(R.id.thirdCar));
 
-        for(ImageButton imageButton : carButtons){
+        for (ImageButton imageButton : carButtons) {
             imageButton.setOnClickListener(this);
         }
         //for(ImageButton imageButton : themeButtons){
@@ -128,7 +134,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
      * by calling the redrawScreen method
      */
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
 
         redrawScreen();
@@ -143,27 +149,24 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
      * @param view, the image button that has been pressed.
      */
     @Override
-    public void onClick(View view){
+    public void onClick(View view) {
 
         String viewName = intIdToString.get(view.getId());
 
         //Code segment for car imagebutton click events
-        if(purchaser.isCarBought(viewName)){
+        if (purchaser.isCarBought(viewName)) {
             purchaser.selectCar(viewName);
-        }
-        else if(purchaser.carAffordable(viewName)){
+        } else if (purchaser.carAffordable(viewName)) {
             purchaser.purchaseCar(viewName);
             purchaser.selectCar(viewName);
         }
         //Code segment for Theme imagebutton click events
-        else if(purchaser.isThemeBought(viewName)){
+        else if (purchaser.isThemeBought(viewName)) {
             purchaser.selectTheme(viewName);
-        }
-        else if(purchaser.themeAffordable(viewName)){
+        } else if (purchaser.themeAffordable(viewName)) {
             purchaser.purchaseTheme(viewName);
             purchaser.selectTheme(viewName);
-        }
-        else{
+        } else {
             //Intent ad = new Intent(this, advActivity.class);
             //todo CALL JOAO's advert
             //todo check for point increment logic
@@ -179,15 +182,19 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
      * the json database
      */
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
+        msoundHelper.pauseMusic();
         try {
             purchaser.closeShop(this);
-        }catch(JSONException e){
+        } catch (JSONException e) {
             Toast.makeText(this, "Problem saving to the database", Toast.LENGTH_SHORT);
         }
     }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        msoundHelper.playMusic();
+    }
 }

@@ -35,7 +35,7 @@ public class Generator {
         }
 
         resources = context.getResources();
-        //todo: replace def_Car with string playerCar
+        //todo: replace def_Car with string playerCar-
         selectedCar = resources.getIdentifier(playerCar, "drawable",
                 context.getPackageName());
 

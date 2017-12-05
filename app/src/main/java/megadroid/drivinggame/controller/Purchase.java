@@ -51,13 +51,13 @@ public class Purchase {
         points = scoreMonitor.getPoints();
 
         carlist = scoreMonitor.getCarlist();
-        if (carlist.isEmpty()){
+        if (carlist == null){
             carlist = new ArrayList<>();
             carlist.add("def_car");
         }
 
         themelist = scoreMonitor.getThemelist();
-        if(themelist.isEmpty()){
+        if(themelist == null){
             themelist = new ArrayList<>();
             themelist.add("def_theme");
         }
