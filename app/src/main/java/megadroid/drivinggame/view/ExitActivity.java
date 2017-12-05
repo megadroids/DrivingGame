@@ -16,17 +16,9 @@ import megadroid.drivinggame.R;
 public class ExitActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_Dialog);
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_exit);
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-
-        getWindow().setLayout((int) (height * .6), (int) (width * .5));
 
     }
 
@@ -44,6 +36,7 @@ public class ExitActivity extends Activity implements View.OnClickListener {
                 startMain.addCategory(Intent.CATEGORY_HOME);
                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(startMain);
+                this.finish();
                 break;
 
             default:
