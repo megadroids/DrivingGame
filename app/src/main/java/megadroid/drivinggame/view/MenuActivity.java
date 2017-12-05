@@ -5,10 +5,13 @@ import android.os.Bundle;
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
 import megadroid.drivinggame.model.SoundHelper;
+import megadroid.drivinggame.model.JSONReader;
+import megadroid.drivinggame.model.JSONWriter;
 
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,6 +20,8 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
+
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ScoreMonitor monitor;
@@ -24,7 +29,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
@@ -58,7 +63,21 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         ImageView image = (ImageView) findViewById(R.id.Sound);
         image.setTag(Integer.valueOf(R.drawable.sound));
 
-        //read scores from JSON file
+        //read scores from JSON file, initial json setup
+        ScoreMonitor monitor = new ScoreMonitor();
+        ArrayList<String> cars = new ArrayList<>();
+        cars.add("def_car");
+        ArrayList<String> themes = new ArrayList<>();
+        themes.add("backgroundcanvas");
+
+        try {
+            if(monitor.readJSON(this, "Menu").equals("")) {
+                monitor.writeJSON(this, 0, 0, cars, themes, "def_car", "backgroundcanvas");
+            }
+        } catch (JSONException e) {
+            Log.e("JSONException",e.getMessage());
+        }
+
         readJson();
     }
 
