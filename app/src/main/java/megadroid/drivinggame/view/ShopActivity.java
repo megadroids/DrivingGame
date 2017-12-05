@@ -36,11 +36,12 @@ import java.util.ArrayList;
 public class ShopActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundHelper msoundHelper;
-    private boolean mute;
+    //private boolean mute;
 
     private Purchase purchaser;
     private List<ImageButton> carButtons;
     private List<ImageButton> themeButtons;
+private int muteFlag;
 
     HashMap<String, Integer> alternativeImages;
     HashMap<Integer, String> intIdToString;
@@ -81,11 +82,48 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         }
         initializeButtons();
 
+        Intent intent = getIntent();
+        muteFlag = intent.getIntExtra("muteFlag", 0); //if it's a string you stored.
+
+
         msoundHelper = new SoundHelper(this);
         msoundHelper.prepareMusicPlayer(this, R.raw.simple_game_music);
-        msoundHelper.playMusic();
-    }
+        if (muteFlag == 0) {
+            msoundHelper.playMusic();
+        } else {
+            msoundHelper.pauseMusic();
+        }
 
+
+        //read points, cars and themes from JSON file
+        readJson();
+
+        //toDo: cars , themes and updated points should be written from the method of buy button click
+        //toDo: but highscore should not be updated from ShopActivity so pass -1 as given below
+        int highscore = -1;
+
+        highscore = 0;
+        points = 0;
+        //ArrayList<String> cars = new ArrayList<String>(); //{"01", "02", "03"};
+        carlist.add("def_car");
+        carlist.add("02");
+        carlist.add("03");
+
+        //ArrayList<String> themes = new ArrayList<String>(); //{"christmas.png", "farm.png", "city.png"};
+        themelist.add("backgroundcanvas");
+        themelist.add("farm.png");
+        themelist.add("city.png");
+
+        currentCar = "def_car";
+        currentTheme = "backgroundcanvas";
+
+
+        try {
+            monitor.writeJSON(this, highscore, points, carlist, themelist, currentCar, currentTheme);
+        } catch (JSONException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
     /**
      * Will check if the item in the button images is purchased, selected or locked
      * and set the appropriate image
@@ -199,6 +237,11 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        msoundHelper.playMusic();
+        if(muteFlag == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
     }
 }

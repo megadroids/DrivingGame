@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import megadroid.drivinggame.R;
+import megadroid.drivinggame.controller.ScoreMonitor;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
@@ -15,9 +16,12 @@ import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
+import org.json.JSONException;
+
 public class AdvActivity extends AppCompatActivity implements RewardedVideoAdListener {
     private RewardedVideoAd mRewardedVideoAd;
     Button showAdvButton;
+    private static final int POINTS_REWARD = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +65,24 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     public void onRewarded(RewardItem reward) {
         //Toast.makeText(this, "onRewarded! currency: " + reward.getType() + "  amount: " +
                 //reward.getAmount(), Toast.LENGTH_SHORT).show();
-        // Reward the user.
+        // Rewards the user
+        ScoreMonitor monitor = new ScoreMonitor();
+
+        try {
+            monitor.readJSON(this, "Adv");
+            int totalPoints = monitor.getPoints() + POINTS_REWARD;
+            monitor.writeJSON(this, monitor.getHighScore(), totalPoints, monitor.getCarlist(),
+                    monitor.getThemelist(), monitor.getCurrentCar(), monitor.getCurrentTheme());
+        } catch (JSONException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
     public void onRewardedVideoAdLeftApplication() {
-        //Toast.makeText(this, "onRewardedVideoAdLeftApplication",
-                //Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onRewardedVideoAdLeftApplication",
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -84,7 +99,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     //todo this was called
     @Override
     public void onRewardedVideoAdFailedToLoad(int errorCode) {
-        //Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
         //Intent myIntent = new Intent(AdvActivity.this, ShopActivity.class);
         //AdvActivity.this.startActivity(myIntent);
         finish();
