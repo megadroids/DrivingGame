@@ -165,8 +165,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         Bitmap bitmapcar = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
         Bitmap bitmapSecond = BitmapFactory.decodeResource(this.getResources(), R.drawable.enemy);
 
-        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2-240,screenX/2);
-        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+100,screenX/2+200);
+        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2-300,screenX/2);
+        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+120,screenX/2+200);
         obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,screenX/2+20,screenX/2+280);
 
         isGameOver = false;
@@ -247,14 +247,11 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
         //updating the friend ships coordinates
-        obstacles.update(player.getSpeed());
-        obstacles2.update(player.getSpeed()+10);
-        obstacles3.update(player.getSpeed()+15);
 
 
         //checking for a collision between player and a racecar
         if (playingCounter > 20 && playingCounter < 1000) {
-
+            obstacles2.update(player.getSpeed()+10);
             if (Rect.intersects(player.getDetectCollision(), obstacles2.getDetectCollision())) {
                 gameOver(obstacles2);
             }
@@ -262,8 +259,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
         //checking for a collision between player and a car
-        if (playingCounter > 120) {
-
+        if (playingCounter > 180) {
+            obstacles.update(player.getSpeed());
             if (Rect.intersects(player.getDetectCollision(), obstacles.getDetectCollision())) {
 
                 gameOver(obstacles);
@@ -273,6 +270,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //checking for a collision between player and a enemy
         if (playingCounter > 1000) {
 
+            obstacles3.update(player.getSpeed()+15);
             if (Rect.intersects(player.getDetectCollision(), obstacles3.getDetectCollision())) {
                 gameOver(obstacles3);
             }
@@ -384,7 +382,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
             //drawing obstacles image
             //draw white car
-            if (playingCounter > 120) {
+            if (playingCounter > 180) {
 
                 canvas.drawBitmap(
 

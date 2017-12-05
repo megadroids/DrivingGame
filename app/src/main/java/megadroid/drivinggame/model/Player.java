@@ -65,7 +65,7 @@ private boolean ontouch;
         boosting = false;
 
         maxX=screenX/2+160;
-        minX= screenX/2 -280;
+        minX= screenX/2 -300;
         Xpos=x;
 
         //initializing rect object
