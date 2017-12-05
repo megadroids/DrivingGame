@@ -17,6 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.Generator;
@@ -46,6 +47,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     //music player
     private SoundHelper msoundHelper;
+    private Random random = new Random();
 
     //properties of the background image and instantiation of the background class
     private Items[] item;
@@ -95,10 +97,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private int highScore;
     private int points;
     private Generator generator;
-
+private int muteFlag;
     //Class constructor
-    public GameView(Context context, int screenX, int screenY) {
+    public GameView(Context context, int screenX, int screenY, int muteFlag) {
         super(context);
+
+        this.muteFlag = muteFlag;
 
         generator = new Generator(context);
         //setting the score to 0 initially
@@ -110,8 +114,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //play the music
         msoundHelper = new SoundHelper((Activity)this.getContext());
-        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),R.raw.main_game1);
-        msoundHelper.playMusic();
+        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),randomMainMusic());
+        if(muteFlag == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
 
 
         //declaring Sensor Manager and sensor type
@@ -220,7 +229,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 //moving item outside the topedge
                 item[i].setY(-200);
                 points++;
-                msoundHelper.CoinCollection();
+                if(muteFlag == 0) {
+                    msoundHelper.CoinCollection();
+                }else
+                {
+                    msoundHelper.pauseMusic();
+                }
+
 
             }
 
@@ -235,7 +250,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 //moving item outside the topedge
                 item1[j].setY(-200);
                 points++;
-                msoundHelper.CoinCollection();
+                if(muteFlag == 0) {
+                    msoundHelper.CoinCollection();
+                }else
+                {
+                    msoundHelper.pauseMusic();
+                }
+
             }
         }
 
@@ -292,7 +313,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         }
 
         //crash sound
-        msoundHelper.CrashSound();
+        if(muteFlag == 0) {
+            msoundHelper.CrashSound();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
 
     }
 
@@ -474,6 +500,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
+        if(muteFlag == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
@@ -547,5 +579,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         }
 
-
+    public int randomMainMusic() {
+        int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
+        int x = random.nextInt(randommusic.length);
+        return randommusic[x];
+    }
 }
