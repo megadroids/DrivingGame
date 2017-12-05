@@ -29,7 +29,7 @@ public class ShopActivity extends AppCompatActivity{
     private String currentCar;
     private String currentTheme;
     private SoundHelper msoundHelper;
-
+private int muteFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +42,18 @@ public class ShopActivity extends AppCompatActivity{
         carlist = new ArrayList<String>();
         themelist = new ArrayList<String>();
 
+        Intent intent = getIntent();
+        muteFlag = intent.getIntExtra("muteFlag",0); //if it's a string you stored.
+
+
         msoundHelper = new SoundHelper(this);
         msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
-        msoundHelper.playMusic();
-
+        if(muteFlag == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
 
 
         //read points, cars and themes from JSON file
@@ -130,7 +138,12 @@ public class ShopActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        msoundHelper.playMusic();
+        if(muteFlag == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
     }
 }
 
