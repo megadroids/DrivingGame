@@ -92,10 +92,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private int highScore;
     private int points;
     private Generator generator;
-
+private int muteFlag;
     //Class constructor
-    public GameView(Context context, int screenX, int screenY) {
+    public GameView(Context context, int screenX, int screenY, int muteFlag) {
         super(context);
+
+        this.muteFlag = muteFlag;
 
         generator = new Generator(context);
         //setting the score to 0 initially
@@ -108,7 +110,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //play the music
         msoundHelper = new SoundHelper((Activity)this.getContext());
         msoundHelper.prepareMusicPlayer((Activity)this.getContext(),randomMainMusic());
-        msoundHelper.playMusic();
+        if(muteFlag == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
 
 
         //declaring Sensor Manager and sensor type
@@ -216,7 +223,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 //moving item outside the topedge
                 item[i].setY(-200);
                 points++;
-                msoundHelper.CoinCollection();
+                if(muteFlag == 0) {
+                    msoundHelper.CoinCollection();
+                }else
+                {
+                    msoundHelper.pauseMusic();
+                }
+
 
             }
 
@@ -231,7 +244,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 //moving item outside the topedge
                 item1[j].setY(-200);
                 points++;
-                msoundHelper.CoinCollection();
+                if(muteFlag == 0) {
+                    msoundHelper.CoinCollection();
+                }else
+                {
+                    msoundHelper.pauseMusic();
+                }
+
             }
         }
 
@@ -288,7 +307,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         }
 
         //crash sound
-        msoundHelper.CrashSound();
+        if(muteFlag == 0) {
+            msoundHelper.CrashSound();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
 
     }
 
@@ -469,6 +493,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
  //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
+        if(muteFlag == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
