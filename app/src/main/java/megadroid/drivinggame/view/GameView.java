@@ -165,7 +165,7 @@ private int muteFlag;
         boom = new Boom(context);
 
         //initializing the Friend class object
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.car);
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.car_white);
         Bitmap bitmapcar = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
         Bitmap bitmapSecond = BitmapFactory.decodeResource(this.getResources(), R.drawable.enemy);
 
@@ -274,7 +274,7 @@ private int muteFlag;
         }
 
 
-        //checking for a collision between player and a car
+        //checking for a collision between player and a car_white
         if (playingCounter > 120) {
 
             if (Rect.intersects(player.getDetectCollision(), obstacles.getDetectCollision())) {
@@ -401,7 +401,7 @@ private int muteFlag;
             );
 
             //drawing obstacles image
-            //draw white car
+            //draw white car_white
             if (playingCounter > 120) {
 
                 canvas.drawBitmap(
@@ -412,7 +412,7 @@ private int muteFlag;
                         paint
                 );
             }
-            //draw race car
+            //draw race car_white
             if (playingCounter > 20 && playingCounter < 1000) {
 
                 canvas.drawBitmap(
@@ -425,7 +425,7 @@ private int muteFlag;
 
             }
 
-            //draw red car
+            //draw red car_white
             if (playingCounter > 1000) {
 
                 canvas.drawBitmap(

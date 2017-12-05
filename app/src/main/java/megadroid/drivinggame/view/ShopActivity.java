@@ -7,6 +7,8 @@ import android.util.Log;
 import android.widget.TextView;
 import android.view.View;
 import android.widget.Toast;
+import android.graphics.Matrix;
+import android.widget.ImageView;
 
 import com.google.android.gms.ads.MobileAds;
 
@@ -20,7 +22,7 @@ import megadroid.drivinggame.model.SoundHelper;
 
 import java.util.ArrayList;
 
-public class ShopActivity extends AppCompatActivity{
+public class ShopActivity extends AppCompatActivity {
 
     private int points;
     private ScoreMonitor monitor;
@@ -29,7 +31,7 @@ public class ShopActivity extends AppCompatActivity{
     private String currentCar;
     private String currentTheme;
     private SoundHelper msoundHelper;
-private int muteFlag;
+    private int muteFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +45,14 @@ private int muteFlag;
         themelist = new ArrayList<String>();
 
         Intent intent = getIntent();
-        muteFlag = intent.getIntExtra("muteFlag",0); //if it's a string you stored.
+        muteFlag = intent.getIntExtra("muteFlag", 0); //if it's a string you stored.
 
 
         msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
-        if(muteFlag == 0) {
+        msoundHelper.prepareMusicPlayer(this, R.raw.simple_game_music);
+        if (muteFlag == 0) {
             msoundHelper.playMusic();
-        }else
-        {
+        } else {
             msoundHelper.pauseMusic();
         }
 
@@ -63,7 +64,7 @@ private int muteFlag;
         //toDo: but highscore should not be updated from ShopActivity so pass -1 as given below
         int highscore = -1;
 
-       highscore = 0;
+        highscore = 0;
         points = 0;
         //ArrayList<String> cars = new ArrayList<String>(); //{"01", "02", "03"};
         carlist.add("def_car");
@@ -75,12 +76,12 @@ private int muteFlag;
         themelist.add("farm.png");
         themelist.add("city.png");
 
-        currentCar="def_car";
-        currentTheme="backgroundcanvas";
+        currentCar = "def_car";
+        currentTheme = "backgroundcanvas";
 
 
         try {
-            monitor.writeJSON(this, highscore, points, carlist, themelist, currentCar,currentTheme);
+            monitor.writeJSON(this, highscore, points, carlist, themelist, currentCar, currentTheme);
         } catch (JSONException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -92,7 +93,7 @@ private int muteFlag;
         //read scores from JSON file
         try {
 
-            String values = monitor.readJSON(this.getApplicationContext(),"Shop");
+            String values = monitor.readJSON(this.getApplicationContext(), "Shop");
 
             if (values.isEmpty()) {
                 Toast.makeText(this, "No Scores", Toast.LENGTH_LONG).show();
@@ -101,7 +102,7 @@ private int muteFlag;
                 points = monitor.getPoints();
                 carlist = monitor.getCarlist();
                 themelist = monitor.getThemelist();
-                currentCar =monitor.getCurrentCar();
+                currentCar = monitor.getCurrentCar();
                 currentTheme = monitor.getCurrentTheme();
             }
 
@@ -115,14 +116,14 @@ private int muteFlag;
 
     }
 
-    public void onClick(View view){
+    public void onClick(View view) {
 
         boolean watchAd = false;
 
         //logic to set watchAd true
         watchAd = true;
 
-        if(watchAd){
+        if (watchAd) {
             Intent myIntent = new Intent(ShopActivity.this, AdvActivity.class);
             ShopActivity.this.startActivity(myIntent);
         }
@@ -138,10 +139,9 @@ private int muteFlag;
     @Override
     protected void onResume() {
         super.onResume();
-        if(muteFlag == 0) {
+        if (muteFlag == 0) {
             msoundHelper.playMusic();
-        }else
-        {
+        } else {
             msoundHelper.pauseMusic();
         }
     }
