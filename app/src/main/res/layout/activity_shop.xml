@@ -101,7 +101,7 @@
         app:layout_constraintStart_toEndOf="@+id/imageButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.276"
-        app:srcCompat="@drawable/car3" />
+        app:srcCompat="@drawable/car_black_locked" />
 
     <ImageButton
         android:id="@+id/imageButton2"
@@ -117,7 +117,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.515"
-        app:srcCompat="@drawable/rocket" />
+        app:srcCompat="@drawable/rocket_locked" />
 
     <TextView
         android:layout_width="wrap_content"

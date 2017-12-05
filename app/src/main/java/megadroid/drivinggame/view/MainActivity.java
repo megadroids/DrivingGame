@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.ads.MobileAds;
 
 import megadroid.drivinggame.R;
 
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         //admob code
         //MobileAds.initialize(this, "ca-app-pub-1558090702648041~7979634477");
-    }
+
 
     //test code
     /*
@@ -28,4 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
     */
+
+
 }
+}
+

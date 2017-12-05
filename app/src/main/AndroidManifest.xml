@@ -12,25 +12,27 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.MenuActivity">
 
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".view.MainActivity" />
+
+
         <activity android:name=".view.ShopActivity" />
         <activity
             android:name=".view.GameActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".view.AdvActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+            android:name=".view.PauseActivity"
+            android:theme="@style/Theme.AppCompat.Dialog" />
 
         <activity
-            android:name=".view.PauseActivity"
+            android:name=".view.AdvActivity"
             android:theme="@style/Theme.AppCompat.Dialog" />
 
 
