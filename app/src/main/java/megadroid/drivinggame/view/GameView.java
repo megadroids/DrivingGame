@@ -531,8 +531,17 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             //pause button selected
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 if(!pausePop) {
-                    getContext().startActivity(new Intent(getContext(), PauseActivity.class));
+
                     pausePop = true;
+                    //write the score and points to JSON
+                    //get the highscore
+                    if(highScore< score){
+                        highScore = score;
+                    }
+                    generator.writeJson(this.getContext(),highScore,points);
+
+                    getContext().startActivity(new Intent(getContext(), PauseActivity.class));
+
                 }
             }
             // Toast.makeText(this.getContext(),"paused",Toast.LENGTH_SHORT).show();
