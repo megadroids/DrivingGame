@@ -4,24 +4,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
+import megadroid.drivinggame.model.SoundHelper;
 
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.ArrayList;
-import org.json.JSONArray;
+
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ScoreMonitor monitor;
+    private SoundHelper msoundHelper;
 
 
     @Override
@@ -30,6 +29,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_menu);
 
         monitor =new ScoreMonitor();
+
+        msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
+        msoundHelper.playMusic();
 
         //Crete image buttons
         ImageButton playButton;
@@ -92,7 +95,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 //startActivity(startMain);
                 //break;
 
-                startActivity(new Intent(MenuActivity.this,exitButton.class));
+                startActivity(new Intent(MenuActivity.this,ExitActivity.class));
 
             default:
                 break;
@@ -102,8 +105,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-      readJson();
-
+        readJson();
+        msoundHelper.playMusic();
     }
 
     private void readJson(){
@@ -117,7 +120,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             {
 
                 TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
-                txtHighscore.setText("High Score : "+Integer.toString(monitor.getHighScore()));
+                txtHighscore.setText("Score : "+Integer.toString(monitor.getHighScore()));
 
             }
 
@@ -128,4 +131,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        msoundHelper.pauseMusic();
+
+    }
 }

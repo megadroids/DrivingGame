@@ -13,7 +13,7 @@ import java.util.Random;
 public class Items {
     private Bitmap bitmap;
 
-    private int speed =-1;
+    private int speed = 1;
 
     private int maxX;
     private int minX;
@@ -44,7 +44,7 @@ public class Items {
         minX= screenX/4;
 
         Random generator = new Random();
-        speed = generator.nextInt(5)+3;
+        speed = generator.nextInt(6)+6;
         y = generator.nextInt(minY + bitmap.getHeight());
         x = minX;
 
