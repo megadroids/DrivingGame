@@ -102,7 +102,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private int highScore;
     private int points;
     private Generator generator;
-private int muteFlag;
+    private int muteFlag;
     private Bitmap pauseButton;
     private boolean pausePop;
 
@@ -607,8 +607,8 @@ private int muteFlag;
                     int h = getHeight();
                     int cellX = (int) motionEvent.getX();
 
-                player.setBoosting(cellX, true);
-                break;
+                    player.setBoosting(cellX, true);
+                    break;
 
             }
         }
@@ -637,9 +637,9 @@ private int muteFlag;
         }
     }
 
-        public void onAccuracyChanged (Sensor sensor,int i){
+    public void onAccuracyChanged (Sensor sensor,int i){
 
-        }
+    }
 
     public int randomMainMusic() {
         int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
