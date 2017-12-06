@@ -3,10 +3,10 @@
     package="megadroid.drivinggame">
 
     <application
-        android:largeHeap="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -19,18 +19,17 @@
         </activity>
         <activity android:name=".view.MainActivity" />
         <activity android:name=".view.ShopActivity" />
-        <activity android:name=".view.GameActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".view.AdvActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert">
-        </activity>
-
-
-        <activity android:name=".view.ExitActivity"
-
-            android:theme="@style/Theme.AppCompat.Dialog.Alert">
-        </activity>
+        <activity
+            android:name=".view.GameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.AdvActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"></activity>
+        <activity
+            android:name=".view.ExitActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"></activity>
+        <activity android:name=".view.PauseActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"></activity>
     </application>
 
 </manifest>
