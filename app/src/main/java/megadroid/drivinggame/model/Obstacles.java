@@ -93,6 +93,7 @@ public class Obstacles {
         return y;
     }
 
+    public void setX(int newX){ this.x = newX;}
 
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
