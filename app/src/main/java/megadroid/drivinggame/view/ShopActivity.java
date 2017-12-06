@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.View;
 import android.widget.Toast;
@@ -20,7 +21,7 @@ import megadroid.drivinggame.model.SoundHelper;
 
 import java.util.ArrayList;
 
-public class ShopActivity extends AppCompatActivity{
+public class ShopActivity extends AppCompatActivity {
 
     private int points;
     private ScoreMonitor monitor;
@@ -30,6 +31,7 @@ public class ShopActivity extends AppCompatActivity{
     private String currentTheme;
     private SoundHelper msoundHelper;
 
+    ImageButton extraPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,10 @@ public class ShopActivity extends AppCompatActivity{
         themelist = new ArrayList<String>();
 
         msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
+        msoundHelper.prepareMusicPlayer(this, R.raw.simple_game_music);
         msoundHelper.playMusic();
+
+        extraPoints = ((ImageButton) findViewById(R.id.extrapoints));
 
 
 
@@ -65,12 +69,12 @@ public class ShopActivity extends AppCompatActivity{
         themelist.add("farm.png");
         themelist.add("city.png");
 
-        currentCar="01";
-        currentTheme="farm.png";
+        currentCar = "01";
+        currentTheme = "farm.png";
 
 
         try {
-            monitor.writeJSON(this, highscore, points, carlist, themelist, currentCar,currentTheme);
+            monitor.writeJSON(this, highscore, points, carlist, themelist, currentCar, currentTheme);
         } catch (JSONException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -80,7 +84,7 @@ public class ShopActivity extends AppCompatActivity{
         //read scores from JSON file
         try {
 
-            String values = monitor.readJSON(this.getApplicationContext(),"Shop");
+            String values = monitor.readJSON(this.getApplicationContext(), "Shop");
 
             if (values.isEmpty()) {
                 Toast.makeText(this, "No Scores", Toast.LENGTH_LONG).show();
@@ -89,7 +93,7 @@ public class ShopActivity extends AppCompatActivity{
                 points = monitor.getPoints();
                 carlist = monitor.getCarlist();
                 themelist = monitor.getThemelist();
-                currentCar =monitor.getCurrentCar();
+                currentCar = monitor.getCurrentCar();
                 currentTheme = monitor.getCurrentTheme();
             }
 
@@ -104,15 +108,14 @@ public class ShopActivity extends AppCompatActivity{
     }
 
 
-
-    protected void onClick(View view){
+    protected void onClick(View view) {
 
         boolean watchAd = false;
 
         //logic to set watchAd true
         watchAd = true;
 
-        if(watchAd){
+        if (watchAd) {
             Intent myIntent = new Intent(ShopActivity.this, AdvActivity.class);
             ShopActivity.this.startActivity(myIntent);
         }
@@ -130,7 +133,11 @@ public class ShopActivity extends AppCompatActivity{
         super.onResume();
         msoundHelper.playMusic();
     }
+
+    public void getPoints(View v)
+    {
+        Intent intent = new Intent(getApplicationContext(), AdvActivity.class);
+        startActivity(intent);
+    }
 }
-
-
 

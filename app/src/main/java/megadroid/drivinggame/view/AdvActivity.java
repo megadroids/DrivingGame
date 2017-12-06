@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import megadroid.drivinggame.R;
@@ -17,14 +18,14 @@ import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 public class AdvActivity extends AppCompatActivity implements RewardedVideoAdListener {
     private RewardedVideoAd mRewardedVideoAd;
-    Button showAdvButton;
+    ImageButton showAdvButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adv);
 
-        showAdvButton = ((Button) findViewById(R.id.button_adv));
+        showAdvButton =  findViewById(R.id.button_adv);
         showAdvButton.setEnabled(false);
 
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
@@ -83,10 +84,10 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int errorCode) {
-        //Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
         //Intent myIntent = new Intent(AdvActivity.this, ShopActivity.class);
         //AdvActivity.this.startActivity(myIntent);
-        finish();
+        //finish();
     }
 
     @Override

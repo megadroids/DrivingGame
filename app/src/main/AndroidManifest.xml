@@ -10,35 +10,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.MenuActivity">
+        <activity
+            android:name=".view.AdvActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_Dialog" />
 
+        <activity
+            android:name=".view.MenuActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.MainActivity" />
 
-
-        <activity android:name=".view.ShopActivity" />
         <activity
-            android:name=".view.GameActivity"
+            android:name=".view.ShopActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".view.PauseActivity"
-            android:theme="@style/Theme.AppCompat.Dialog" />
 
-        <activity
-            android:name=".view.AdvActivity"
-            android:theme="@style/Theme.AppCompat.Dialog" />
-
+        <activity android:name=".view.MainActivity" />
 
         <activity
             android:name=".view.exitButton"
-            android:theme="@style/Theme.AppCompat.Dialog" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_Dialog" />
+
+        <activity
+            android:name=".view.PauseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_Dialog" />
+
+        <activity
+            android:name=".view.GameActivity"
+            android:screenOrientation="portrait" />
 
 
     </application>
