@@ -116,7 +116,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         generator = new Generator(context);
         //setting the score to 0 initially
         score = 0;
-        points=0;
+        points= generator.getPoints();
         //get JSON values
         highScore = generator.getHighScore();
         int selectedCar = generator.getSelectedCar();
