@@ -60,4 +60,9 @@ public class Background {
     }
 
 
+    public int getVector() {
+        return this.dy ;
+    }
+
+
 }

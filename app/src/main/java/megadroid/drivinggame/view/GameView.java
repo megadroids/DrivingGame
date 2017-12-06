@@ -9,11 +9,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -43,12 +45,16 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     public static float xAccel, xVel = 0.0f;
     public static float yAccel, yVel = 0.0f;
 
+
     private SensorManager sensorManager;
 
     //private SensorManager manager;
     //private Sensor accelerometer;
     //private Sensor gyroscopeSensor;
     // private float xAcceleration,yAcceleration,zAcceleration;
+
+    //used to count when the crystal item will be released
+       private int counter;
 
     //music player
     private SoundHelper msoundHelper;
@@ -57,8 +63,10 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     //properties of the background image and instantiation of the background class
     private Items[] item;
     private Items[] item1;
+    private Items[] item2;
     //Adding 3 items you
     private int itemCount = 2;
+    private int itemCount1 =2;
     private ArrayList<Star> stars = new ArrayList<Star>();
 
     //Controls speed of the background scroll
@@ -96,16 +104,21 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     public static float HEIGHT;//1440;
     private Background bg;
 
+    //properties to calculate score
     private int screenX;
     private int screenY;
     private int score;
     private int highScore;
     private int points;
+
     private Generator generator;
     private int muteFlag;
+
+    //pause button properties
     private Bitmap pauseButton;
     private boolean pausePop;
 
+    private int bgSpeed;
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY, int muteFlag) {
@@ -113,6 +126,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         this.muteFlag = muteFlag;
 
+        //background speed
+        bgSpeed = -25;
         generator = new Generator(context);
         //setting the score to 0 initially
         score = 0;
@@ -157,7 +172,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         pauseButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.button_pause);
         Bitmap bitmapCoin = BitmapFactory.decodeResource(context.getResources(), R.drawable.coin_gold);
-        //Bitmap bitmapCrystal = BitmapFactory.decodeResource(context.getResources(), R.drawable.crystal);
+        Bitmap bitmapCrystal = BitmapFactory.decodeResource(context.getResources(), R.drawable.crystal);
+
         //coins on the left side
         item = new Items[itemCount];
         for (int j = 0; j < itemCount; j++) {
@@ -170,6 +186,13 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         for (int k = 0; k < itemCount; k++) {
 
             item1[k] = new Items(this.getContext(), screenX * 3 - 150, screenY, bitmapCoin);
+        }
+
+        //the crystal item
+        //coins on the right side
+        item2 = new Items[itemCount1];
+        for (int m = 0; m < itemCount1; m++) {
+        item2[m] = new Items(this.getContext(), screenX * 2 - 400, screenY, bitmapCrystal);
         }
 
         //initializing drawing objects
@@ -243,6 +266,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     private void update() {
 
+
+        //increament counter for the release of the crystal
+        if(playingCounter%50==0){
+            counter++;
+        }
+
         //incrementing score as time passes
         if(playingCounter%22==0) {
             score++;
@@ -302,6 +331,22 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 }
             }
         }
+
+        if (counter%20 ==0 ) {
+            for (int m = 0; m < itemCount1; m++) {
+
+                item2[m].update(player.getSpeed());
+
+                //if collision occurrs with player
+                if (Rect.intersects(player.getDetectCollision(), item2[m].getDetectCollision())) {
+                    //moving item outside the topedge
+                    item2[m].setY(-200);
+                    points += 5;
+                    msoundHelper.CoinCollection();
+                }
+            }
+        }
+
         //setting boom outside the screen
         boom.setX(-250);
         boom.setY(-250);
@@ -411,6 +456,17 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     );
                 }
             }
+            if (counter%20 ==0 ) {
+                //drawing the items
+                for (int i = 0; i < itemCount1; i++) {
+                    canvas.drawBitmap(
+                            item2[i].getBitmap(),
+                            item2[i].getX(),
+                            item2[i].getY(),
+                            paint
+                    );
+                }
+            }
 
 
             //Draw the stars and set colour to white
@@ -475,7 +531,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             }
 
             // create a rectangle that we'll draw later
-            Rect rectangle = new Rect(0, 0, screenX, 90 );
+            RectF rectangle = new RectF(0, 0, screenX, 90);
             paint.setColor(Color.BLACK);
             canvas.drawRect(rectangle, paint);
 
@@ -533,7 +589,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //setting the variable to false
         playing = false;
 
-
+        bgSpeed = bg.getVector();
         try {
             //stopping the thread
             gameThread.join();
@@ -576,7 +632,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         bg = new Background(BitmapFactory.decodeResource(getResources(), selectedTheme));
 
         //updating the item coordinate with respect to player speed
-        bg.setVector(-25);
+        bg.setVector(bgSpeed);
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();

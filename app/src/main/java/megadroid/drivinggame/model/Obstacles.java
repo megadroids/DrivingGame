@@ -70,8 +70,8 @@ public class Obstacles {
         //Adding the top, left, bottom and right to the rect object
         detectCollision.left = x+10;
         detectCollision.top = y+10;
-        detectCollision.right = x + bitmap.getWidth()-5;
-        detectCollision.bottom = y + bitmap.getHeight()-5;
+        detectCollision.right = x + bitmap.getWidth()-10;
+        detectCollision.bottom = y + bitmap.getHeight()-10;
 
     }
 
