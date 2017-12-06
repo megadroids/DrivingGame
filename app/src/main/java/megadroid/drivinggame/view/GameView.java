@@ -9,11 +9,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -102,17 +104,21 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     public static float HEIGHT;//1440;
     private Background bg;
 
+    //properties to calculate score
     private int screenX;
     private int screenY;
     private int score;
     private int highScore;
     private int points;
+
     private Generator generator;
     private int muteFlag;
+
+    //pause button properties
     private Bitmap pauseButton;
     private boolean pausePop;
 
-
+    private int bgSpeed;
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY, int muteFlag) {
@@ -120,6 +126,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         this.muteFlag = muteFlag;
 
+        //background speed
+        bgSpeed = -25;
         generator = new Generator(context);
         //setting the score to 0 initially
         score = 0;
@@ -324,16 +332,18 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             }
         }
 
-        for (int m = 0; m < itemCount1; m++) {
+        if (counter%20 ==0 ) {
+            for (int m = 0; m < itemCount1; m++) {
 
-            item2[m].update(player.getSpeed());
+                item2[m].update(player.getSpeed());
 
-            //if collision occurrs with player
-            if (Rect.intersects(player.getDetectCollision(), item2[m].getDetectCollision())) {
-                //moving item outside the topedge
-                item2[m].setY(-200);
-                points+=5;
-                msoundHelper.CoinCollection();
+                //if collision occurrs with player
+                if (Rect.intersects(player.getDetectCollision(), item2[m].getDetectCollision())) {
+                    //moving item outside the topedge
+                    item2[m].setY(-200);
+                    points += 5;
+                    msoundHelper.CoinCollection();
+                }
             }
         }
 
@@ -446,7 +456,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     );
                 }
             }
-            if (counter%30 ==0 ) {
+            if (counter%20 ==0 ) {
                 //drawing the items
                 for (int i = 0; i < itemCount1; i++) {
                     canvas.drawBitmap(
@@ -521,7 +531,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             }
 
             // create a rectangle that we'll draw later
-            Rect rectangle = new Rect(0, 0, screenX, 90 );
+            RectF rectangle = new RectF(0, 0, screenX, 90);
             paint.setColor(Color.BLACK);
             canvas.drawRect(rectangle, paint);
 
@@ -579,7 +589,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //setting the variable to false
         playing = false;
 
-
+        bgSpeed = bg.getVector();
         try {
             //stopping the thread
             gameThread.join();
@@ -622,7 +632,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         bg = new Background(BitmapFactory.decodeResource(getResources(), selectedTheme));
 
         //updating the item coordinate with respect to player speed
-        bg.setVector(-25);
+        bg.setVector(bgSpeed);
 
         WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
         HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
