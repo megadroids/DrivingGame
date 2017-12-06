@@ -90,7 +90,7 @@
         app:srcCompat="@drawable/shop_frame3" />
 
     <ImageButton
-        android:id="@+id/firstCar"
+        android:id="@+id/def_Car"
         android:layout_width="64dp"
         android:layout_height="154dp"
         android:layout_marginBottom="8dp"
@@ -106,7 +106,7 @@
         app:srcCompat="@drawable/def_car" />
 
     <ImageButton
-        android:id="@+id/thirdCar"
+        android:id="@+id/blackCar"
         android:layout_width="77dp"
         android:layout_height="174dp"
         android:layout_marginBottom="8dp"
@@ -118,16 +118,17 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.914"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
+        app:layout_constraintStart_toEndOf="@+id/def_Car"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.276"
-        app:srcCompat="@drawable/car3" />
+        app:srcCompat="@drawable/car_black_locked" />
 
     <ImageButton
-        android:id="@+id/secondCar"
+        android:id="@+id/rocket"
         android:layout_width="84dp"
         android:layout_height="173dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginLeft="148dp"
         android:layout_marginStart="148dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
@@ -135,7 +136,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rocket" />
+        app:srcCompat="@drawable/rocket_locked" />
 
     <TextView
         android:layout_width="wrap_content"

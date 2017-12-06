@@ -32,9 +32,14 @@ public class Purchase {
         carPrices = new HashMap<>();
         themePrices = new HashMap<>();
 
-        carPrices.put("car3", 500);
+        //the prices based on the car image button pressed
+        carPrices.put("car_black", 500);
         carPrices.put("rocket", 700);
-        themePrices.put("SecondTheme", 1000);
+        carPrices.put("car_truck", 100 );
+        carPrices.put("car_red", 100);
+        carPrices.put("car_white", 100);
+        //the prices based on the car image button pressed
+        themePrices.put("spacecanvas", 1000);
 
         scoreMonitor = new ScoreMonitor();
         scoreMonitor.readJSON(context, screenType);
@@ -78,7 +83,7 @@ public class Purchase {
      * Checks if the user has enough points to purchase the item selected
      *
      * @param itemToPurchase, the name of the item1 to check if affordable
-     * @return true, if the user can afford the car chosen
+     * @return true, if the user can afford the car chosen, else false
      */
     public boolean carAffordable(String itemToPurchase){
         if(carPrices.containsKey(itemToPurchase)) {
@@ -92,6 +97,12 @@ public class Purchase {
         return false;
     }
 
+    /**
+     * Checks if the user has enough points to unlock the theme they have selected
+     *
+     * @param itemToPurchase, the theme the user has clicked
+     * @return true, if the user has enough points to purchase the theme selected, else false
+     */
     public boolean themeAffordable(String itemToPurchase){
         if(themePrices.containsKey(itemToPurchase)) {
             int price = themePrices.get(itemToPurchase);
@@ -128,26 +139,37 @@ public class Purchase {
 
 
     /**
+     * a getter method for returning the amount of points the user currently has
      *
-     *
-     * @return the points that the
+     * @return points, the amount of points the user currently has
      */
     public int getPoints(){
         return points;
     }
 
+    /**
+     * Adds a certain ammount of points to the current amount of points the user has.
+     * called when the user watches an advert, though this could work if future implementation of purchasing points
+     *
+     * @param addedpoints, the points to add to current ammount of points
+     */
     public void addPoints(int addedpoints){
         points += addedpoints;
     }
 
+    /**
+     * Saves all the data to the json databse after the user has pressed the back
+     * A.K.A closing the shop
+     *
+     * @param context, the context in which has access to the system rescources
+     * @throws JSONException, Writing to the database exception
+     */
     public void closeShop(Context context) throws JSONException{
 
         scoreMonitor.writeJSON(context,-1,points,carlist,themelist,currentCar,currentTheme);
     }
 
-
-
-    //Checkers and setters
+    //Checkers and selectors. (A play on words, for getters and setters, I thought it was funny)
     /**
      * Checks if the car is the selected car for play
      *
@@ -168,10 +190,20 @@ public class Purchase {
         return currentTheme.equals(themePressed);
     }
 
-    public void selectCar(String newcurrentCar) {
-        this.currentCar = newcurrentCar;
+    /**
+     * Assigns the currentCar to the one selected by the user
+     *
+     * @param newCurrentCar, the theme pressed to be selected
+     */
+    public void selectCar(String newCurrentCar) {
+        this.currentCar = newCurrentCar;
     }
 
+    /**
+     * Assigns the currentTheme to the one selected by the user
+     *
+     * @param newCurrentTheme, the theme pressed to be selected
+     */
     public void selectTheme(String newCurrentTheme){
         this.currentTheme = newCurrentTheme;
     }
