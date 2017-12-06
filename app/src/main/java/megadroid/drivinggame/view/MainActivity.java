@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startButton.setOnClickListener(this);
 
     }
+
     // onClick method
+    @Override
     public void onClick(View v) {
          switch (v.getId()) {
              //the transition from MenuActivity to GameActivity
