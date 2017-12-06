@@ -184,9 +184,38 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         Bitmap bitmapcar = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
         Bitmap bitmapSecond = BitmapFactory.decodeResource(this.getResources(), R.drawable.enemy);
 
-        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2-300,screenX/2);
+        /*obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2-300,screenX/2);
         obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+120,screenX/2+200);
         obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,screenX/2+20,screenX/2+280);
+*/
+        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,50,screenX-30);
+        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,50,screenX-30);
+        obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,50,screenX-30);
+
+        //set new position of cars if they overlap
+        //if((int)obstacles.getX() == (int)obstacles2.getX()){
+        if((((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) < ((int)obstacles2.getX()+(obstacles2.getBitmap().getWidth()/2)))
+                && (((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) > ((int)obstacles2.getX()-(obstacles2.getBitmap().getWidth()/2))))
+        {
+            int newX = obstacles.getX()+200;
+            if(newX > screenX-30){
+                newX = obstacles.getX()-200;
+            }
+            obstacles2.setX(newX);
+        }
+
+        //set new position of cars if they overlap
+        //if((int)obstacles.getX() == (int)obstacles3.getX()){
+        if((((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) < ((int)obstacles3.getX()+(obstacles3.getBitmap().getWidth()/2)))
+                && (((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) > ((int)obstacles3.getX()-(obstacles3.getBitmap().getWidth()/2))))
+        {
+            int newX = obstacles.getX()+200;
+            if(newX > screenX-30){
+                newX = obstacles.getX()-200;
+            }
+            obstacles3.setX(newX);
+        }
+
 
         isGameOver = false;
 
@@ -231,46 +260,48 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         }
 
-        for (int i = 0; i < itemCount; i++) {
+        if (playingCounter > 100) {
+            for (int i = 0; i < itemCount; i++) {
 
-            item[i].update(player.getSpeed());
+                item[i].update(player.getSpeed());
 
-            //if collision occurrs with player
-            if (Rect.intersects(player.getDetectCollision(), item[i].getDetectCollision())) {
-                //moving item outside the topedge
-                item[i].setY(-200);
-                points++;
-                if(muteFlag == 0) {
-                    msoundHelper.CoinCollection();
-                }else
-                {
-                    msoundHelper.pauseMusic();
-                }
+                //if collision occurrs with player
+                if (Rect.intersects(player.getDetectCollision(), item[i].getDetectCollision())) {
+                    //moving item outside the topedge
+                    item[i].setY(-200);
+                    points++;
+                    if (muteFlag == 0) {
+                        msoundHelper.CoinCollection();
+                    } else {
+                        msoundHelper.pauseMusic();
+                    }
 
 
-            }
-
-        }
-
-        for (int j = 0; j < itemCount; j++) {
-
-            item1[j].update(player.getSpeed());
-
-            //if collision occurrs with player
-            if (Rect.intersects(player.getDetectCollision(), item1[j].getDetectCollision())) {
-                //moving item outside the topedge
-                item1[j].setY(-200);
-                points++;
-                if(muteFlag == 0) {
-                    msoundHelper.CoinCollection();
-                }else
-                {
-                    msoundHelper.pauseMusic();
                 }
 
             }
         }
 
+        if (playingCounter > 200) {
+
+            for (int j = 0; j < itemCount; j++) {
+
+                item1[j].update(player.getSpeed());
+
+                //if collision occurrs with player
+                if (Rect.intersects(player.getDetectCollision(), item1[j].getDetectCollision())) {
+                    //moving item outside the topedge
+                    item1[j].setY(-200);
+                    points++;
+                    if (muteFlag == 0) {
+                        msoundHelper.CoinCollection();
+                    } else {
+                        msoundHelper.pauseMusic();
+                    }
+
+                }
+            }
+        }
         //setting boom outside the screen
         boom.setX(-250);
         boom.setY(-250);
