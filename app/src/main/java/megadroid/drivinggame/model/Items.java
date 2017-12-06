@@ -50,12 +50,8 @@ public class Items {
 
         //x = generator.nextInt(maxX) - bitmap.getWidth();
 
-
-
         //initializing rect object
         detectCollision = new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
-
-
 
     }
     public void update(int playerSpeed) {

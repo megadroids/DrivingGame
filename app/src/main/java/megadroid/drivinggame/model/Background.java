@@ -57,7 +57,6 @@ public class Background {
 
     public void setVector(int dy) {
         this.dy = dy;
-
     }
 
 

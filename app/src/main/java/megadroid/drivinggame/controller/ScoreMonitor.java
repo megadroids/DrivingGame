@@ -49,7 +49,7 @@ public class ScoreMonitor {
         return textToPrint;
     }
 
-    private void readJsonArray(JSONArray values ,String screenType){
+    private void readJsonArray(JSONArray values, String screenType){
         //read scores from JSON file
 
         carlist = new ArrayList<String>();
@@ -88,14 +88,11 @@ public class ScoreMonitor {
 
                         textToPrint += theme + "\n";
                     }
-
                 }
-
             } catch (JSONException e) {
                 Log.e("JSONReadException",e.getMessage());
             }
-
-            }
+        }
 
     }
 
