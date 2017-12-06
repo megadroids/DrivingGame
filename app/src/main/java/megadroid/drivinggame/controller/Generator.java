@@ -14,6 +14,7 @@ public class Generator {
     private ScoreMonitor monitor;
     private int highScore;
     private Resources resources ;
+    private int points;
     private final int selectedTheme;
     private final int selectedCar;
 
@@ -32,6 +33,7 @@ public class Generator {
 
             highScore = monitor.getHighScore();
             playerCar = monitor.getCurrentCar();
+            points = monitor.getPoints();
         }
 
         resources = context.getResources();
@@ -55,6 +57,8 @@ public class Generator {
     public int getHighScore() {
         return highScore;
     }
+
+    public int getPoints(){ return points; }
 
     public int getSelectedCar() {
         return selectedCar;

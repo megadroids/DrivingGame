@@ -33,8 +33,8 @@ public class Purchase {
         themePrices = new HashMap<>();
 
         //the prices based on the car image button pressed
-        carPrices.put("car_black", 500);
-        carPrices.put("rocket", 700);
+        carPrices.put("car_black", 700);
+        carPrices.put("rocket", 500);
         carPrices.put("car_truck", 100 );
         carPrices.put("car_red", 100);
         carPrices.put("car_white", 100);
