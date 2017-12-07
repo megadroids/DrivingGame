@@ -73,7 +73,7 @@ private boolean ontouch;
 
 
         //initializing rect object
-        detectCollision =  new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
+        detectCollision =  new Rect(x+10, y+10, bitmap.getWidth()-10, bitmap.getHeight()-10);
 
         //set touch to false
         ontouch= false;
@@ -161,8 +161,8 @@ private boolean ontouch;
         //adding top, left, bottom and right to the rect object
         detectCollision.left = x+10;
         detectCollision.top = y+10;
-        detectCollision.right = x + bitmap.getWidth();
-        detectCollision.bottom = y + bitmap.getHeight();
+        detectCollision.right = x + bitmap.getWidth()-10;
+        detectCollision.bottom = y + bitmap.getHeight()-10;
 
     }
 
