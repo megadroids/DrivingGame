@@ -6,12 +6,12 @@ import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import megadroid.drivinggame.R;
 
-public class PauseActivity extends AppCompatActivity implements View.OnClickListener {
+public class PauseActivity extends AppCompatActivity implements Button.OnClickListener {
 
 
 
@@ -50,7 +50,8 @@ public class PauseActivity extends AppCompatActivity implements View.OnClickList
 
             //the transition from MenuActivity to ShopActivity
             case R.id.resume:
-                startActivity(new Intent(PauseActivity.this, GameActivity.class));
+                //startActivity(new Intent(PauseActivity.this, GameActivity.class));
+                this.finish();
                 break;
 
 

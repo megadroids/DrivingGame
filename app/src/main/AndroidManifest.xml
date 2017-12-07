@@ -10,43 +10,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".view.AdvActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_Dialog" />
-
-        <activity
-            android:name=".view.MenuActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".view.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-
-        <activity
-            android:name=".view.ShopActivity"
-            android:screenOrientation="portrait" />
-
-
+        <activity android:name=".view.MenuActivity">
+        </activity>
         <activity android:name=".view.MainActivity" />
-
-        <activity
-            android:name=".view.exitButton"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_Dialog" />
-
-        <activity
-            android:name=".view.PauseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_Dialog" />
-
+        <activity android:name=".view.ShopActivity" />
         <activity
             android:name=".view.GameActivity"
             android:screenOrientation="portrait" />
-
-
+        <activity
+            android:name=".view.AdvActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+        <activity
+            android:name=".view.ExitActivity"
+            android:theme="@style/AppTheme.Exit" />
+        <activity
+            android:name=".view.PauseActivity"
+            android:theme="@style/AppTheme.Pause" />
     </application>
 
 </manifest>

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
 import megadroid.drivinggame.model.SoundHelper;
+import megadroid.drivinggame.model.JSONReader;
+import megadroid.drivinggame.model.JSONWriter;
 
 
 import android.content.Intent;
@@ -15,25 +17,25 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.ArrayList;
-import org.json.JSONArray;
+
 import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ScoreMonitor monitor;
     private SoundHelper msoundHelper;
-
+    private int tagVal;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
         monitor =new ScoreMonitor();
         msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer(this,R.raw.simple_game_music);
+        msoundHelper.prepareMusicPlayer2(this,R.raw.simple_game_music);
         msoundHelper.playMusic();
 
         //Create image buttons
@@ -60,7 +62,21 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         ImageView image = (ImageView) findViewById(R.id.Sound);
         image.setTag(Integer.valueOf(R.drawable.sound));
 
-        //read scores from JSON file
+        //read scores from JSON file, initial json setup
+        ScoreMonitor monitor = new ScoreMonitor();
+        ArrayList<String> cars = new ArrayList<>();
+        cars.add("def_car");
+        ArrayList<String> themes = new ArrayList<>();
+        themes.add("backgroundcanvas");
+
+        try {
+            if(monitor.readJSON(this, "Menu").equals("")) {
+                monitor.writeJSON(this, 0, 0, cars, themes, "def_car", "backgroundcanvas");
+            }
+        } catch (JSONException e) {
+            Log.e("JSONException",e.getMessage());
+        }
+
         readJson();
     }
 
@@ -71,12 +87,20 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             //the transition from MenuActivity to GameActivity
             case R.id.buttonPlay:
-                startActivity(new Intent(MenuActivity.this, GameActivity.class));
+                //startActivity(new Intent(MenuActivity.this, GameActivity.class));
+                Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
+                myIntent.putExtra("muteFlag", tagVal ); //Optional parameters
+                MenuActivity.this.startActivity(myIntent);
+
                 break;
 
             //the transition from MenuActivity to ShopActivity
             case R.id.buttonShop:
-                startActivity(new Intent(MenuActivity.this, ShopActivity.class));
+                //startActivity(new Intent(MenuActivity.this, ShopActivity.class));
+                Intent shopIntent = new Intent(MenuActivity.this, ShopActivity.class);
+                shopIntent.putExtra("muteFlag", tagVal ); //Optional parameters
+                MenuActivity.this.startActivity(shopIntent);
+
                 break;
 
             case R.id.Sound:
@@ -84,10 +108,15 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 if(image.getTag().equals((Integer.valueOf(R.drawable.mute_sound)))) {
                     image.setImageResource(R.drawable.sound);
                     image.setTag(Integer.valueOf(R.drawable.sound));
+                    tagVal=0;
+                    onResume();
             } else {
                     image.setImageResource(R.drawable.mute_sound);
                     image.setTag(Integer.valueOf(R.drawable.mute_sound));
+                    tagVal=1;
+                    onPause();
                 }
+                //tagVal = (Integer) image.getTag();
                 break;
 
             case R.id.exit:
@@ -97,7 +126,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 //startActivity(startMain);
                 //break;
 
-                startActivity(new Intent(MenuActivity.this,exitButton.class));
+                startActivity(new Intent(MenuActivity.this,ExitActivity.class));
 
             default:
                 break;
@@ -108,7 +137,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         readJson();
-        msoundHelper.playMusic();
+        if(tagVal == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
+
     }
 
     private void readJson(){

@@ -49,7 +49,7 @@ public class ScoreMonitor {
         return textToPrint;
     }
 
-    private void readJsonArray(JSONArray values ,String screenType){
+    private void readJsonArray(JSONArray values, String screenType){
         //read scores from JSON file
 
         carlist = new ArrayList<String>();
@@ -64,7 +64,7 @@ public class ScoreMonitor {
                 textToPrint += (message.get("highscore")) + "\n";
                 textToPrint += (message.get("points")) + "\n";
 
-                if(screenType.equals("Shop")) {
+                if(screenType.equals("Shop")|| screenType.equals("Game")) {
                     currentCar = message.getString("currentcar");
                     currentTheme = message.getString("currenttheme");
 
@@ -88,14 +88,11 @@ public class ScoreMonitor {
 
                         textToPrint += theme + "\n";
                     }
-
                 }
-
             } catch (JSONException e) {
                 Log.e("JSONReadException",e.getMessage());
             }
-
-            }
+        }
 
     }
 

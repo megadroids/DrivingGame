@@ -1,17 +1,10 @@
 package megadroid.drivinggame.view;
 
+import android.content.Intent;
 import android.graphics.Point;
-import android.hardware.SensorListener;
-import android.hardware.SensorManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -20,13 +13,12 @@ import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
 import megadroid.drivinggame.model.SoundHelper;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity  {
 
 
     //declaring gameview
     private GameView gameView;
 
-    private SoundHelper msoundHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +27,9 @@ public class GameActivity extends AppCompatActivity {
         //Getting display object
         Display display = getWindowManager().getDefaultDisplay();
 
+        Intent intent = getIntent();
+        int muteFlag = intent.getIntExtra("muteFlag",0); //if it's a string you stored.
 
-        msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer(this, R.raw.main_game1);
-        msoundHelper.playMusic();
 
         //Getting the screen resolution into point object
         Point size = new Point();
@@ -46,7 +37,7 @@ public class GameActivity extends AppCompatActivity {
 
         //Initializing game view object
         //this time we are also passing the screen size to the GameView constructor
-        gameView = new GameView(this, size.x, size.y);
+        gameView = new GameView(this, size.x, size.y, muteFlag);
 
 
         //adding it to contentview
@@ -62,8 +53,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
 
         super.onPause();
-        msoundHelper.pauseMusic();
-        writeJson();
+
         gameView.pause();
     }
 
@@ -75,26 +65,4 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-
-    //write the score to Json when exiting the screen
-    private void writeJson() {
-        //write the score to Json File
-        ScoreMonitor monitor = new ScoreMonitor();
-
-        //toDO: get the highscore and points from gameview
-        int highscore = 700;
-        int points = 2000;
-
-        //toDo: cars , themes and updated points should be written from shopActivity, will pass null here
-        // String[] cars = new String[]{"01", "02", "03"};
-        //String [] themes = new String[] {"christmas.png","farm.png","city.png"};
-
-        try {
-            monitor.writeJSON(this, highscore, points, null, null, null, null);
-        } catch (JSONException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-
-
-    }
 }

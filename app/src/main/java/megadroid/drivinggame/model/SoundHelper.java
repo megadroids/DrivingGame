@@ -81,14 +81,21 @@ public class SoundHelper {
         }
     }
 
-
-
     public void prepareMusicPlayer(Context context, int musicfile)
     {
         mMusicPlayer = MediaPlayer.create(context.getApplicationContext(),
                 musicfile);
           //sets the volume of the music
         mMusicPlayer.setVolume(.5f,.5f);
+        mMusicPlayer.setLooping(true);
+    }
+
+    public void prepareMusicPlayer2(Context context, int musicfile)
+    {
+        mMusicPlayer = MediaPlayer.create(context.getApplicationContext(),
+                musicfile);
+        //sets the volume of the music
+        mMusicPlayer.setVolume(1f,1f);
         mMusicPlayer.setLooping(true);
     }
 
@@ -110,7 +117,4 @@ public class SoundHelper {
 
         }
     }
-
-
-
 }

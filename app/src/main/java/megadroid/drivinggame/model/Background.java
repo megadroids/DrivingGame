@@ -1,13 +1,15 @@
-package megadroid.drivinggame.view;
+package megadroid.drivinggame.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+
+import megadroid.drivinggame.view.GameView;
 
 /**
  * Created by Megadroids .
  */
 
- class Background {
+public class Background {
 
     private Bitmap image;
     private int x, y, dy;
@@ -21,19 +23,20 @@ import android.graphics.Canvas;
 
     public void update(int playerCounter){
 
-      //  y += dy;
+       //y += dy;
         y -= dy;
         //if(y < -GameView.HEIGHT){
         if(y > GameView.HEIGHT){
            // y = 0;
             y = y-(int)GameView.HEIGHT;
-         /*   if(playerCounter%3 == 0) {
-                dy = 2;
+            if(playerCounter%3 == 0) {
+                dy += -2;
             }
-          if(dy > 60){
-                dy = 60;
-          }
-*/
+           // if(dy == -60){
+           //     dy = -60;
+           // }
+
+
 
         }
 
@@ -54,7 +57,11 @@ import android.graphics.Canvas;
 
     public void setVector(int dy) {
         this.dy = dy;
+    }
 
+
+    public int getVector() {
+        return this.dy ;
     }
 
 

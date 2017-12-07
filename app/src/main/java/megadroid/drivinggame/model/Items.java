@@ -13,7 +13,7 @@ import java.util.Random;
 public class Items {
     private Bitmap bitmap;
 
-    private int speed =-1;
+    private int speed = 1;
 
     private int maxX;
     private int minX;
@@ -44,24 +44,20 @@ public class Items {
         minX= screenX/4;
 
         Random generator = new Random();
-        speed = generator.nextInt(5)+3;
+        speed = generator.nextInt(6)+5;
         y = generator.nextInt(minY + bitmap.getHeight());
         x = minX;
 
         //x = generator.nextInt(maxX) - bitmap.getWidth();
 
-
-
         //initializing rect object
         detectCollision = new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
-
-
 
     }
     public void update(int playerSpeed) {
 
         //decreasing x coordinate so that item will move top to bottom
-       // y += playerSpeed;
+        y += playerSpeed;
         y += speed;
         //if the item reaches the bottom edge
         if (y > maxY - bitmap.getHeight()) {
