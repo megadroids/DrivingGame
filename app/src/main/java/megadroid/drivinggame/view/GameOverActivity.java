@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import megadroid.drivinggame.R;
+import megadroid.drivinggame.model.SoundHelper;
 
 /**
  * Created by Pemi on 2017-12-06.
@@ -20,10 +21,22 @@ public class GameOverActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_gameover);
+
         BackToMenu backToMenu = new BackToMenu();
         backToMenu.start();
         Intent intent = getIntent();
         boolean value = intent.getBooleanExtra("highscorebeaten",true);
+        int muteFlag = intent.getIntExtra("muteFlag",0);
+
+        SoundHelper msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer3(this,R.raw.game_over);
+        if(muteFlag == 0) {
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
+
         if (value) {
             //ImageView imageView = (ImageView) findViewById(R.id.gameoverimage);
             //imageView.setImageResource(R.drawable.gameover_beatenscore);

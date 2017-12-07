@@ -113,12 +113,22 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                     image.setImageResource(R.drawable.sound);
                     image.setTag(Integer.valueOf(R.drawable.sound));
                     tagVal=0;
-                    onResume();
+                    if(tagVal == 0) {
+                        msoundHelper.playMusic();
+                    }else
+                    {
+                        msoundHelper.pauseMusic();
+                    }
             } else {
                     image.setImageResource(R.drawable.mute_sound);
                     image.setTag(Integer.valueOf(R.drawable.mute_sound));
                     tagVal=1;
-                    onPause();
+                    if(tagVal == 0) {
+                        msoundHelper.playMusic();
+                    }else
+                    {
+                        msoundHelper.pauseMusic();
+                    }
                 }
                 //tagVal = (Integer) image.getTag();
                 break;

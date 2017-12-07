@@ -518,6 +518,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             */
                 Intent gameover = new Intent(getContext(), GameOverActivity.class);
                 gameover.putExtra("highscorebeaten",highscorebeaten);
+                gameover.putExtra("muteFlag",muteFlag);
                 getContext().startActivity(gameover);
             }
 
@@ -593,7 +594,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
 
         //stop the music
-        msoundHelper.playMusic();
+        //msoundHelper.playMusic();
 
         gameThread = new Thread(this);
         gameThread.start();
