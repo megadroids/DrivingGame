@@ -88,14 +88,11 @@ public class ScoreMonitor {
 
                         textToPrint += theme + "\n";
                     }
-
                 }
-
             } catch (JSONException e) {
                 Log.e("JSONReadException",e.getMessage());
             }
-
-            }
+        }
 
     }
 

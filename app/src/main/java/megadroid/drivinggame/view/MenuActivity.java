@@ -64,22 +64,19 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         image.setTag(Integer.valueOf(R.drawable.sound));
 
         //read scores from JSON file, initial json setup
-        //ScoreMonitor monitor = new ScoreMonitor();
-        String defaultCar = "def_car";
-        String defaultImage = "backgroundcanvas";
+        ScoreMonitor monitor = new ScoreMonitor();
         ArrayList<String> cars = new ArrayList<>();
-        cars.add(defaultCar);
+        cars.add("def_car");
         ArrayList<String> themes = new ArrayList<>();
-        themes.add(defaultImage );
+        themes.add("backgroundcanvas");
 
         try {
             if(monitor.readJSON(this, "Menu").equals("")) {
-                monitor.writeJSON(this, 0, 0, cars, themes, defaultCar, defaultImage );
+                monitor.writeJSON(this, 0, 0, cars, themes, "def_car", "backgroundcanvas");
             }
         } catch (JSONException e) {
             Log.e("JSONException",e.getMessage());
         }
-
 
         readJson();
     }

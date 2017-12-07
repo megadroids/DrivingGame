@@ -50,18 +50,14 @@ public class Items {
 
         //x = generator.nextInt(maxX) - bitmap.getWidth();
 
-
-
         //initializing rect object
         detectCollision = new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
-
-
 
     }
     public void update(int playerSpeed) {
 
         //decreasing x coordinate so that item will move top to bottom
-       // y += playerSpeed;
+        y += playerSpeed;
         y += speed;
         //if the item reaches the bottom edge
         if (y > maxY - bitmap.getHeight()) {

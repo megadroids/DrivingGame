@@ -20,7 +20,6 @@ public class PauseActivity extends AppCompatActivity implements Button.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pause);
 
-
     }
 
     // the onclick methods to handle clicking different buttons

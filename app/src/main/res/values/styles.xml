@@ -8,16 +8,38 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="AppTheme.exit">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
-    </style>
-
     <!-- custom dialog activity theme -->
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- custom pause activity theme -->
+    <style name="AppTheme.Pause" parent="Theme.AppCompat.Light.Dialog">>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- custom exit activity theme -->
+    <style name="AppTheme.Exit" parent="Theme.AppCompat.Light.Dialog">>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- custom adv activity theme -->
+    <style name="AppTheme.Adv" parent="Theme.AppCompat.Light.Dialog">>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Transparent" parent="Theme.AppCompat.Light.NoActionBar">   <item name="android:windowIsTranslucent">true</item>

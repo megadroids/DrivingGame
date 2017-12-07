@@ -81,8 +81,6 @@ public class SoundHelper {
         }
     }
 
-
-
     public void prepareMusicPlayer(Context context, int musicfile)
     {
         mMusicPlayer = MediaPlayer.create(context.getApplicationContext(),
@@ -129,7 +127,4 @@ public class SoundHelper {
 
         }
     }
-
-
-
 }

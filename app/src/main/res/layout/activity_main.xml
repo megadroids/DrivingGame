@@ -6,19 +6,24 @@
     android:layout_height="match_parent"
     tools:context="megadroid.drivinggame.view.MainActivity">
 
-    <TextView
+    <ImageView
+        android:id="@+id/imageView"
+        android:scaleType="centerCrop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        app:srcCompat="@drawable/artboard_2" />
+
+    <ImageButton
+        android:id="@+id/buttonStart"
+        android:layout_width="150dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="68dp"
+        android:adjustViewBounds="false"
+        android:background="@drawable/start"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <Button
-        android:id="@+id/button_main"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:onClick="callAdvActivity"
-        android:text="call advactivity" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="117dp" />
+
 
 </android.support.constraint.ConstraintLayout>
