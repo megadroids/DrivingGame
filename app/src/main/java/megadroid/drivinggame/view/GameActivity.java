@@ -65,4 +65,8 @@ public class GameActivity extends AppCompatActivity  {
 
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
 }

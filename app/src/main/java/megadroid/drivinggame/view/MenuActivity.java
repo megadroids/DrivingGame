@@ -176,4 +176,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         msoundHelper.pauseMusic();
 
     }
+
+    @Override
+    public void onBackPressed() {
+    }
+
 }

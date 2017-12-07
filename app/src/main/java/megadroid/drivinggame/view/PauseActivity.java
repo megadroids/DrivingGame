@@ -17,7 +17,7 @@ public class PauseActivity extends AppCompatActivity implements Button.OnClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme_Dialog);
+       // setTheme(R.style.AppTheme_Dialog);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pause);
 
@@ -59,4 +59,9 @@ public class PauseActivity extends AppCompatActivity implements Button.OnClickLi
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+    }
+
 }

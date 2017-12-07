@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="300dp"
-    android:background="#4E57CF"
     tools:context="megadroid.drivinggame.view.PauseActivity">
+    <!-- android:background="#4E57CF"  -->
 
     <ImageView
         android:id="@+id/pauseAlert"
@@ -59,6 +59,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.742" />
-
-
 </android.support.constraint.ConstraintLayout>
