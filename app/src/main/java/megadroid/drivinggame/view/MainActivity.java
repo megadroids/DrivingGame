@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Crete image button
         msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer4(this,R.raw.start_page);
+        msoundHelper.prepareMusicPlayer3(this,R.raw.start_page);
         msoundHelper.playMusic();
         ImageButton startButton;
 
