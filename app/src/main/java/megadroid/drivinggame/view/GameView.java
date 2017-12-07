@@ -133,7 +133,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //this time also passing screen size to player constructor
         player = new Player(context, screenX, screenY,selectedCar);
 
-        int starNums = 800;
+        int starNums = 1000;
         for (int i = 0; i < starNums; i++) {
             Star s = new Star(screenX, screenY);
             stars.add(s);
@@ -173,7 +173,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         /*obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2-300,screenX/2);
         obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+120,screenX/2+200);
         obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,screenX/2+20,screenX/2+280);
-*/
+    */
         obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,220,269);
         obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,720,770);
         obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,550,600);
@@ -300,7 +300,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //checking for a collision between player and a racecar.  /**&& playingCounter < 1000*/
         Random generator = new Random();
         int increaseObstacleSpeed = generator.nextInt(10) + 500;
-        if (playingCounter > 20) {
+        if (playingCounter > 20 && playingCounter < 1000) {
             obstacles2.update(player.getSpeed()+increaseObstacleSpeed);
             if (Rect.intersects(player.getDetectCollision(), obstacles2.getDetectCollision())) {
                 gameOver(obstacles2);
@@ -308,7 +308,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         }
 
         //checking for a collision between player and a car
-        if (playingCounter > 260) {
+        if (playingCounter > 260 && playingCounter < 1000) {
             obstacles4.update(player.getSpeed()+increaseObstacleSpeed);
             if (Rect.intersects(player.getDetectCollision(), obstacles4.getDetectCollision())) {
 
@@ -481,7 +481,11 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                         obstacles4.getY(),
                         paint
                 );
+
+
             }
+
+
 
             // create a rectangle that we'll draw later
             Rect rectangle = new Rect(0, 0, screenX, 90 );

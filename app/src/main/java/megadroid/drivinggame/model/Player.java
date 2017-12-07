@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
-import megadroid.drivinggame.R;
 import megadroid.drivinggame.view.GameView;
 
 /**
@@ -67,8 +66,8 @@ private boolean ontouch;
         //setting the boosting value to false initially
         boosting = false;
 
-        maxX=screenX/2+160;
-        minX= screenX/2 -300;
+        maxX=screenX/2+190;
+        minX= screenX/2 -330;
         Xpos=x;
 
 
