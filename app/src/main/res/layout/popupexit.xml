@@ -41,7 +41,7 @@
         android:id="@+id/exit_app"
         android:layout_width="189dp"
         android:layout_height="60dp"
-        android:background="@drawable/exit_button"
+        android:background="@drawable/exit_long"
         android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/pauseAlert"

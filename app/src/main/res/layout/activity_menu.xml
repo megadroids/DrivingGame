@@ -18,7 +18,7 @@
         android:layout_marginRight="6dp"
         android:layout_margin="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/exit"
+        android:background="@drawable/exit_button"
         android:onClick="onClick"
         app:layout_constraintBottom_toTopOf="@+id/imageView3"
         app:layout_constraintEnd_toEndOf="parent"
