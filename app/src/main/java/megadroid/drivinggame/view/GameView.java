@@ -194,39 +194,10 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         Bitmap bitmapSecond = BitmapFactory.decodeResource(this.getResources(), randomObstacleCars());
         Bitmap bitmapThird = BitmapFactory.decodeResource(this.getResources(), randomObstacleCars());
 
-        /*obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2-300,screenX/2);
-        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+120,screenX/2+200);
-        obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,screenX/2+20,screenX/2+280);
-    */
         obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,220,269);
         obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,720,770);
         obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,550,600);
         obstacles4 = new Obstacles(this.getContext(), screenX, screenY,bitmapThird,380,430);
-
-        //set new position of cars if they overlap
-        //if((int)obstacles.getX() == (int)obstacles2.getX()){
-        /**if((((int)obstacles.getX()+(obstacles.getBitmap().getWidth())) < ((int)obstacles2.getX()+(obstacles2.getBitmap().getWidth())))
-                && (((int)obstacles.getX()+(obstacles.getBitmap().getWidth())) > ((int)obstacles2.getX()-(obstacles2.getBitmap().getWidth()))))
-        {
-            int newX = obstacles.getX()+200;
-            if(newX > screenX-30){
-                newX = obstacles.getX()-200;
-            }
-            obstacles2.setX(newX);
-        }*/
-
-        //set new position of cars if they overlap
-        //if((int)obstacles.getX() == (int)obstacles3.getX()){
-       /** if((((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) < ((int)obstacles3.getX()+(obstacles3.getBitmap().getWidth()/2)))
-                && (((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) > ((int)obstacles3.getX()-(obstacles3.getBitmap().getWidth()/2))))
-        {
-            int newX = obstacles.getX()+200;
-            if(newX > screenX-30){
-                newX = obstacles.getX()-200;
-            }
-            obstacles3.setX(newX);
-        }*/
-
 
         isGameOver = false;
 
@@ -544,7 +515,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
             // create a rectangle that we'll draw later
-            RectF rectangle = new RectF(0, 0, screenX, 90);
+            RectF rectangle = new RectF(0, 0, screenX, screenY/20);
             paint.setColor(Color.BLACK);
             canvas.drawRect(rectangle, paint);
 
@@ -552,7 +523,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             //drawing the score on the game screen
             paint.setColor(Color.WHITE);
             paint.setTextSize(45);
-            canvas.drawText("Score: " + score, screenX - 310, 50, paint);
+            canvas.drawText("Score: " + score, screenX/2+150, 50, paint);
 
             //drawing the points on the game screen
             paint.setColor(Color.WHITE);
