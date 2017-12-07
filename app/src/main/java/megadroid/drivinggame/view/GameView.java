@@ -13,11 +13,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -32,8 +30,6 @@ import megadroid.drivinggame.model.Player;
 import megadroid.drivinggame.model.SoundHelper;
 import megadroid.drivinggame.model.Star;
 
-import static android.support.v4.content.ContextCompat.startActivity;
-
 /**
  * Created by megadroids.
  */
@@ -43,12 +39,11 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     public static float xAccel, xVel = 0.0f;
     public static float yAccel, yVel = 0.0f;
 
+    //Sensor Manager that controls the tilt
     private SensorManager sensorManager;
 
-    //private SensorManager manager;
-    //private Sensor accelerometer;
-    //private Sensor gyroscopeSensor;
-    // private float xAcceleration,yAcceleration,zAcceleration;
+   //Array to hold car obstacles
+   int[] randomObstacleCars;
 
     //music player
     private SoundHelper msoundHelper;
@@ -60,9 +55,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     //Adding 3 items you
     private int itemCount = 2;
     private ArrayList<Star> stars = new ArrayList<Star>();
-
-    //Controls speed of the background scroll
-    // public static final int MOVESPEED = -10;
 
     //boolean variable to track if the game is playing or not
     volatile boolean playing;
@@ -84,6 +76,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private Obstacles obstacles;
     private Obstacles obstacles2;
     private Obstacles obstacles3;
+    private Obstacles obstacles4;
 
     //an indicator if the game is Over
     private boolean isGameOver;
@@ -134,14 +127,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //declaring Sensor Manager and sensor type
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-//        accelerometer = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        // gyroscopeSensor =  manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-
-
-// Register the listener
-        //manager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
-//        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-
 
 
         //initializing player object
@@ -180,33 +165,35 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         boom = new Boom(context);
 
         //initializing the Friend class object
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.car);
-        Bitmap bitmapcar = BitmapFactory.decodeResource(this.getResources(), R.drawable.racecar);
-        Bitmap bitmapSecond = BitmapFactory.decodeResource(this.getResources(), R.drawable.enemy);
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), randomObstacleCars());
+        Bitmap bitmapcar = BitmapFactory.decodeResource(this.getResources(), randomObstacleCars());
+        Bitmap bitmapSecond = BitmapFactory.decodeResource(this.getResources(), randomObstacleCars());
+        Bitmap bitmapThird = BitmapFactory.decodeResource(this.getResources(), randomObstacleCars());
 
         /*obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,screenX/2-300,screenX/2);
         obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,screenX/2+120,screenX/2+200);
         obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,screenX/2+20,screenX/2+280);
 */
-        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,50,screenX-30);
-        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,50,screenX-30);
-        obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,50,screenX-30);
+        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,220,269);
+        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,720,770);
+        obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,550,600);
+        obstacles4 = new Obstacles(this.getContext(), screenX, screenY,bitmapThird,380,430);
 
         //set new position of cars if they overlap
         //if((int)obstacles.getX() == (int)obstacles2.getX()){
-        if((((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) < ((int)obstacles2.getX()+(obstacles2.getBitmap().getWidth()/2)))
-                && (((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) > ((int)obstacles2.getX()-(obstacles2.getBitmap().getWidth()/2))))
+        /**if((((int)obstacles.getX()+(obstacles.getBitmap().getWidth())) < ((int)obstacles2.getX()+(obstacles2.getBitmap().getWidth())))
+                && (((int)obstacles.getX()+(obstacles.getBitmap().getWidth())) > ((int)obstacles2.getX()-(obstacles2.getBitmap().getWidth()))))
         {
             int newX = obstacles.getX()+200;
             if(newX > screenX-30){
                 newX = obstacles.getX()-200;
             }
             obstacles2.setX(newX);
-        }
+        }*/
 
         //set new position of cars if they overlap
         //if((int)obstacles.getX() == (int)obstacles3.getX()){
-        if((((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) < ((int)obstacles3.getX()+(obstacles3.getBitmap().getWidth()/2)))
+       /** if((((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) < ((int)obstacles3.getX()+(obstacles3.getBitmap().getWidth()/2)))
                 && (((int)obstacles.getX()+(obstacles.getBitmap().getWidth()/2)) > ((int)obstacles3.getX()-(obstacles3.getBitmap().getWidth()/2))))
         {
             int newX = obstacles.getX()+200;
@@ -214,7 +201,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 newX = obstacles.getX()-200;
             }
             obstacles3.setX(newX);
-        }
+        }*/
 
 
         isGameOver = false;
@@ -310,18 +297,29 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //updating the friend ships coordinates
 
 
-        //checking for a collision between player and a racecar
-        if (playingCounter > 20 && playingCounter < 1000) {
-            obstacles2.update(player.getSpeed()+10);
+        //checking for a collision between player and a racecar.  /**&& playingCounter < 1000*/
+        Random generator = new Random();
+        int increaseObstacleSpeed = generator.nextInt(10) + 500;
+        if (playingCounter > 20) {
+            obstacles2.update(player.getSpeed()+increaseObstacleSpeed);
             if (Rect.intersects(player.getDetectCollision(), obstacles2.getDetectCollision())) {
                 gameOver(obstacles2);
+            }
+        }
+
+        //checking for a collision between player and a car
+        if (playingCounter > 260) {
+            obstacles4.update(player.getSpeed()+increaseObstacleSpeed);
+            if (Rect.intersects(player.getDetectCollision(), obstacles4.getDetectCollision())) {
+
+                gameOver(obstacles4);
             }
         }
 
 
         //checking for a collision between player and a car
         if (playingCounter > 180) {
-            obstacles.update(player.getSpeed());
+            obstacles.update(player.getSpeed()+increaseObstacleSpeed);
             if (Rect.intersects(player.getDetectCollision(), obstacles.getDetectCollision())) {
 
                 gameOver(obstacles);
@@ -331,7 +329,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //checking for a collision between player and a enemy
         if (playingCounter > 1000) {
 
-            obstacles3.update(player.getSpeed()+15);
+            obstacles3.update(player.getSpeed()+increaseObstacleSpeed);
             if (Rect.intersects(player.getDetectCollision(), obstacles3.getDetectCollision())) {
                 gameOver(obstacles3);
             }
@@ -449,7 +447,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 );
             }
             //draw race car
-            if (playingCounter > 20 && playingCounter < 1000) {
+            if (playingCounter > 20) {
 
                 canvas.drawBitmap(
 
@@ -472,6 +470,17 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                         paint
                 );
 
+            }
+            //draw 4th obstacle car
+            if (playingCounter > 260) {
+
+                canvas.drawBitmap(
+
+                        obstacles4.getBitmap(),
+                        obstacles4.getX(),
+                        obstacles4.getY(),
+                        paint
+                );
             }
 
             // create a rectangle that we'll draw later
@@ -654,16 +663,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             yAccel = -event.values[1];
             player.updatetilt();
 
-            /** if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-
-             if (event.values[2] > 0.5f) { // anticlockwise
-             player.setBoosting(Math.round(event.values[2]),false);
-             // Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
-             } else if (event.values[2] < -0.5f) { // clockwise
-             player.setBoosting(Math.round(event.values[2]),false);
-             //  Toast.makeText(this.getContext(),"val:"+event.values[2],Toast.LENGTH_LONG).show();
-             }
-             }**/
 
         }
     }
@@ -676,5 +675,11 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
         int x = random.nextInt(randommusic.length);
         return randommusic[x];
+    }
+
+    public int randomObstacleCars() {
+        int[] randomObstacleCars = new int[] {R.drawable.car_obst_0, R.drawable.car_obst_1, R.drawable.car_obst_2, R.drawable.car_obst_3, R.drawable.car_obst_4, R.drawable.car_obst_5,R.drawable.car_obst_6};
+        int x = random.nextInt(randomObstacleCars.length);
+        return randomObstacleCars[x];
     }
 }
