@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="300dp"
-    android:background="#6A5ACD"
     tools:context="megadroid.drivinggame.view.PauseActivity">
+    <!-- android:background="#6A5ACD" -->
 
     <ImageView
         android:id="@+id/pauseAlert"
