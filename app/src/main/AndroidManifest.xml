@@ -27,12 +27,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.AdvActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"></activity>
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
         <activity
             android:name=".view.ExitActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"></activity>
-        <activity android:name=".view.PauseActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"></activity>
+            android:theme="@style/AppTheme.Exit" />
+        <activity
+            android:name=".view.PauseActivity"
+            android:theme="@style/AppTheme.Pause" />
     </application>
 
 </manifest>
