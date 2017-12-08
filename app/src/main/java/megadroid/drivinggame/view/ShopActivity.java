@@ -65,32 +65,32 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         //This is so that the image without the pricetag can be presented corresponding to the strings found in the json database
         alternativeImages = new HashMap<>();
         alternativeImages.put("def_car", R.drawable.def_car_shop);
-        alternativeImages.put("car2", R.drawable.car_2);
-        alternativeImages.put("car3", R.drawable.car_3);
-        alternativeImages.put("car4", R.drawable.car_4);
-        alternativeImages.put("car5", R.drawable.car_5);
-        alternativeImages.put("car6", R.drawable.car_6);
+        alternativeImages.put("car_2", R.drawable.car_2);
+        alternativeImages.put("car_3", R.drawable.car_3);
+        alternativeImages.put("car_4", R.drawable.car_4);
+        alternativeImages.put("car_5", R.drawable.car_5);
+        alternativeImages.put("car_6", R.drawable.car_6);
         alternativeImages.put("backgroundcanvas", R.drawable.game_space);
         alternativeImages.put("space_theme", R.drawable.game_road);
 
         selectedTick = new HashMap<>();
         selectedTick.put("def_car", findViewById(R.id.imageView));
-        selectedTick.put("car2", findViewById(R.id.imageView2));
-        selectedTick.put("car3", findViewById(R.id.imageView3));
-        selectedTick.put("car4", findViewById(R.id.imageView4));
-        selectedTick.put("car5", findViewById(R.id.imageView5));
-        selectedTick.put("car6", findViewById(R.id.imageView6));
+        selectedTick.put("car_2", findViewById(R.id.imageView2));
+        selectedTick.put("car_3", findViewById(R.id.imageView3));
+        selectedTick.put("car_4", findViewById(R.id.imageView4));
+        selectedTick.put("car_5", findViewById(R.id.imageView5));
+        selectedTick.put("car_6", findViewById(R.id.imageView6));
 
 
         //This is so that the button can have a string Id corresponding to json database
         //uncomment and potenitaly rename the button id's an their corresponding string name
         intIdToString = new HashMap<>();
         intIdToString.put(R.id.taxi_car, "def_car");
-        intIdToString.put(R.id.car_two, "car2");
-        intIdToString.put(R.id.car_three, "car3");
-        intIdToString.put(R.id.car_four, "car4");
-        intIdToString.put(R.id.car_five, "car5");
-        intIdToString.put(R.id.car_six, "car6");
+        intIdToString.put(R.id.car_two, "car_2");
+        intIdToString.put(R.id.car_three, "car_3");
+        intIdToString.put(R.id.car_four, "car_4");
+        intIdToString.put(R.id.car_five, "car_5");
+        intIdToString.put(R.id.car_six, "car_6");
         intIdToString.put(R.id.space_game, "backgroundcanvas");
         intIdToString.put(R.id.road_game, "space_theme");
 
@@ -112,7 +112,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
             msoundHelper.pauseMusic();
         }
 
-        extraPoints = ((ImageButton) findViewById(R.id.extrapoints));
+        extraPoints = ((ImageButton) findViewById(R.id.coin));
     }
 
     /**
@@ -121,9 +121,9 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
      * (eg. highlighed if selected, without pricetag if bought and with pricetag if locked)
      */
     private void redrawScreen() {
-        TextView pointsView = (TextView) findViewById(R.id.title_text_view);
+        TextView pointsView = (TextView) findViewById(R.id.points);
 
-        pointsView.setText(Integer.toString(purchaser.getPoints()));
+        pointsView.setText("Points: " + Integer.toString(purchaser.getPoints()));
         //Setting the appropriate images for each car button item
         for (ImageButton imageButton : carButtons) {
             String carName = intIdToString.get(imageButton.getId());

@@ -32,10 +32,10 @@ public class Purchase {
         carPrices = new HashMap<>();
         themePrices = new HashMap<>();
 
-        carPrices.put("car3", 200);
-        carPrices.put("car4", 300);
-        carPrices.put("car5", 400);
-        carPrices.put("car6", 750);
+        carPrices.put("car_3", 200);
+        carPrices.put("car_4", 300);
+        carPrices.put("car_5", 400);
+        carPrices.put("car_6", 750);
 
 
         scoreMonitor = new ScoreMonitor();

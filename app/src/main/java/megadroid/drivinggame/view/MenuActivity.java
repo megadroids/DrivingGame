@@ -69,7 +69,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         ScoreMonitor monitor = new ScoreMonitor();
         ArrayList<String> cars = new ArrayList<>();
         cars.add("def_car");
-        cars.add("car2");
+        cars.add("car_2");
         ArrayList<String> themes = new ArrayList<>();
         themes.add("backgroundcanvas");
         themes.add("space_theme");
