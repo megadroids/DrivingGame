@@ -663,7 +663,11 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     }
                     generator.writeJson(this.getContext(),highScore,points);
 
-                    getContext().startActivity(new Intent(getContext(), PauseActivity.class));
+                    Intent pauseIntent = new Intent(getContext(), PauseActivity.class);
+                    pauseIntent.putExtra("muteFlag",muteFlag);
+                    getContext().startActivity(pauseIntent);
+
+                    //getContext().startActivity(new Intent(getContext(), PauseActivity.class));
 
                 }
             }

@@ -15,6 +15,8 @@ import megadroid.drivinggame.model.SoundHelper;
  */
 
 public class GameOverActivity extends AppCompatActivity {
+
+    private int muteFlag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,7 @@ public class GameOverActivity extends AppCompatActivity {
         backToMenu.start();
         Intent intent = getIntent();
         boolean value = intent.getBooleanExtra("highscorebeaten",true);
-        int muteFlag = intent.getIntExtra("muteFlag",0);
+        muteFlag = intent.getIntExtra("muteFlag",0);
 
         SoundHelper msoundHelper = new SoundHelper(this);
         msoundHelper.prepareMusicPlayer3(this,R.raw.game_over);
@@ -60,6 +62,7 @@ public class GameOverActivity extends AppCompatActivity {
             }
 
             Intent intent = new Intent(GameOverActivity.this, MenuActivity.class);
+            intent.putExtra("muteFlag",muteFlag);
             startActivity(intent);
             GameOverActivity.this.finish();
 
