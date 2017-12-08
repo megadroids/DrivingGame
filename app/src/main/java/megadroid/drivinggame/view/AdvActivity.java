@@ -1,11 +1,13 @@
 package megadroid.drivinggame.view;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import megadroid.drivinggame.R;
@@ -28,7 +30,9 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adv);
-
+        TextView myText = (TextView) findViewById(R.id.title_text_view);
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),"fonts/gomarice_no_continue.ttf");
+        myText.setTypeface(custom_font);
         showAdvButton = (ImageButton) findViewById(R.id.button_adv);
         showAdvButton.setEnabled(false);
 
@@ -65,7 +69,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     @Override
     public void onRewarded(RewardItem reward) {
         //Toast.makeText(this, "onRewarded! currency: " + reward.getType() + "  amount: " +
-                //reward.getAmount(), Toast.LENGTH_SHORT).show();
+        //reward.getAmount(), Toast.LENGTH_SHORT).show();
         // Rewards the user
         ScoreMonitor monitor = new ScoreMonitor();
         /*
@@ -86,7 +90,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     @Override
     public void onRewardedVideoAdLeftApplication() {
         //Toast.makeText(this, "onRewardedVideoAdLeftApplication",
-                //Toast.LENGTH_SHORT).show();
+        //Toast.LENGTH_SHORT).show();
     }
 
     @Override
