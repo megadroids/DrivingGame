@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gameoverlayout"
     android:layout_width="300dp"
-    android:layout_height="500dp"
+    android:layout_height="340dp"
+    android:layout_gravity="center|center_vertical"
     android:background="@drawable/gameover_beatenscore"
     tools:context="megadroid.drivinggame.view.GameOverActivity">
 
