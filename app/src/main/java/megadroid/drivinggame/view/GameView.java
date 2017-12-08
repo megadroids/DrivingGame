@@ -113,6 +113,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private boolean pausePop;
 
     private int bgSpeed;
+    private boolean highscorebeaten;
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY, int muteFlag) {
@@ -354,6 +355,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     }
 
     private void gameOver(Obstacles obstacles){
+
         //displaying the boom at the collision
         boom.setX(obstacles.getX());
         boom.setY(obstacles.getY());
@@ -362,8 +364,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //setting the isGameOver true as the game is over
         isGameOver = true;
         //get the highscore
-        if(highScore< score){
+        if(highScore < score){
             highScore = score;
+            highscorebeaten = true;
+        }
+        else {
+            highscorebeaten = false;
         }
 
         //crash sound
@@ -373,6 +379,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         {
             msoundHelper.pauseMusic();
         }
+
+
 
     }
 
@@ -543,11 +551,16 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
             //draw game Over when the game is over
             if (isGameOver) {
-                paint.setTextSize(150);
+            /*    paint.setTextSize(150);
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setARGB(255, 0, 0, 255);
                 int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
                 canvas.drawText("Game Over", canvas.getWidth() / 2, yPos, paint);
+            */
+                Intent gameover = new Intent(getContext(), GameOverActivity.class);
+                gameover.putExtra("highscorebeaten",highscorebeaten);
+                gameover.putExtra("muteFlag",muteFlag);
+                getContext().startActivity(gameover);
             }
 
 
@@ -622,7 +635,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
 
         //stop the music
-        msoundHelper.playMusic();
+        //msoundHelper.playMusic();
 
         gameThread = new Thread(this);
         gameThread.start();
@@ -650,7 +663,11 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     }
                     generator.writeJson(this.getContext(),highScore,points);
 
-                    getContext().startActivity(new Intent(getContext(), PauseActivity.class));
+                    Intent pauseIntent = new Intent(getContext(), PauseActivity.class);
+                    pauseIntent.putExtra("muteFlag",muteFlag);
+                    getContext().startActivity(pauseIntent);
+
+                    //getContext().startActivity(new Intent(getContext(), PauseActivity.class));
 
                 }
             }

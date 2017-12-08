@@ -13,13 +13,16 @@ import megadroid.drivinggame.R;
 
 public class PauseActivity extends AppCompatActivity implements Button.OnClickListener {
 
-
+private int muteFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
        // setTheme(R.style.AppTheme_Dialog);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pause);
+
+        Intent intent = getIntent();
+        muteFlag = intent.getIntExtra("muteFlag",0);
 
         //Create image buttons
         ImageButton menuButton;
@@ -45,7 +48,10 @@ public class PauseActivity extends AppCompatActivity implements Button.OnClickLi
         switch (v.getId()) {
             //the transition from MenuActivity to GameActivity
             case R.id.menu:
-                startActivity(new Intent(PauseActivity.this, MenuActivity.class));
+                Intent menuIntent = new Intent(PauseActivity.this, MenuActivity.class);
+                menuIntent.putExtra("muteFlag", muteFlag ); //Optional parameters
+                PauseActivity.this.startActivity(menuIntent);
+                //startActivity(new Intent(PauseActivity.this, MenuActivity.class));
                 break;
 
             //the transition from MenuActivity to ShopActivity
