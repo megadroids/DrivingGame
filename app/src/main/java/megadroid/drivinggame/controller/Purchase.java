@@ -32,14 +32,11 @@ public class Purchase {
         carPrices = new HashMap<>();
         themePrices = new HashMap<>();
 
-        //the prices based on the car image button pressed
-        carPrices.put("car_black", 700);
-        carPrices.put("rocket", 500);
-        carPrices.put("car_truck", 100 );
-        carPrices.put("car_red", 100);
-        carPrices.put("car_white", 100);
-        //the prices based on the car image button pressed
-        themePrices.put("spacecanvas", 1000);
+        carPrices.put("car_3", 200);
+        carPrices.put("car_4", 300);
+        carPrices.put("car_5", 400);
+        carPrices.put("car_6", 750);
+
 
         scoreMonitor = new ScoreMonitor();
         scoreMonitor.readJSON(context, screenType);
