@@ -10,10 +10,10 @@ import android.widget.ImageButton;
 
 
 import megadroid.drivinggame.R;
+import megadroid.drivinggame.model.SoundHelper;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-
+    private SoundHelper msoundHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        // getSupportActionBar().hide();
 
         //Crete image button
-
+        msoundHelper = new SoundHelper(this);
+        msoundHelper.prepareMusicPlayer3(this,R.raw.start_page);
+        msoundHelper.playMusic();
         ImageButton startButton;
 
         //getting the button
@@ -48,6 +50,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                  break;
          }
     }
+
+    protected void onPause() {
+        super.onPause();
+
+        msoundHelper.pauseMusic();
+
+    }
 }
-
-

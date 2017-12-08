@@ -10,7 +10,7 @@ import android.media.SoundPool;
 import megadroid.drivinggame.R;
 
 /**
- * Created by Shruthi on 27-11-2017.
+ * Created by megadroids on 27-11-2017.
  */
 
 public class SoundHelper {
