@@ -33,13 +33,15 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        monitor =new ScoreMonitor();
+        Intent intent = getIntent();
+        tagVal = intent.getIntExtra("muteFlag",0);
 
+        monitor =new ScoreMonitor();
         msoundHelper = new SoundHelper(this);
         msoundHelper.prepareMusicPlayer2(this,R.raw.simple_game_music);
         msoundHelper.playMusic();
 
-        //Crete image buttons
+        //Create image buttons
         ImageButton playButton;
         ImageButton shopButton;
         ImageButton muteSoundButton;
@@ -110,12 +112,22 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                     image.setImageResource(R.drawable.sound);
                     image.setTag(Integer.valueOf(R.drawable.sound));
                     tagVal=0;
-                    onResume();
-            } else {
+                    if(tagVal == 0) {
+                        msoundHelper.playMusic();
+                    }else
+                    {
+                        msoundHelper.pauseMusic();
+                    }
+                 } else {
                     image.setImageResource(R.drawable.mute_sound);
                     image.setTag(Integer.valueOf(R.drawable.mute_sound));
                     tagVal=1;
-                    onPause();
+                    if(tagVal == 0) {
+                        msoundHelper.playMusic();
+                    }else
+                    {
+                        msoundHelper.pauseMusic();
+                    }
                 }
                 //tagVal = (Integer) image.getTag();
                 break;
@@ -138,10 +150,15 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         readJson();
+        ImageView image = (ImageView) findViewById(R.id.Sound);
         if(tagVal == 0) {
             msoundHelper.playMusic();
+            image.setImageResource(R.drawable.sound);
+            image.setTag(Integer.valueOf(R.drawable.sound));
         }else
         {
+            image.setImageResource(R.drawable.mute_sound);
+            image.setTag(Integer.valueOf(R.drawable.mute_sound));
             msoundHelper.pauseMusic();
         }
 
@@ -177,4 +194,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         msoundHelper.pauseMusic();
 
     }
+
+    @Override
+    public void onBackPressed() {
+    }
+
 }
