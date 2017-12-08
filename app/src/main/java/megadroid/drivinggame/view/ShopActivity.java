@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -27,6 +30,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
 
     private SoundHelper msoundHelper;
 
+    ImageButton extraPoints;
     private Purchase purchaser;
     private List<ImageButton> carButtons;
     private List<ImageButton> themeButtons;
@@ -61,7 +65,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         alternativeImages = new HashMap<>();
         alternativeImages.put("def_car", R.drawable.def_car);
         alternativeImages.put("car_black", R.drawable.car_black);
-        alternativeImages.put("rocket", R.drawable.rocket);
+        alternativeImages.put("rocket", R.drawable.rocket_locked);
         //alternativeImages.put("car_truck", R.drawable.car_truck);
         //alternativeImages.put("car_red", R.drawable.car_red);
         //alternativeImages.put("car_white", R.drawable.car_white);
@@ -72,9 +76,9 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         //This is so that the button can have a string Id corresponding to json database
         //uncomment and potenitaly rename the button id's an their corresponding string name
         intIdToString = new HashMap<>();
-        intIdToString.put(R.id.def_Car, "def_car");
-        intIdToString.put(R.id.blackCar, "car_black");
-        intIdToString.put(R.id.rocket, "rocket");
+        intIdToString.put(R.id.imageButton, "def_car");
+        intIdToString.put(R.id.imageButton3, "car_black");
+        intIdToString.put(R.id.imageButton2, "rocket");
         // intIdToString.put(R.id.truckCar, "car_truck");
         // intIdToString.put(R.id.car_red, "car_red");
         // intIdToString.put(R.id.car_white, "car_white");
@@ -99,6 +103,8 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             msoundHelper.pauseMusic();
         }
+
+        extraPoints = ((ImageButton) findViewById(R.id.extrapoints));
     }
 
     /**
@@ -107,7 +113,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
      * (eg. highlighed if selected, without pricetag if bought and with pricetag if locked)
      */
     private void redrawScreen() {
-        TextView pointsView = (TextView) findViewById(R.id.points);
+        TextView pointsView = (TextView) findViewById(R.id.title_text_view);
 
         pointsView.setText(Integer.toString(purchaser.getPoints()));
         //Setting the appropriate images for each car button item
@@ -137,9 +143,9 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         carButtons = new ArrayList<>();
         themeButtons = new ArrayList<>();
 
-        carButtons.add((ImageButton) findViewById(R.id.def_Car));
-        carButtons.add((ImageButton) findViewById(R.id.blackCar));
-        carButtons.add((ImageButton) findViewById(R.id.rocket));
+        carButtons.add((ImageButton) findViewById(R.id.imageButton));
+        carButtons.add((ImageButton) findViewById(R.id.imageButton3));
+        carButtons.add((ImageButton) findViewById(R.id.imageButton2));
 
         //carButtons.add((ImageButton) findViewById(R.id.fourthCar));
 
@@ -255,4 +261,11 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
             msoundHelper.pauseMusic();
         }
     }
+
+    public void getPoints(View v)
+    {
+        Intent intent = new Intent(getApplicationContext(), AdvActivity.class);
+        startActivity(intent);
+    }
 }
+

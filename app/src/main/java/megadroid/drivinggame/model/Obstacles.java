@@ -44,7 +44,7 @@ public class Obstacles {
         y = 0 - bitmap.getHeight();//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
 
         //initializing rect object
-        detectCollision = new Rect(x+10, y+10, bitmap.getWidth()-10, bitmap.getHeight()-20);
+        detectCollision = new Rect(x+10, y+10, bitmap.getWidth()-10, bitmap.getHeight()-15);
 
 
     }
@@ -71,8 +71,8 @@ public class Obstacles {
         detectCollision.left = x+10;
         detectCollision.top = y+10;
 
-        detectCollision.right = x + bitmap.getWidth()-5;
-        detectCollision.bottom = y + bitmap.getHeight()-20;
+        detectCollision.right = x + bitmap.getWidth()-10;
+        detectCollision.bottom = y + bitmap.getHeight()-15;
 
     }
 

@@ -34,12 +34,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_menu);
 
         monitor =new ScoreMonitor();
-
         msoundHelper = new SoundHelper(this);
         msoundHelper.prepareMusicPlayer2(this,R.raw.simple_game_music);
         msoundHelper.playMusic();
 
-        //Crete image buttons
+        //Create image buttons
         ImageButton playButton;
         ImageButton shopButton;
         ImageButton muteSoundButton;
@@ -187,4 +186,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         msoundHelper.pauseMusic();
 
     }
+
+    @Override
+    public void onBackPressed() {
+    }
+
 }

@@ -43,6 +43,9 @@ public class GameActivity extends AppCompatActivity  {
         //adding it to contentview
         setContentView(gameView);
 
+
+
+
     }
 
     //pausing the game when activity is paused
@@ -60,6 +63,10 @@ public class GameActivity extends AppCompatActivity  {
         super.onResume();
         gameView.resume();
 
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
 }

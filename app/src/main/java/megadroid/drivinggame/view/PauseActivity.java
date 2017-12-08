@@ -1,5 +1,6 @@
 package megadroid.drivinggame.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +17,24 @@ public class PauseActivity extends AppCompatActivity implements Button.OnClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    //    setTheme(R.style.AppTheme_Dialog);
+       // setTheme(R.style.AppTheme_Dialog);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pause);
+
+        //Create image buttons
+        ImageButton menuButton;
+        ImageButton resumeButton;
+
+        //set the orientation to landscape
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        //getting the buttons
+        menuButton = (ImageButton) findViewById(R.id.menu);
+        resumeButton = (ImageButton) findViewById(R.id.resume);
+
+        //adding a click listener to buttons
+        menuButton.setOnClickListener(this);
+        resumeButton.setOnClickListener(this);
 
     }
 
@@ -43,4 +59,9 @@ public class PauseActivity extends AppCompatActivity implements Button.OnClickLi
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+    }
+
 }

@@ -29,7 +29,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.AdvActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+            android:theme="@style/AppTheme.Adv" />
         <activity
             android:name=".view.ExitActivity"
             android:theme="@style/AppTheme.Exit" />
