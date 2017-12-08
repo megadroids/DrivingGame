@@ -107,7 +107,6 @@ public class SoundHelper {
         mMusicPlayer.setVolume(.5f,.5f);
         mMusicPlayer.setLooping(false);
     }
-
     //to play the music
     public void playMusic()
     {
