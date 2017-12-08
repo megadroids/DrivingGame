@@ -16,6 +16,7 @@
         android:layout_marginStart="8dp"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
+        android:onClick="getPoints"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
