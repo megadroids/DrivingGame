@@ -22,7 +22,7 @@ import org.json.JSONException;
 public class AdvActivity extends AppCompatActivity implements RewardedVideoAdListener {
     private RewardedVideoAd mRewardedVideoAd;
     ImageButton showAdvButton;
-    private static final int POINTS_REWARD = 200;
+    private static final int POINTS_REWARD = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
