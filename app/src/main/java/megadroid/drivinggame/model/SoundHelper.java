@@ -10,7 +10,7 @@ import android.media.SoundPool;
 import megadroid.drivinggame.R;
 
 /**
- * Created by Shruthi on 27-11-2017.
+ * Created by megadroids on 27-11-2017.
  */
 
 public class SoundHelper {
@@ -97,6 +97,16 @@ public class SoundHelper {
         //sets the volume of the music
         mMusicPlayer.setVolume(1f,1f);
         mMusicPlayer.setLooping(true);
+    }
+
+
+    public void prepareMusicPlayer3(Context context, int musicfile)
+    {
+        mMusicPlayer = MediaPlayer.create(context.getApplicationContext(),
+                musicfile);
+        //sets the volume of the music
+        mMusicPlayer.setVolume(1f,1f);
+        mMusicPlayer.setLooping(false);
     }
 
     //to play the music

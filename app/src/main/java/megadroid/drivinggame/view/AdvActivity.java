@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import megadroid.drivinggame.R;
@@ -20,15 +21,15 @@ import org.json.JSONException;
 
 public class AdvActivity extends AppCompatActivity implements RewardedVideoAdListener {
     private RewardedVideoAd mRewardedVideoAd;
-    Button showAdvButton;
-    private static final int POINTS_REWARD = 200;
+    ImageButton showAdvButton;
+    private static final int POINTS_REWARD = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adv);
 
-        showAdvButton = ((Button) findViewById(R.id.button_adv));
+        showAdvButton = (ImageButton) findViewById(R.id.button_adv);
         showAdvButton.setEnabled(false);
 
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
@@ -84,8 +85,8 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
 
     @Override
     public void onRewardedVideoAdLeftApplication() {
-        Toast.makeText(this, "onRewardedVideoAdLeftApplication",
-                Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onRewardedVideoAdLeftApplication",
+                //Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -100,7 +101,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int errorCode) {
-        Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Ad Failed To Load", Toast.LENGTH_SHORT).show();
         //Intent myIntent = new Intent(AdvActivity.this, ShopActivity.class);
         //AdvActivity.this.startActivity(myIntent);
         finish();
@@ -144,6 +145,14 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
         if (mRewardedVideoAd.isLoaded()) {
             mRewardedVideoAd.show();
         }
+    }
+
+    public void close(View view) {
+        this.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
 }

@@ -3,32 +3,24 @@ package megadroid.drivinggame.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
 
 import megadroid.drivinggame.R;
 
-/**
- * Created by Pemi on 2017-11-26.
- */
+
 
 
 public class ExitActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+       // setTheme(R.style.AppTheme_Dialog);
+      //  setTheme(R.style.AppTheme_Dialog);
         super.onCreate(savedInstanceState);
-
+        //setContentView(R.layout.popupexit);
         setContentView(R.layout.activity_exit);
 
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-
-        getWindow().setLayout((int) (height * .6), (int) (width * .5));
-
     }
+
 
     @Override
     public void onClick(View v) {
@@ -36,14 +28,15 @@ public class ExitActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             //the transition from MenuActivity to GameActivity
             case R.id.cross:
-                startActivity(new Intent(ExitActivity.this, MenuActivity.class));
+                this.finish();
                 break;
 
-            case R.id.checkmark:
+            case R.id.exit_app:
                 Intent startMain = new Intent(Intent.ACTION_MAIN);
                 startMain.addCategory(Intent.CATEGORY_HOME);
                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(startMain);
+                this.finish();
                 break;
 
             default:
@@ -52,4 +45,8 @@ public class ExitActivity extends Activity implements View.OnClickListener {
 
 
     }
+    @Override
+    public void onBackPressed() {
+    }
+
 }

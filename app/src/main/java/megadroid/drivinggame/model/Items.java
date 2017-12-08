@@ -44,7 +44,7 @@ public class Items {
         minX= screenX/4;
 
         Random generator = new Random();
-        speed = generator.nextInt(6)+6;
+        speed = generator.nextInt(6)+5;
         y = generator.nextInt(minY + bitmap.getHeight());
         x = minX;
 
@@ -57,7 +57,7 @@ public class Items {
     public void update(int playerSpeed) {
 
         //decreasing x coordinate so that item will move top to bottom
-       // y += playerSpeed;
+        y += playerSpeed;
         y += speed;
         //if the item reaches the bottom edge
         if (y > maxY - bitmap.getHeight()) {

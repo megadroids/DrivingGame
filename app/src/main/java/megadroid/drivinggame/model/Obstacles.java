@@ -2,12 +2,9 @@ package megadroid.drivinggame.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 import java.util.Random;
-
-import megadroid.drivinggame.R;
 
 /**
  * Created by megadroids.
@@ -42,12 +39,12 @@ public class Obstacles {
         //minX = 0;
         minY = 0;
         Random generator = new Random();
-        speed = generator.nextInt(6) + 10;
-        x = generator.nextInt(maxX) - bitmap.getWidth();//screenX;
+        speed = generator.nextInt(8) + 15;
+        x = generator.nextInt(maxX - bitmap.getWidth());//screenX;
         y = 0 - bitmap.getHeight();//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
 
         //initializing rect object
-        detectCollision = new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
+        detectCollision = new Rect(x+10, y+10, bitmap.getWidth()-10, bitmap.getHeight()-15);
 
 
     }
@@ -57,8 +54,8 @@ public class Obstacles {
         y += speed;
         if (y > maxY + bitmap.getWidth()) {
             Random generator = new Random();
-            speed = generator.nextInt(6) + 10;
-            x = generator.nextInt(maxX) - bitmap.getWidth();//maxX;
+            speed = generator.nextInt(15) + 20;
+            x = generator.nextInt(maxX - bitmap.getWidth());//maxX;
             y = 0 - bitmap.getHeight();//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
         }
 
@@ -73,8 +70,9 @@ public class Obstacles {
         //Adding the top, left, bottom and right to the rect object
         detectCollision.left = x+10;
         detectCollision.top = y+10;
-        detectCollision.right = x + bitmap.getWidth()-5;
-        detectCollision.bottom = y + bitmap.getHeight()-5;
+
+        detectCollision.right = x + bitmap.getWidth()-10;
+        detectCollision.bottom = y + bitmap.getHeight()-15;
 
     }
 
@@ -96,6 +94,7 @@ public class Obstacles {
         return y;
     }
 
+    public void setX(int newX){ this.x = newX;}
 
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;

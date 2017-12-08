@@ -19,6 +19,7 @@ public class GameActivity extends AppCompatActivity  {
     //declaring gameview
     private GameView gameView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +39,13 @@ public class GameActivity extends AppCompatActivity  {
         //this time we are also passing the screen size to the GameView constructor
         gameView = new GameView(this, size.x, size.y, muteFlag);
 
+
         //adding it to contentview
         setContentView(gameView);
+
+
+
+
     }
 
     //pausing the game when activity is paused
@@ -59,7 +65,8 @@ public class GameActivity extends AppCompatActivity  {
 
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+    }
 
 }

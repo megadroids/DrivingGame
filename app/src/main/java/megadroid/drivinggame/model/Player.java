@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
-import megadroid.drivinggame.R;
+import megadroid.drivinggame.view.GameView;
 
 /**
  * Created by megadroids .
@@ -20,9 +20,11 @@ public class Player {
 
     private Rect detectCollision;
 
+
+
     //coordinates
     private int x;
-    private int y;
+    private int y ;
 
     //motion speed of the character
     private int speed = 0;
@@ -35,7 +37,7 @@ public class Player {
 
     //Controlling Y coordinate so that ship won't go outside the screen
     private int maxY;
-    private int minY;
+    private int minY = 0;
 
     //Limit the bounds of the ship's speed
     private final int MIN_SPEED = 1;
@@ -56,7 +58,7 @@ private boolean ontouch;
         bitmap = BitmapFactory.decodeResource(context.getResources(), carID);
 
         //calculating maxY
-       // maxY = screenY ;//- bitmap.getHeight();
+        maxY = screenY -340 ;//- bitmap.getHeight();
 
         //top edge's y point is 0 so min y will always be zero
        // minY = -200;//0;
@@ -64,12 +66,14 @@ private boolean ontouch;
         //setting the boosting value to false initially
         boosting = false;
 
-        maxX=screenX/2+160;
-        minX= screenX/2 -280;
+        maxX=screenX/2+190;
+        minX= screenX/2 -330;
         Xpos=x;
 
+
+
         //initializing rect object
-        detectCollision =  new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
+        detectCollision =  new Rect(x+10, y+10, bitmap.getWidth()-15, bitmap.getHeight()-15);
 
         //set touch to false
         ontouch= false;
@@ -157,8 +161,8 @@ private boolean ontouch;
         //adding top, left, bottom and right to the rect object
         detectCollision.left = x+10;
         detectCollision.top = y+10;
-        detectCollision.right = x + bitmap.getWidth();
-        detectCollision.bottom = y + bitmap.getHeight();
+        detectCollision.right = x + bitmap.getWidth()-15;
+        detectCollision.bottom = y + bitmap.getHeight()-15;
 
     }
 
@@ -198,4 +202,30 @@ private boolean ontouch;
         return detectCollision;
     }
 
+
+    public void updatetilt() {
+
+
+        float frameTime = 1.666f;
+        GameView.xVel = (GameView.xAccel * frameTime);
+        GameView.yVel += (GameView.yAccel * frameTime);
+
+        float xS = (GameView.xVel / 2) * frameTime;
+        float yS = (GameView.yVel / 2) * frameTime;
+
+        x -= xS;
+        y -= yS;
+
+        if (x > maxX) {
+            x = maxX;
+        } else if (x < minX) {
+            x = minX;
+        }
+
+        if (y > maxY) {
+            y = maxY;
+        } else if (y < 0) {
+            y = 0;
+        }
+    }
 }

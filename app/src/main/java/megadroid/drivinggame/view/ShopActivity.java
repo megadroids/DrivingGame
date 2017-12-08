@@ -2,10 +2,11 @@ package megadroid.drivinggame.view;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,28 +18,19 @@ import java.util.List;
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.Purchase;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONException;
 
-import megadroid.drivinggame.R;
-import megadroid.drivinggame.controller.ScoreMonitor;
 import megadroid.drivinggame.model.SoundHelper;
-
-import java.util.ArrayList;
 
 public class ShopActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundHelper msoundHelper;
-    //private boolean mute;
 
+    ImageButton extraPoints;
     private Purchase purchaser;
     private List<ImageButton> carButtons;
     private List<ImageButton> themeButtons;
@@ -67,6 +59,10 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         //set the orientation to landscape
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //uncommetn and potentiallt rename the button id's and their corresponding string name
+        //uncertain if the default car has to be there as there is no alternative image,
+        // as there is no price on the original image
+        //This is so that the image without the pricetag can be presented corresponding to the strings found in the json database
         alternativeImages = new HashMap<>();
         alternativeImages.put("def_car", R.drawable.def_car_shop);
         alternativeImages.put("car2", R.drawable.car_2);
@@ -86,6 +82,8 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         selectedTick.put("car6", findViewById(R.id.imageView6));
 
 
+        //This is so that the button can have a string Id corresponding to json database
+        //uncomment and potenitaly rename the button id's an their corresponding string name
         intIdToString = new HashMap<>();
         intIdToString.put(R.id.taxi_car, "def_car");
         intIdToString.put(R.id.car_two, "car2");
@@ -113,14 +111,17 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             msoundHelper.pauseMusic();
         }
+
+        extraPoints = ((ImageButton) findViewById(R.id.extrapoints));
     }
+
     /**
      * Will check if the item in the button images is purchased, selected or locked
      * and set the appropriate image
      * (eg. highlighed if selected, without pricetag if bought and with pricetag if locked)
      */
     private void redrawScreen() {
-        TextView pointsView = (TextView) findViewById(R.id.points);
+        TextView pointsView = (TextView) findViewById(R.id.title_text_view);
 
         pointsView.setText(Integer.toString(purchaser.getPoints()));
         //Setting the appropriate images for each car button item
@@ -159,7 +160,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
      * so that it may be easier to call, it will also set their onCLickListeners.
      */
     private void initializeButtons() {
-
+        //Todo add more butttons
         carButtons = new ArrayList<>();
         themeButtons = new ArrayList<>();
 
@@ -226,6 +227,14 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         redrawScreen();
     }
 
+    /**
+     * When the user watches the advert presented in the AdvActivity, this method will be called and
+     * add the apropraite anmount of ad reward points the users current amount of points
+     *
+     * @param requestCode, RESULT_OK if the user watched the advert presented else method would not be called
+     * @param resultCode, 1 if the user came back from the AdvActivity, which is the only viable option
+     * @param data, the intent returned by the AdvActivity
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
@@ -241,7 +250,8 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Overriden method for when the user leaves the shopactivity,
      * will save all changes made during the users shopping activity to
-     * the json database
+     * the json database.
+     * Will also pause the music
      */
     @Override
     public void onPause() {
@@ -254,6 +264,9 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Will resume the music playing previously, unless muted in the MenuActivity
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -264,4 +277,11 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
             msoundHelper.pauseMusic();
         }
     }
+
+    public void getPoints(View v)
+    {
+        Intent intent = new Intent(getApplicationContext(), AdvActivity.class);
+        startActivityForResult(intent,1);
+    }
 }
+
