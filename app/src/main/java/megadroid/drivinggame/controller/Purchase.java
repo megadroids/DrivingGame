@@ -32,9 +32,11 @@ public class Purchase {
         carPrices = new HashMap<>();
         themePrices = new HashMap<>();
 
-        carPrices.put("car3", 500);
-        carPrices.put("rocket", 700);
-        themePrices.put("SecondTheme", 1000);
+        carPrices.put("car3", 200);
+        carPrices.put("car4", 300);
+        carPrices.put("car5", 400);
+        carPrices.put("car6", 750);
+
 
         scoreMonitor = new ScoreMonitor();
         scoreMonitor.readJSON(context, screenType);
