@@ -38,6 +38,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
 
     HashMap<String, Integer> alternativeImages;
     HashMap<Integer, String> intIdToString;
+    HashMap<String, View> selectedTick;
 
     /**
      * initializes the adSense
@@ -63,28 +64,35 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         // as there is no price on the original image
         //This is so that the image without the pricetag can be presented corresponding to the strings found in the json database
         alternativeImages = new HashMap<>();
-        alternativeImages.put("def_car", R.drawable.def_car);
-        alternativeImages.put("car_black", R.drawable.car_black);
-        alternativeImages.put("rocket", R.drawable.rocket_locked);
-        //alternativeImages.put("car_truck", R.drawable.car_truck);
-        //alternativeImages.put("car_red", R.drawable.car_red);
-        //alternativeImages.put("car_white", R.drawable.car_white);
-        // alternativeImages.put("backgroundcanvas", R.drawable.backgroundcanvas);
-        //alternativeImages.put("spacecanvas", R.drawable.spacecanvas);
-        //add as many of these as there are images with the price tag
+        alternativeImages.put("def_car", R.drawable.def_car_shop);
+        alternativeImages.put("car2", R.drawable.car_2);
+        alternativeImages.put("car3", R.drawable.car_3);
+        alternativeImages.put("car4", R.drawable.car_4);
+        alternativeImages.put("car5", R.drawable.car_5);
+        alternativeImages.put("car6", R.drawable.car_6);
+        alternativeImages.put("backgroundcanvas", R.drawable.game_space);
+        alternativeImages.put("space_theme", R.drawable.game_road);
+
+        selectedTick = new HashMap<>();
+        selectedTick.put("def_car", findViewById(R.id.imageView));
+        selectedTick.put("car2", findViewById(R.id.imageView2));
+        selectedTick.put("car3", findViewById(R.id.imageView3));
+        selectedTick.put("car4", findViewById(R.id.imageView4));
+        selectedTick.put("car5", findViewById(R.id.imageView5));
+        selectedTick.put("car6", findViewById(R.id.imageView6));
+
 
         //This is so that the button can have a string Id corresponding to json database
         //uncomment and potenitaly rename the button id's an their corresponding string name
         intIdToString = new HashMap<>();
-        intIdToString.put(R.id.imageButton, "def_car");
-        intIdToString.put(R.id.imageButton3, "car_black");
-        intIdToString.put(R.id.imageButton2, "rocket");
-        // intIdToString.put(R.id.truckCar, "car_truck");
-        // intIdToString.put(R.id.car_red, "car_red");
-        // intIdToString.put(R.id.car_white, "car_white");
-        // intIdToString.put(R.id.backgroundcanvas, "backgroundcanvas");
-        // intIdToString.put(R.id.spacecanvas, "spacecanvas");
-        //Add as many of these for each car or theme
+        intIdToString.put(R.id.taxi_car, "def_car");
+        intIdToString.put(R.id.car_two, "car2");
+        intIdToString.put(R.id.car_three, "car3");
+        intIdToString.put(R.id.car_four, "car4");
+        intIdToString.put(R.id.car_five, "car5");
+        intIdToString.put(R.id.car_six, "car6");
+        intIdToString.put(R.id.space_game, "backgroundcanvas");
+        intIdToString.put(R.id.road_game, "space_theme");
 
         try {
             purchaser = new Purchase(this, "Shop");
@@ -122,11 +130,24 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
 
             if (purchaser.carSelected(carName)) {
                 imageButton.setImageResource(alternativeImages.get(carName));
-                imageButton.setBackgroundResource(R.drawable.shop_frame3);
+                imageButton.setBackgroundResource(R.drawable.frame2);
+                selectedTick.get(carName).setVisibility(View.VISIBLE);
             }
             else if (purchaser.isCarBought(carName)) {
                 imageButton.setImageResource(alternativeImages.get(carName));
                 imageButton.setBackgroundResource(android.R.color.transparent);
+                selectedTick.get(carName).setVisibility(View.INVISIBLE);
+            }
+            else {
+                imageButton.setBackgroundResource(android.R.color.transparent);
+                selectedTick.get(carName).setVisibility(View.INVISIBLE);
+            }
+        }
+        for (ImageButton imageButton : themeButtons) {
+            String themeName = intIdToString.get(imageButton.getId());
+
+            if (purchaser.themeSelected(themeName)) {
+                imageButton.setBackgroundResource(R.drawable.frame2);
             }
             else {
                 imageButton.setBackgroundResource(android.R.color.transparent); // todo find out how to remove background image
@@ -143,18 +164,21 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         carButtons = new ArrayList<>();
         themeButtons = new ArrayList<>();
 
-        carButtons.add((ImageButton) findViewById(R.id.imageButton));
-        carButtons.add((ImageButton) findViewById(R.id.imageButton3));
-        carButtons.add((ImageButton) findViewById(R.id.imageButton2));
+        carButtons.add((ImageButton) findViewById(R.id.taxi_car));
+        carButtons.add((ImageButton) findViewById(R.id.car_two));
+        carButtons.add((ImageButton) findViewById(R.id.car_three));
+        carButtons.add((ImageButton) findViewById(R.id.car_four));
+        carButtons.add((ImageButton) findViewById(R.id.car_five));
+        carButtons.add((ImageButton) findViewById(R.id.car_six));
 
-        //carButtons.add((ImageButton) findViewById(R.id.fourthCar));
-
+        themeButtons.add((ImageButton) findViewById(R.id.space_game));
+        themeButtons.add((ImageButton) findViewById(R.id.road_game));
         for (ImageButton imageButton : carButtons) {
             imageButton.setOnClickListener(this);
         }
-        //for(ImageButton imageButton : themeButtons){
-        //    imageButton.setOnClickListener(this);
-        //}
+        for(ImageButton imageButton : themeButtons){
+            imageButton.setOnClickListener(this);
+        }
     }
 
     /**
@@ -196,17 +220,9 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
             purchaser.purchaseTheme(viewName);
             purchaser.selectTheme(viewName);
         } else {
-            //try{
-               // purchaser.closeShop(this);
                 //Call to Advert popup activity.
                 Intent myIntent = new Intent(ShopActivity.this, AdvActivity.class);
                 ShopActivity.this.startActivityForResult(myIntent, 1);
-
-                //purchaser = new Purchase(this, "Shop");
-
-           // }catch(JSONException e){
-            //    Toast.makeText(this, "problems occured", Toast.LENGTH_SHORT);
-            //}
         }
         redrawScreen();
     }

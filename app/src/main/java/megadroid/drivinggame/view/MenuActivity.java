@@ -69,8 +69,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         ScoreMonitor monitor = new ScoreMonitor();
         ArrayList<String> cars = new ArrayList<>();
         cars.add("def_car");
+        cars.add("car2");
         ArrayList<String> themes = new ArrayList<>();
         themes.add("backgroundcanvas");
+        themes.add("space_theme");
 
         try {
             if(monitor.readJSON(this, "Menu").equals("")) {
