@@ -265,7 +265,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     public void getPoints(View v)
     {
         Intent intent = new Intent(getApplicationContext(), AdvActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,1);
     }
 }
 
