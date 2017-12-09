@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Typeface custom_font = Typeface.createFromAsset(getAssets(),"fonts/gomarice_no_continue.ttf");
         myText.setTypeface(custom_font);
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(150); //You can manage the time of the blink with this parameter
+        anim.setDuration(800); //You can manage the time of the blink with this parameter
         anim.setStartOffset(45);
         anim.setRepeatMode(Animation.REVERSE);
         anim.setRepeatCount(Animation.INFINITE);
