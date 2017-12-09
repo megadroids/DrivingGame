@@ -1,7 +1,10 @@
 package megadroid.drivinggame.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
@@ -17,6 +20,8 @@ import megadroid.drivinggame.model.SoundHelper;
 public class GameOverActivity extends AppCompatActivity {
 
     private int muteFlag;
+    private SoundHelper msoundHelper ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,38 +29,48 @@ public class GameOverActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_gameover);
 
-        BackToMenu backToMenu = new BackToMenu();
-        backToMenu.start();
         Intent intent = getIntent();
         boolean value = intent.getBooleanExtra("highscorebeaten",true);
         muteFlag = intent.getIntExtra("muteFlag",0);
 
-        SoundHelper msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer3(this,R.raw.game_over);
-        if(muteFlag == 0) {
-            msoundHelper.playMusic();
-        }else
-        {
-            msoundHelper.pauseMusic();
-        }
+        BackToMenu backToMenu = new BackToMenu();
+        backToMenu.start();
+
+
+        msoundHelper = new SoundHelper(this);
+
 
         if (value) {
             //ImageView imageView = (ImageView) findViewById(R.id.gameoverimage);
             //imageView.setImageResource(R.drawable.gameover_beatenscore);
             ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.gameoverlayout);
             constraintLayout.setBackgroundResource(R.drawable.gameover_beatenscore);
+            msoundHelper.prepareMusicPlayer3(this, R.raw.claps);
         }
         else {
             //ImageView imageView = (ImageView) findViewById(R.id.gameoverimage);
             //imageView.setImageResource(R.drawable.gameover_notbeatenscore);
             ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.gameoverlayout);
             constraintLayout.setBackgroundResource(R.drawable.gameover_notbeatenscore);
+            msoundHelper.prepareMusicPlayer3(this, R.raw.game_over);
+
         }
+
+        if(muteFlag == 0) {
+
+            msoundHelper.playMusic();
+        }else
+        {
+            msoundHelper.pauseMusic();
+        }
+
     }
 
     public class BackToMenu extends Thread {
         public void run() {
             try {
+
+
                 sleep(3500);                        //*****SLEEP TIMER*****
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -74,5 +89,11 @@ public class GameOverActivity extends AppCompatActivity {
     public void onBackPressed() {
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //stop music when going to Menu activity
+        msoundHelper.pauseMusic();
+        msoundHelper.stopMusic();
+    }
 }

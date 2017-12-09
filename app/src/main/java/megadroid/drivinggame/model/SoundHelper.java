@@ -10,10 +10,11 @@ import android.media.SoundPool;
 import megadroid.drivinggame.R;
 
 /**
- * Created by megadroids on 27-11-2017.
+ * Created by megadroids .
  */
 
 public class SoundHelper {
+
 
     //this object is created for playing music
     private MediaPlayer mMusicPlayer;
@@ -27,6 +28,7 @@ public class SoundHelper {
 
     public SoundHelper(Activity activity) {
 
+        //create audio manager for playing sounds
         AudioManager audioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         float actVolume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         float maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -51,36 +53,44 @@ public class SoundHelper {
                 mLoaded = true;
             }
         });
-        mcrashID = mSoundPool.load(activity, R.raw.car_crash, 1);
-        mcoinID = mSoundPool.load(activity, R.raw.coins, 1);
-        mdiamondID = mSoundPool.load(activity, R.raw.crystal, 1);
-        moverID = mSoundPool.load(activity, R.raw.game_over, 1);
+
+        //different sounds are initialised for the game
+        mcrashID = mSoundPool.load(activity.getApplicationContext(), R.raw.car_crash, 1);
+        mcoinID = mSoundPool.load(activity.getApplicationContext(), R.raw.coins, 1);
+        mdiamondID = mSoundPool.load(activity.getApplicationContext(), R.raw.crystal, 1);
+        moverID = mSoundPool.load(activity.getApplicationContext(), R.raw.game_over, 1);
     }
 
+    //car crash sound
     public void CrashSound() {
         if (mLoaded) {
             mSoundPool.play(mcrashID, mVolume, mVolume, 1, 0, 1f);
         }
+
     }
 
+    //coins collected sound
     public void CoinCollection() {
         if (mLoaded) {
             mSoundPool.play(mcoinID, mVolume, mVolume, 1, 0, 1f);
         }
     }
 
+    //crystal collection sound
     public void diamondCollection() {
         if (mLoaded) {
             mSoundPool.play(mdiamondID, mVolume, mVolume, 1, 0, 1f);
         }
     }
 
+    //gameover sound
     public void gameOver() {
         if (mLoaded) {
             mSoundPool.play(moverID, mVolume, mVolume, 1, 0, 1f);
         }
     }
 
+    //playing continuous music in background with low volume
     public void prepareMusicPlayer(Context context, int musicfile)
     {
         mMusicPlayer = MediaPlayer.create(context.getApplicationContext(),
@@ -90,6 +100,7 @@ public class SoundHelper {
         mMusicPlayer.setLooping(true);
     }
 
+    //playing continuous music in background with higher volume
     public void prepareMusicPlayer2(Context context, int musicfile)
     {
         mMusicPlayer = MediaPlayer.create(context.getApplicationContext(),
@@ -99,7 +110,7 @@ public class SoundHelper {
         mMusicPlayer.setLooping(true);
     }
 
-
+    //playing music in background only once
     public void prepareMusicPlayer3(Context context, int musicfile)
     {
         mMusicPlayer = MediaPlayer.create(context.getApplicationContext(),
@@ -126,5 +137,28 @@ public class SoundHelper {
             mMusicPlayer.pause();
 
         }
+    }
+
+    public void stopMusic(){
+
+        if(mSoundPool != null) {
+            mSoundPool.release();
+            mSoundPool = null;
+        }
+        if(mMusicPlayer != null) {
+            mMusicPlayer.release();
+            mMusicPlayer = null;
+        }
+
+    }
+
+
+    public SoundPool getmSoundPool() {
+        return mSoundPool;
+    }
+
+
+    public MediaPlayer getmMusicPlayer() {
+        return mMusicPlayer;
     }
 }

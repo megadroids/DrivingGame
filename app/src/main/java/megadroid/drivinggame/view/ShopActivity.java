@@ -1,5 +1,6 @@
 package megadroid.drivinggame.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -105,7 +106,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         muteFlag = intent.getIntExtra("muteFlag", 0); //if it's a string you stored.
 
         msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer(this, R.raw.simple_game_music);
+        msoundHelper.prepareMusicPlayer2(this, R.raw.simple_game_music);
         if (muteFlag == 0) {
             msoundHelper.playMusic();
         } else {
@@ -279,7 +280,10 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onPause() {
         super.onPause();
+        //stop music when going to Adv activity
         msoundHelper.pauseMusic();
+        msoundHelper.stopMusic();
+        msoundHelper = null;
         try {
             purchaser.closeShop(this);
         } catch (JSONException e) {
@@ -293,6 +297,12 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+
+        if(msoundHelper == null){
+            msoundHelper = new SoundHelper(this);
+            msoundHelper.prepareMusicPlayer2(this, R.raw.simple_game_music);
+        }
+
         if(muteFlag == 0) {
             msoundHelper.playMusic();
         }else
@@ -308,8 +318,9 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void back(View view) {
-        this.finish();
+             this.finish();
     }
+
 
     @Override
     public void onBackPressed() {

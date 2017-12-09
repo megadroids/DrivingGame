@@ -78,7 +78,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        msoundHelper.pauseMusic();
+        //stop music when going to Menu activity
+        msoundHelper.stopMusic();
+        msoundHelper = null;
 
     }
 }
