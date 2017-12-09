@@ -32,7 +32,7 @@ public class Generator {
         if(!values.isEmpty()){
 
             highScore = monitor.getHighScore();
-            playerCar = monitor.getCurrentCar();
+            playerCar = monitor.getCurrentCar()+"_game";
             points = monitor.getPoints();
         }
 

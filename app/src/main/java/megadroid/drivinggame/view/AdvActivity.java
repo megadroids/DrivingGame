@@ -1,5 +1,6 @@
 package megadroid.drivinggame.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -23,22 +24,27 @@ import org.json.JSONException;
 
 public class AdvActivity extends AppCompatActivity implements RewardedVideoAdListener {
     private RewardedVideoAd mRewardedVideoAd;
-    ImageButton showAdvButton;
-    private static final int POINTS_REWARD = 100;
+    private ImageButton showAdvButton;
+    private static final int POINTS_REWARD = 25;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adv);
+
         TextView myText = (TextView) findViewById(R.id.title_text_view);
-        Typeface custom_font = Typeface.createFromAsset(getAssets(),"fonts/gomarice_no_continue.ttf");
+        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/gomarice_no_continue.ttf");
         myText.setTypeface(custom_font);
-        showAdvButton = (ImageButton) findViewById(R.id.button_adv);
-        showAdvButton.setEnabled(false);
+        // showAdvButton = (ImageButton) findViewById(R.id.button_adv);
+        // showAdvButton.setEnabled(false);
+
 
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedVideoAd.setRewardedVideoAdListener(this);
         loadRewardedVideoAd();
+
+        dialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
     }
 
     //admob code with real ad unit ID (code to be used)
@@ -82,6 +88,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }*/
 
+        Toast.makeText(this, "You have earned " + POINTS_REWARD +" points!!",Toast.LENGTH_SHORT ).show();
         Intent intent = new Intent();
         intent.putExtra("Added points", POINTS_REWARD);
         setResult(RESULT_OK, intent);
@@ -96,7 +103,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     @Override
     public void onRewardedVideoAdClosed() {
         //Toast.makeText(this, "onRewardedVideoAdClosed", Toast.LENGTH_SHORT).show();
-        showAdvButton.setEnabled(false);
+       // showAdvButton.setEnabled(false);
         //loadRewardedVideoAd();
         //Intent myIntent = new Intent(AdvActivity.this, ShopActivity.class);
         //AdvActivity.this.startActivity(myIntent);
@@ -105,7 +112,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int errorCode) {
-        Toast.makeText(this, "Ad Failed To Load", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Ad Failed To Load. Please Check Your Internet Connection.", Toast.LENGTH_SHORT).show();
         //Intent myIntent = new Intent(AdvActivity.this, ShopActivity.class);
         //AdvActivity.this.startActivity(myIntent);
         finish();
@@ -114,7 +121,9 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     @Override
     public void onRewardedVideoAdLoaded() {
         //Toast.makeText(this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
-        showAdvButton.setEnabled(true);
+        //showAdvButton.setEnabled(true);
+        dialog.dismiss();
+        mRewardedVideoAd.show();
     }
 
     @Override
@@ -145,9 +154,15 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
         super.onDestroy();
     }
 
-    public void showAdv(View view){
+    public void showAdv(View view) {
+
         if (mRewardedVideoAd.isLoaded()) {
+            //Toast.makeText(this,"am Loaded",Toast.LENGTH_LONG).show();
             mRewardedVideoAd.show();
+        }else {
+            //    Toast.makeText(this,"NOOO",Toast.LENGTH_LONG).show();
+            dialog.show(this, "Loading Ads", "The video is loading. Please wait...", true);
+
         }
     }
 
