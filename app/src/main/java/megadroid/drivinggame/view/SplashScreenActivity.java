@@ -16,7 +16,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         msoundHelper = new SoundHelper(this);
-        msoundHelper.prepareMusicPlayer3(this,R.raw.loading_page);
+        msoundHelper.prepareMusicPlayer3(this,R.raw.coins);//loading_page
         msoundHelper.playMusic();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -32,7 +32,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     public class LogoLauncher extends Thread {
         public void run() {
             try {
-                sleep(3000);                        //*****SLEEP TIMER*****
+                sleep(2000);                        //*****SLEEP TIMER*****
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

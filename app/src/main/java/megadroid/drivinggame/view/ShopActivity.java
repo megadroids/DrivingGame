@@ -70,8 +70,8 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         alternativeImages.put("car_4", R.drawable.car_4);
         alternativeImages.put("car_5", R.drawable.car_5);
         alternativeImages.put("car_6", R.drawable.car_6);
-        alternativeImages.put("backgroundcanvas", R.drawable.game_space);
-        alternativeImages.put("space_theme", R.drawable.game_road);
+        alternativeImages.put("backgroundcanvas", R.drawable.game_road);
+        alternativeImages.put("space_theme", R.drawable.game_space);
 
         selectedTick = new HashMap<>();
         selectedTick.put("def_car", findViewById(R.id.imageView));
@@ -91,8 +91,8 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         intIdToString.put(R.id.car_four, "car_4");
         intIdToString.put(R.id.car_five, "car_5");
         intIdToString.put(R.id.car_six, "car_6");
-        intIdToString.put(R.id.space_game, "backgroundcanvas");
-        intIdToString.put(R.id.road_game, "space_theme");
+        intIdToString.put(R.id.space_game,"space_theme");
+        intIdToString.put(R.id.road_game,  "backgroundcanvas");
 
         try {
             purchaser = new Purchase(this, "Shop");
@@ -124,6 +124,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         TextView pointsView = (TextView) findViewById(R.id.points);
 
         pointsView.setText("Points: " + Integer.toString(purchaser.getPoints()));
+
         //Setting the appropriate images for each car button item
         for (ImageButton imageButton : carButtons) {
             String carName = intIdToString.get(imageButton.getId());
@@ -132,6 +133,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
                 imageButton.setImageResource(alternativeImages.get(carName));
                 imageButton.setBackgroundResource(R.drawable.frame2);
                 selectedTick.get(carName).setVisibility(View.VISIBLE);
+
             }
             else if (purchaser.isCarBought(carName)) {
                 imageButton.setImageResource(alternativeImages.get(carName));
@@ -209,16 +211,37 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         //Code segment for car imagebutton click events
         if (purchaser.isCarBought(viewName)) {
             purchaser.selectCar(viewName);
+            if (muteFlag == 0) {
+                msoundHelper.CoinCollection();
+            } else {
+                msoundHelper.pauseMusic();
+            }
+
         } else if (purchaser.carAffordable(viewName)) {
             purchaser.purchaseCar(viewName);
             purchaser.selectCar(viewName);
+            if (muteFlag == 0) {
+                msoundHelper.CoinCollection();
+            } else {
+                msoundHelper.pauseMusic();
+            }
         }
         //Code segment for Theme imagebutton click events
         else if (purchaser.isThemeBought(viewName)) {
             purchaser.selectTheme(viewName);
+            if (muteFlag == 0) {
+                msoundHelper.CoinCollection();
+            } else {
+                msoundHelper.pauseMusic();
+            }
         } else if (purchaser.themeAffordable(viewName)) {
             purchaser.purchaseTheme(viewName);
             purchaser.selectTheme(viewName);
+            if (muteFlag == 0) {
+                msoundHelper.CoinCollection();
+            } else {
+                msoundHelper.pauseMusic();
+            }
         } else {
                 //Call to Advert popup activity.
                 Intent myIntent = new Intent(ShopActivity.this, AdvActivity.class);
@@ -283,5 +306,14 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(getApplicationContext(), AdvActivity.class);
         startActivityForResult(intent,1);
     }
+
+    public void back(View view) {
+        this.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
+
 }
 
