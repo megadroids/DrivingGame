@@ -17,6 +17,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -114,6 +115,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     private int bgSpeed;
     private boolean highscorebeaten;
+    private int prevMusic;
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY, int muteFlag) {
@@ -133,7 +135,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //play the music
         msoundHelper = new SoundHelper((Activity)this.getContext());
-        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),randomMainMusic());
+        prevMusic = randomMainMusic();
+        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),prevMusic);
         if(muteFlag == 0) {
             msoundHelper.playMusic();
         }else
@@ -372,15 +375,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             highscorebeaten = false;
         }
 
-        //crash sound
-        if(muteFlag == 0) {
-            msoundHelper.CrashSound();
-        }else
-        {
-            msoundHelper.pauseMusic();
-        }
-
-
 
     }
 
@@ -599,8 +593,44 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //write the score and points to JSON
         generator.writeJson(this.getContext(),highScore,points);
 
-        //stop the music
-        msoundHelper.pauseMusic();
+        if(isGameOver){
+            if(muteFlag == 0) {
+                //stop music when game is over
+                //msoundHelper.CrashSound();
+                msoundHelper.pauseMusic();
+                msoundHelper.stopMusic();
+                msoundHelper.prepareMusicPlayer3(this.getContext(),R.raw.car_crash);
+                    msoundHelper.playMusic();
+
+                //stop the music
+                msoundHelper.getmMusicPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+                {
+                    @Override
+                    public void onCompletion(MediaPlayer mp)
+                    {
+                        // Code to start the next audio in the sequence
+                        msoundHelper.pauseMusic();
+                        msoundHelper.stopMusic();
+                        msoundHelper = null;
+
+                    }
+                });
+
+            }else
+            {
+                //stop music when mute is ON
+                msoundHelper.pauseMusic();
+                msoundHelper.stopMusic();
+                msoundHelper = null;
+            }
+
+        }
+        else {
+            //stop music when going to Pause screen
+            msoundHelper.pauseMusic();
+            msoundHelper.stopMusic();
+            msoundHelper = null;
+        }
 
     }
 
@@ -613,6 +643,11 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
 
         //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
+        if(msoundHelper == null){
+            msoundHelper = new SoundHelper((Activity)this.getContext());
+            msoundHelper.prepareMusicPlayer((Activity)this.getContext(),prevMusic);
+        }
 
         if(muteFlag == 0) {
             msoundHelper.playMusic();
