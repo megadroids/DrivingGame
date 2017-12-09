@@ -47,15 +47,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     //Sensor Manager that controls the tilt
     private SensorManager sensorManager;
 
-   //Array to hold car obstacles
-   int[] randomObstacleCars;
 
     //used to count when the crystal item will be released
        private int counter;
 
     //music player
     private SoundHelper msoundHelper;
-    private Random random = new Random();
 
     //properties of the background image and instantiation of the background class
     private Items[] item;
@@ -135,7 +132,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //play the music
         msoundHelper = new SoundHelper((Activity)this.getContext());
-        prevMusic = randomMainMusic();
+        prevMusic = generator.randomMainMusic();
         msoundHelper.prepareMusicPlayer((Activity)this.getContext(),prevMusic);
         if(muteFlag == 0) {
             msoundHelper.playMusic();
@@ -152,13 +149,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //initializing player object
         //this time also passing screen size to player constructor
         player = new Player(context, screenX, screenY,selectedCar);
-
-        int starNums = 1000;
-        for (int i = 0; i < starNums; i++) {
-            Star s = new Star(screenX, screenY);
-            stars.add(s);
-
-        }
 
         pauseButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.button_pause);
         Bitmap bitmapCoin = BitmapFactory.decodeResource(context.getResources(), R.drawable.coin_gold);
@@ -193,16 +183,45 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         boom = new Boom(context);
 
         //initializing the Friend class object
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), randomObstacleCars());
-        Bitmap bitmapcar = BitmapFactory.decodeResource(this.getResources(), randomObstacleCars());
-        Bitmap bitmapSecond = BitmapFactory.decodeResource(this.getResources(), randomObstacleCars());
-        Bitmap bitmapThird = BitmapFactory.decodeResource(this.getResources(), randomObstacleCars());
+        //initializing the obstacles object
+        Bitmap bitmap;
+        Bitmap bitmapcar;
+        Bitmap bitmapSecond;
+        Bitmap bitmapThird;
+        int starNums;
+        float starwidth;
 
-        obstacles = new Obstacles(this.getContext(), screenX, screenY,bitmap,220,269);
-        obstacles2 = new Obstacles(this.getContext(), screenX, screenY,bitmapcar,720,770);
-        obstacles3 = new Obstacles(this.getContext(), screenX, screenY,bitmapSecond,550,600);
-        obstacles4 = new Obstacles(this.getContext(), screenX, screenY,bitmapThird,380,430);
+        if(generator.getThemeVal().equals("space_theme")){
 
+            //setting obstacles for space
+            bitmap = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
+            bitmapcar = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
+            bitmapSecond = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
+            bitmapThird = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
+            starNums = 400;
+            starwidth = 4.0f;
+
+            obstacles = new Obstacles(this.getContext(), screenX, screenY, bitmap, 220, 269);
+            obstacles2 = new Obstacles(this.getContext(), screenX, screenY, bitmapcar, 720, 770);
+            obstacles3 = new Obstacles(this.getContext(), screenX, screenY, bitmapSecond, 550, 600);
+            obstacles4 = new Obstacles(this.getContext(), screenX, screenY, bitmapThird, 380, 430);
+
+        }else {
+
+            //setting obstacles for road
+
+            bitmap = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars());
+            bitmapcar = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars());
+            bitmapSecond = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars());
+            bitmapThird = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars());
+            starNums = 1000;
+            starwidth = 6.0f;
+
+            obstacles = new Obstacles(this.getContext(), screenX, screenY, bitmap, 220, 269);
+            obstacles2 = new Obstacles(this.getContext(), screenX, screenY, bitmapcar, 720, 770);
+            obstacles3 = new Obstacles(this.getContext(), screenX, screenY, bitmapSecond, 550, 600);
+            obstacles4 = new Obstacles(this.getContext(), screenX, screenY, bitmapThird, 380, 430);
+        }
         isGameOver = false;
 
         this.screenX = screenX;
@@ -211,6 +230,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         pausePop = false;
 
 
+        for (int i = 0; i < starNums; i++) {
+            Star s = new Star(screenX, screenY);
+           // s.setStarWidth(starwidth);
+            stars.add(s);
+
+        }
     }
     public void run() {
         while (playing) {
@@ -754,15 +779,5 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     }
 
-    public int randomMainMusic() {
-        int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
-        int x = random.nextInt(randommusic.length);
-        return randommusic[x];
-    }
 
-    public int randomObstacleCars() {
-        int[] randomObstacleCars = new int[] {R.drawable.car_obst_0, R.drawable.car_obst_1, R.drawable.car_obst_2, R.drawable.car_obst_3, R.drawable.car_obst_4, R.drawable.car_obst_5,R.drawable.car_obst_6};
-        int x = random.nextInt(randomObstacleCars.length);
-        return randomObstacleCars[x];
-    }
 }
