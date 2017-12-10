@@ -108,7 +108,7 @@ public class Generator {
     }
 
     public int randomObstacleSpace() {
-        int[] randomObstacleSpace = new int[] {R.drawable.car_obst_0, R.drawable.car_obst_1, R.drawable.car_obst_2, R.drawable.car_obst_3, R.drawable.car_obst_4, R.drawable.car_obst_5,R.drawable.car_obst_6};
+        int[] randomObstacleSpace = new int[] {R.drawable.space_obst1, R.drawable.space_obst2, R.drawable.space_obst3, R.drawable.space_obst4, R.drawable.space_obst5, R.drawable.space_obst6,R.drawable.space_obst7};
         int x = random.nextInt(randomObstacleSpace.length);
         return randomObstacleSpace[x];
     }
