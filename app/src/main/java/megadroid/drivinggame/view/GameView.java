@@ -233,7 +233,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
         for (int i = 0; i < starNums; i++) {
-            Star s = new Star(screenX, screenY);
+            Star s = new Star(screenX, screenY,currentTheme);
             s.setStarWidth(starwidth);
             stars.add(s);
 
