@@ -238,6 +238,11 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             stars.add(s);
 
         }
+
+        //use height and width of road as its larger than the space them
+        WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
+        HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
+
     }
     public void run() {
         while (playing) {
@@ -420,7 +425,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
             //Scaling the background for different sizes of screens
             float scaleFactorX = (float) screenX / (WIDTH * 1.f);
-            float scaleFactorY = (float) screenY / (HEIGHT * 1.f);
+            float scaleFactorY = (float) screenY / (HEIGHT * 0.8f);
 
             if (canvas != null) {
                 //Saving the state of the canvas before scaling
@@ -544,7 +549,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
             // create a rectangle that we'll draw later
-            RectF rectangle = new RectF(0, 0, screenX, screenY/20);
+            RectF rectangle = new RectF(0, 0, screenX, screenY/18);
             paint.setColor(Color.BLACK);
             canvas.drawRect(rectangle, paint);
 
@@ -683,8 +688,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             msoundHelper.pauseMusic();
         }
 
-        WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
-        HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
+        //WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
+        //HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
 
         int selectedTheme =generator.getSelectedTheme();
         //starting the thread again
@@ -692,9 +697,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //updating the item coordinate with respect to player speed
         bg.setVector(bgSpeed);
-
-        WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
-        HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
 
         //stop the music
         //msoundHelper.playMusic();

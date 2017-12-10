@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         anim.setRepeatMode(Animation.REVERSE);
         anim.setRepeatCount(Animation.INFINITE);
         myText.startAnimation(anim);
-        // getSupportActionBar().hide();
 
         //Crete image button
         msoundHelper = new SoundHelper(this);
@@ -44,28 +43,18 @@ public class MainActivity extends AppCompatActivity {
         msoundHelper.playMusic();
         ImageButton startButton;
 
-        //getting the button
-
-        //startButton = (ImageButton) findViewById(R.id.buttonStart);
-
-        //adding a click listener to Start button
-
-        //startButton.setOnClickListener(this);
-
+        //hide the bottom navigation bar
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
     }
 
-    // onClick method
-    /** @Override
-    public void onClick(View v) {
-    switch (v.getId()) {
-    //the transition from MenuActivity to GameActivity
-    case R.id.buttonStart:
-    startActivity(new Intent(MainActivity.this, MenuActivity.class));
-    break;
-    }
-    }
-     */
+
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {

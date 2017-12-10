@@ -45,7 +45,7 @@ public class Items {
 
         Random generator = new Random();
         speed = generator.nextInt(8)+5;
-        y = generator.nextInt(minY + bitmap.getHeight());
+        y = generator.nextInt(minY + bitmap.getHeight()+200);
         x = minX;
 
         //x = generator.nextInt(maxX) - bitmap.getWidth();
@@ -60,10 +60,10 @@ public class Items {
         y += playerSpeed;
         y += speed;
         //if the item reaches the bottom edge
-        if (y > maxY - bitmap.getHeight()) {
+        if (y > maxY - bitmap.getHeight()+200) {
             //adding the item again to the top edge
             Random generator = new Random();
-            y = generator.nextInt(minY + bitmap.getHeight());
+            y = generator.nextInt(minY + bitmap.getHeight()+200);
             x = minX;
             speed+=1 ;
            }

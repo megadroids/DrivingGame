@@ -53,7 +53,7 @@ private boolean ontouch;
     //constructor
     public Player(Context context, int screenX, int screenY,int carID, String currentTheme) {
         x = screenX/2-30;
-        y = screenY-280;//340;
+        y = screenY-330;//340;
         speed = 1;
         bitmap = BitmapFactory.decodeResource(context.getResources(), carID);
 
