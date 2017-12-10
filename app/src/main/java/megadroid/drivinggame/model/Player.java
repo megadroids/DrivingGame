@@ -205,16 +205,17 @@ private boolean ontouch;
 
     public void updatetilt() {
 
+        //Calculating velocity & acceleration for smooth side to side movement
 
         float frameTime = 1.666f;
         GameView.xVel = (GameView.xAccel * frameTime);
-        GameView.yVel += (GameView.yAccel * frameTime);
+
 
         float xS = (GameView.xVel / 2) * frameTime;
-        float yS = (GameView.yVel / 2) * frameTime;
+
 
         x -= xS;
-        y -= yS;
+
 
         if (x > maxX) {
             x = maxX;
@@ -222,10 +223,5 @@ private boolean ontouch;
             x = minX;
         }
 
-        if (y > maxY) {
-            y = maxY;
-        } else if (y < 0) {
-            y = 0;
-        }
     }
 }
