@@ -32,9 +32,9 @@ public class Background {
             if(playerCounter%3 == 0) {
                 dy += -2;
             }
-           // if(dy == -60){
-           //     dy = -60;
-           // }
+            if(dy == -60){
+                dy = -60;
+           }
 
 
 

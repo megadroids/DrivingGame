@@ -62,7 +62,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private Items[] item2;
     //Adding 3 items you
     private int itemCount = 2;
-    private int itemCount1 =2;
+    private int itemCount1 =1;
     private ArrayList<Star> stars = new ArrayList<Star>();
 
     //boolean variable to track if the game is playing or not
@@ -250,7 +250,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         }
 
-        if (playingCounter > 100) {
+        if (playingCounter > 40) {
             for (int i = 0; i < itemCount; i++) {
 
                 item[i].update(player.getSpeed());
@@ -272,7 +272,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             }
         }
 
-        if (playingCounter > 200) {
+        if (playingCounter > 150) {
 
             for (int j = 0; j < itemCount; j++) {
 
@@ -293,7 +293,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             }
         }
 
-        if (counter%20 ==0 ) {
+        if (playingCounter > 500 ) {
             for (int m = 0; m < itemCount1; m++) {
 
                 item2[m].update(player.getSpeed());
@@ -318,8 +318,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //checking for a collision between player and a racecar.  /**&& playingCounter < 1000*/
         Random generator = new Random();
-        int increaseObstacleSpeed = generator.nextInt(10) + 500;
-        if (playingCounter > 20 && playingCounter < 1000) {
+        int increaseObstacleSpeed = generator.nextInt(5) + 15;
+        if (playingCounter > 20) {
             obstacles2.update(player.getSpeed()+increaseObstacleSpeed);
             if (Rect.intersects(player.getDetectCollision(), obstacles2.getDetectCollision())) {
                 gameOver(obstacles2);
@@ -403,7 +403,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
             }
 
-            if (playingCounter > 100) {
+            if (playingCounter > 40) {
                 //drawing the items
                 for (int i = 0; i < itemCount; i++) {
                     canvas.drawBitmap(
@@ -415,7 +415,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 }
             }
 
-            if (playingCounter > 200) {
+            if (playingCounter > 150) {
                 //drawing the items
                 for (int i = 0; i < itemCount; i++) {
                     canvas.drawBitmap(
@@ -426,7 +426,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     );
                 }
             }
-            if (counter%20 ==0 ) {
+            if (playingCounter > 500 ) {
                 //drawing the items
                 for (int i = 0; i < itemCount1; i++) {
                     canvas.drawBitmap(
