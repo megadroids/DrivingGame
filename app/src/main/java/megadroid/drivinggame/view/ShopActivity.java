@@ -123,7 +123,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
     private void redrawScreen() {
         TextView pointsView = (TextView) findViewById(R.id.points);
 
-        pointsView.setText("Points: " + Integer.toString(purchaser.getPoints()));
+        pointsView.setText(": " + Integer.toString(purchaser.getPoints()));
 
         //Setting the appropriate images for each car button item
         for (ImageButton imageButton : carButtons) {
