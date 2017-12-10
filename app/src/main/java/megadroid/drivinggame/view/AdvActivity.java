@@ -27,7 +27,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     private ImageButton showAdvButton;
     private static final int POINTS_REWARD = 25;
     private ProgressDialog dialog;
-
+    private boolean showad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedVideoAd.setRewardedVideoAdListener(this);
         loadRewardedVideoAd();
-
+        showad = false;
         dialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
     }
 
@@ -122,8 +122,12 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
     public void onRewardedVideoAdLoaded() {
         //Toast.makeText(this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
         //showAdvButton.setEnabled(true);
-        dialog.dismiss();
-        mRewardedVideoAd.show();
+        if(showad) {
+            showad = false;
+            dialog.dismiss();
+            mRewardedVideoAd.show();
+
+        }
     }
 
     @Override
@@ -156,6 +160,7 @@ public class AdvActivity extends AppCompatActivity implements RewardedVideoAdLis
 
     public void showAdv(View view) {
 
+        showad = true;
         if (mRewardedVideoAd.isLoaded()) {
             //Toast.makeText(this,"am Loaded",Toast.LENGTH_LONG).show();
             mRewardedVideoAd.show();

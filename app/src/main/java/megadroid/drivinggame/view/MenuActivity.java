@@ -65,22 +65,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         ImageView image = (ImageView) findViewById(R.id.Sound);
         image.setTag(Integer.valueOf(R.drawable.sound));
 
-        //read scores from JSON file, initial json setup
-        ScoreMonitor monitor = new ScoreMonitor();
-        ArrayList<String> cars = new ArrayList<>();
-        cars.add("def_car");
-        cars.add("car_2");
-        ArrayList<String> themes = new ArrayList<>();
-        themes.add("backgroundcanvas");
-        themes.add("space_theme");
-
-        try {
-            if(monitor.readJSON(this, "Menu").equals("")) {
-                monitor.writeJSON(this, 0, 0, cars, themes, "def_car", "backgroundcanvas");
-            }
-        } catch (JSONException e) {
-            Log.e("JSONException",e.getMessage());
-        }
 
         readJson();
     }
@@ -152,6 +136,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         readJson();
+
+        if(msoundHelper == null){
+            msoundHelper = new SoundHelper(this);
+            msoundHelper.prepareMusicPlayer2(this,R.raw.simple_game_music);
+        }
         ImageView image = (ImageView) findViewById(R.id.Sound);
         if(tagVal == 0) {
             msoundHelper.playMusic();
@@ -172,7 +161,22 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             String values = monitor.readJSON(this.getApplicationContext(),"Menu");
 
             if(values.isEmpty()){
-                Toast.makeText(this,"No Scores",Toast.LENGTH_LONG).show();
+               // Toast.makeText(this,"No Scores",Toast.LENGTH_LONG).show();
+                //Initial json setup, load default values
+                ScoreMonitor monitor = new ScoreMonitor();
+                ArrayList<String> cars = new ArrayList<>();
+                cars.add("def_car");
+                cars.add("car_2");
+                ArrayList<String> themes = new ArrayList<>();
+                themes.add("backgroundcanvas");
+                themes.add("space_theme");
+
+                try {
+                        monitor.writeJSON(this, 0, 0, cars, themes, "def_car", "backgroundcanvas");
+                } catch (JSONException e) {
+                    Log.e("JSONException",e.getMessage());
+                }
+
             }else
             {
 
@@ -193,8 +197,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
 
+        //stop music when going to Game activity
         msoundHelper.pauseMusic();
-
+        msoundHelper.pauseMusic();
+        msoundHelper.stopMusic();
+        msoundHelper = null;
     }
 
     @Override

@@ -17,6 +17,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -40,14 +41,13 @@ import megadroid.drivinggame.model.Star;
 
 public class GameView extends SurfaceView implements Runnable,SensorEventListener {
 
+    //Accelerator X value
     public static float xAccel, xVel = 0.0f;
-    public static float yAccel, yVel = 0.0f;
+
 
     //Sensor Manager that controls the tilt
     private SensorManager sensorManager;
 
-   //Array to hold car obstacles
-   int[] randomObstacleCars;
 
     //used to count when the crystal item will be released
        private int counter;
@@ -62,7 +62,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private Items[] item2;
     //Adding 3 items you
     private int itemCount = 2;
-    private int itemCount1 =2;
+    private int itemCount1 =1;
     private ArrayList<Star> stars = new ArrayList<Star>();
 
     //boolean variable to track if the game is playing or not
@@ -114,6 +114,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     private int bgSpeed;
     private boolean highscorebeaten;
+    private int prevMusic;
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY, int muteFlag) {
@@ -133,7 +134,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //play the music
         msoundHelper = new SoundHelper((Activity)this.getContext());
-        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),randomMainMusic());
+        prevMusic = randomMainMusic();
+        msoundHelper.prepareMusicPlayer((Activity)this.getContext(),prevMusic);
         if(muteFlag == 0) {
             msoundHelper.playMusic();
         }else
@@ -248,7 +250,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         }
 
-        if (playingCounter > 100) {
+        if (playingCounter > 40) {
             for (int i = 0; i < itemCount; i++) {
 
                 item[i].update(player.getSpeed());
@@ -270,7 +272,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             }
         }
 
-        if (playingCounter > 200) {
+        if (playingCounter > 150) {
 
             for (int j = 0; j < itemCount; j++) {
 
@@ -291,7 +293,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             }
         }
 
-        if (counter%20 ==0 ) {
+        if (playingCounter > 500 ) {
             for (int m = 0; m < itemCount1; m++) {
 
                 item2[m].update(player.getSpeed());
@@ -316,8 +318,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         //checking for a collision between player and a racecar.  /**&& playingCounter < 1000*/
         Random generator = new Random();
-        int increaseObstacleSpeed = generator.nextInt(10) + 500;
-        if (playingCounter > 20 && playingCounter < 1000) {
+        int increaseObstacleSpeed = generator.nextInt(5) + 15;
+        if (playingCounter > 20) {
             obstacles2.update(player.getSpeed()+increaseObstacleSpeed);
             if (Rect.intersects(player.getDetectCollision(), obstacles2.getDetectCollision())) {
                 gameOver(obstacles2);
@@ -372,15 +374,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             highscorebeaten = false;
         }
 
-        //crash sound
-        if(muteFlag == 0) {
-            msoundHelper.CrashSound();
-        }else
-        {
-            msoundHelper.pauseMusic();
-        }
-
-
 
     }
 
@@ -410,7 +403,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
             }
 
-            if (playingCounter > 100) {
+            if (playingCounter > 40) {
                 //drawing the items
                 for (int i = 0; i < itemCount; i++) {
                     canvas.drawBitmap(
@@ -422,7 +415,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 }
             }
 
-            if (playingCounter > 200) {
+            if (playingCounter > 150) {
                 //drawing the items
                 for (int i = 0; i < itemCount; i++) {
                     canvas.drawBitmap(
@@ -433,7 +426,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     );
                 }
             }
-            if (counter%20 ==0 ) {
+            if (playingCounter > 500 ) {
                 //drawing the items
                 for (int i = 0; i < itemCount1; i++) {
                     canvas.drawBitmap(
@@ -599,8 +592,44 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //write the score and points to JSON
         generator.writeJson(this.getContext(),highScore,points);
 
-        //stop the music
-        msoundHelper.pauseMusic();
+        if(isGameOver){
+            if(muteFlag == 0) {
+                //stop music when game is over
+                //msoundHelper.CrashSound();
+                msoundHelper.pauseMusic();
+                msoundHelper.stopMusic();
+                msoundHelper.prepareMusicPlayer3(this.getContext(),R.raw.car_crash);
+                    msoundHelper.playMusic();
+
+                //stop the music
+                msoundHelper.getmMusicPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+                {
+                    @Override
+                    public void onCompletion(MediaPlayer mp)
+                    {
+                        // Code to start the next audio in the sequence
+                        msoundHelper.pauseMusic();
+                        msoundHelper.stopMusic();
+                        msoundHelper = null;
+
+                    }
+                });
+
+            }else
+            {
+                //stop music when mute is ON
+                msoundHelper.pauseMusic();
+                msoundHelper.stopMusic();
+                msoundHelper = null;
+            }
+
+        }
+        else {
+            //stop music when going to Pause screen
+            msoundHelper.pauseMusic();
+            msoundHelper.stopMusic();
+            msoundHelper = null;
+        }
 
     }
 
@@ -613,6 +642,11 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
 
         //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
+        if(msoundHelper == null){
+            msoundHelper = new SoundHelper((Activity)this.getContext());
+            msoundHelper.prepareMusicPlayer((Activity)this.getContext(),prevMusic);
+        }
 
         if(muteFlag == 0) {
             msoundHelper.playMusic();
@@ -708,7 +742,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             xAccel = event.values[0];
-            yAccel = -event.values[1];
             player.updatetilt();
 
 
@@ -720,6 +753,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     }
 
     public int randomMainMusic() {
+
+
+        //Array to hold car obstacles
         int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
         int x = random.nextInt(randommusic.length);
         return randommusic[x];
