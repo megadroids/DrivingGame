@@ -32,7 +32,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     public class LogoLauncher extends Thread {
         public void run() {
             try {
-                sleep(2000);                        //*****SLEEP TIMER*****
+                sleep(2500);                        //*****SLEEP TIMER*****
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

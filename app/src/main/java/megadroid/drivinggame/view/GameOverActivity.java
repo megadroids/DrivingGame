@@ -1,6 +1,5 @@
 package megadroid.drivinggame.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.model.SoundHelper;
@@ -41,15 +39,11 @@ public class GameOverActivity extends AppCompatActivity {
 
 
         if (value) {
-            //ImageView imageView = (ImageView) findViewById(R.id.gameoverimage);
-            //imageView.setImageResource(R.drawable.gameover_beatenscore);
             ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.gameoverlayout);
             constraintLayout.setBackgroundResource(R.drawable.gameover_beatenscore);
             msoundHelper.prepareMusicPlayer3(this, R.raw.claps);
         }
         else {
-            //ImageView imageView = (ImageView) findViewById(R.id.gameoverimage);
-            //imageView.setImageResource(R.drawable.gameover_notbeatenscore);
             ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.gameoverlayout);
             constraintLayout.setBackgroundResource(R.drawable.gameover_notbeatenscore);
             msoundHelper.prepareMusicPlayer3(this, R.raw.game_over);
