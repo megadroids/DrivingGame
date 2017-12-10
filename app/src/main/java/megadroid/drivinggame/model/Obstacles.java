@@ -40,7 +40,7 @@ public class Obstacles {
         minY = 0;
         Random generator = new Random();
         speed = generator.nextInt(8) + 5;
-        x = generator.nextInt(maxX - bitmap.getWidth());//screenX;
+        x = generator.nextInt(maxX) - bitmap.getWidth();//screenX;
         y = 0 - bitmap.getHeight();//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
 
         //initializing rect object
@@ -55,7 +55,7 @@ public class Obstacles {
         if (y > maxY + bitmap.getWidth()) {
             Random generator = new Random();
             speed = generator.nextInt(15) + 5;
-            x = generator.nextInt(maxX - bitmap.getWidth());//maxX;
+            x = generator.nextInt(maxX) - bitmap.getWidth();//maxX;
             y = 0 - bitmap.getHeight();//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
         }
 

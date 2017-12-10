@@ -6,6 +6,10 @@ import android.util.Log;
 
 import org.json.JSONException;
 
+import java.util.Random;
+
+import megadroid.drivinggame.R;
+
 /**
  * Created by megadroids on 11/23/2017.
  */
@@ -17,6 +21,12 @@ public class Generator {
     private int points;
     private final int selectedTheme;
     private final int selectedCar;
+    //Array to hold car obstacles
+   // int[] randomObstacleCars;
+    private Random random = new Random();
+    private String themeVal;
+
+
 
     public Generator(Context context){
         monitor = new ScoreMonitor();
@@ -37,18 +47,21 @@ public class Generator {
         }
 
         resources = context.getResources();
-        //todo: replace def_Car with string playerCar-
+
         selectedCar = resources.getIdentifier(playerCar, "drawable",
                 context.getPackageName());
 
-        String themeVal = monitor.getCurrentTheme();
-        //todo: replace backgroundcanvas with string themeVal
+        themeVal = monitor.getCurrentTheme();
+
         selectedTheme = resources.getIdentifier(themeVal, "drawable",
                 context.getPackageName());
 
 
     }
 
+    public String getThemeVal() {
+        return themeVal;
+    }
 
     public int getSelectedTheme() {
         return selectedTheme;
@@ -80,5 +93,23 @@ public class Generator {
         } catch (JSONException e) {
             Log.e("JSONWriteException", e.getMessage());
         }
+    }
+
+    public int randomMainMusic() {
+        int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
+        int x = random.nextInt(randommusic.length);
+        return randommusic[x];
+    }
+
+    public int randomObstacleCars() {
+        int[] randomObstacleCars = new int[] {R.drawable.car_obst_0, R.drawable.car_obst_1, R.drawable.car_obst_2, R.drawable.car_obst_3, R.drawable.car_obst_4, R.drawable.car_obst_5,R.drawable.car_obst_6};
+        int x = random.nextInt(randomObstacleCars.length);
+        return randomObstacleCars[x];
+    }
+
+    public int randomObstacleSpace() {
+        int[] randomObstacleSpace = new int[] {R.drawable.space_obst1, R.drawable.space_obst2, R.drawable.space_obst3, R.drawable.space_obst4, R.drawable.space_obst5, R.drawable.space_obst6,R.drawable.space_obst7};
+        int x = random.nextInt(randomObstacleSpace.length);
+        return randomObstacleSpace[x];
     }
 }

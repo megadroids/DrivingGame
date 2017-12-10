@@ -3,7 +3,7 @@ package megadroid.drivinggame.model;
 import java.util.Random;
 
 /**
- * Created by joyag on 27/11/2017.
+ * Created by megadroids
  */
 
 public class Star {
@@ -15,38 +15,53 @@ public class Star {
     private int maxX;
     private int minX;
     private int minY;
+    private String currentTheme;
+    private Random generator;
+    private float starWidth;
 
 
-
-    public Star(int screenX, int screenY){
+    public Star(int screenX, int screenY,String currentTheme){
         maxX = screenX;
         maxY = screenY;
 
         minX =0;
         minY=0;
-        Random generator = new Random();
+        generator = new Random();
         speed = generator.nextInt(10);
+        this.currentTheme = currentTheme;
+            x = generator.nextInt(maxX);
+            y = generator.nextInt(maxY);
 
-        x= generator.nextInt(maxX);
-        y=generator.nextInt(maxY);
     }
 
     public void update(int playerSpeed){
-        x-= playerSpeed;
-        x -=speed;
+        if(currentTheme.equals("space_theme")){
+            y += playerSpeed;
+            y += speed;
+            if (y > maxY) {
+                x = generator.nextInt(maxX);;
+                y = 0;
+                speed = generator.nextInt(15);
 
-        if(x<0){
-            x=maxX;
-            Random generator = new Random();
-            y= generator.nextInt(maxY);
-            speed=generator.nextInt(15);
+            }
+        }
+        else {
+            x -= playerSpeed;
+            x -= speed;
 
+            if (x < 0) {
+                x = maxX;
+                Random generator = new Random();
+                y = generator.nextInt(maxY);
+                speed = generator.nextInt(15);
+
+            }
         }
     }
 
     public float getStarWidth(){
         float minX  = 1.0f;
-        float maxX = 6.0f;
+        float maxX = starWidth;//6.0f;
 
         Random rand = new Random();
         float finalX = rand.nextFloat()*(maxX-minX)+minX;
@@ -59,6 +74,10 @@ public class Star {
 
     public int getY() {
         return y;
+    }
+
+    public void setStarWidth(float starWidth) {
+        this.starWidth = starWidth;
     }
 }
 
