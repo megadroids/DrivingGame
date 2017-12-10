@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\Elena\Documents\SDA\MegaDroids\DrivingGame.iml" filepath="C:\Users\Elena\Documents\SDA\MegaDroids\DrivingGame.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MegaDroids.iml" filepath="$PROJECT_DIR$/MegaDroids.iml" />
-      <module fileurl="file://D:\2017\Devi\androidstudio\DrivingGame\MegaDroids.iml" filepath="D:\2017\Devi\androidstudio\DrivingGame\MegaDroids.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DrivingGame.iml" filepath="$PROJECT_DIR$/DrivingGame.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
