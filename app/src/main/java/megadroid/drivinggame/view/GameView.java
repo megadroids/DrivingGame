@@ -41,14 +41,13 @@ import megadroid.drivinggame.model.Star;
 
 public class GameView extends SurfaceView implements Runnable,SensorEventListener {
 
+    //Accelerator X value
     public static float xAccel, xVel = 0.0f;
-    public static float yAccel, yVel = 0.0f;
+
 
     //Sensor Manager that controls the tilt
     private SensorManager sensorManager;
 
-   //Array to hold car obstacles
-   int[] randomObstacleCars;
 
     //used to count when the crystal item will be released
        private int counter;
@@ -743,7 +742,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             xAccel = event.values[0];
-            yAccel = -event.values[1];
             player.updatetilt();
 
 
@@ -755,6 +753,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     }
 
     public int randomMainMusic() {
+
+
+        //Array to hold car obstacles
         int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
         int x = random.nextInt(randommusic.length);
         return randommusic[x];
