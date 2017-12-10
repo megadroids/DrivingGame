@@ -39,7 +39,7 @@ public class Obstacles {
         //minX = 0;
         minY = 0;
         Random generator = new Random();
-        speed = generator.nextInt(8) + 15;
+        speed = generator.nextInt(5) + 5;
         x = generator.nextInt(maxX - bitmap.getWidth());//screenX;
         y = 0 - bitmap.getHeight();//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
 
@@ -50,11 +50,11 @@ public class Obstacles {
     }
 
     public void update(int playerSpeed) {
-       // y += playerSpeed;
+        y += playerSpeed;
         y += speed;
         if (y > maxY + bitmap.getWidth()) {
             Random generator = new Random();
-            speed = generator.nextInt(15) + 20;
+            speed = generator.nextInt(6) + 5;
             x = generator.nextInt(maxX - bitmap.getWidth());//maxX;
             y = 0 - bitmap.getHeight();//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
         }
