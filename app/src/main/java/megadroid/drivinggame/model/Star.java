@@ -3,7 +3,7 @@ package megadroid.drivinggame.model;
 import java.util.Random;
 
 /**
- * Created by joyag on 27/11/2017.
+ * Created by megadroids
  */
 
 public class Star {
@@ -16,6 +16,7 @@ public class Star {
     private int minX;
     private int minY;
 
+    private float starWidth;
 
 
     public Star(int screenX, int screenY){
@@ -46,7 +47,7 @@ public class Star {
 
     public float getStarWidth(){
         float minX  = 1.0f;
-        float maxX = 6.0f;
+        float maxX = starWidth;//6.0f;
 
         Random rand = new Random();
         float finalX = rand.nextFloat()*(maxX-minX)+minX;
@@ -59,6 +60,10 @@ public class Star {
 
     public int getY() {
         return y;
+    }
+
+    public void setStarWidth(float starWidth) {
+        this.starWidth = starWidth;
     }
 }
 

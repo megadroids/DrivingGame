@@ -113,7 +113,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private int bgSpeed;
     private boolean highscorebeaten;
     private int prevMusic;
-
+    private String selectedTheme;
     //Class constructor
     public GameView(Context context, int screenX, int screenY, int muteFlag) {
         super(context);
@@ -198,7 +198,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             bitmapcar = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
             bitmapSecond = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
             bitmapThird = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
-            starNums = 400;
+            starNums = 300;
             starwidth = 4.0f;
 
             obstacles = new Obstacles(this.getContext(), screenX, screenY, bitmap, 220, 269);
@@ -232,7 +232,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         for (int i = 0; i < starNums; i++) {
             Star s = new Star(screenX, screenY);
-           // s.setStarWidth(starwidth);
+            s.setStarWidth(starwidth);
             stars.add(s);
 
         }
