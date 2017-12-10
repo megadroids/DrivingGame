@@ -18,11 +18,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.MenuActivity">
-        </activity>
-        <activity android:name=".view.MainActivity" />
-        <activity android:name=".view.GameOverActivity"
-                android:theme="@style/Theme.Transparent"/>
+        <activity android:name=".view.MenuActivity"></activity>
+        <activity
+            android:name=".view.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.GameOverActivity"
+            android:theme="@style/Theme.Transparent" />
         <activity android:name=".view.ShopActivity" />
         <activity
             android:name=".view.GameActivity"
