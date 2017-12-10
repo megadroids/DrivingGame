@@ -51,14 +51,14 @@ public class Player {
     private final int maxX;
 private boolean ontouch;
     //constructor
-    public Player(Context context, int screenX, int screenY,int carID) {
+    public Player(Context context, int screenX, int screenY,int carID, String currentTheme) {
         x = screenX/2-30;
-        y = screenY-340;
+        y = screenY-280;//340;
         speed = 1;
         bitmap = BitmapFactory.decodeResource(context.getResources(), carID);
 
         //calculating maxY
-        maxY = screenY -340 ;//- bitmap.getHeight();
+        maxY = screenY -280;//340;//- bitmap.getHeight();
 
         //top edge's y point is 0 so min y will always be zero
        // minY = -200;//0;
@@ -66,8 +66,16 @@ private boolean ontouch;
         //setting the boosting value to false initially
         boosting = false;
 
-        maxX=screenX/2+190;
-        minX= screenX/2 -330;
+        if(currentTheme.equals("space_theme")) {
+            maxX=screenX-bitmap.getWidth();
+            minX= 0;
+
+        }else {
+            maxX=screenX/2+190;
+            minX= screenX/2 -330;
+
+        }
+
         Xpos=x;
 
 
