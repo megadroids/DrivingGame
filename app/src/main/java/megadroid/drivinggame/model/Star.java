@@ -30,7 +30,7 @@ public class Star {
         speed = generator.nextInt(10);
         this.currentTheme = currentTheme;
             x = generator.nextInt(maxX);
-            y = generator.nextInt(maxY);
+            y = generator.nextInt(maxY+200);
 
     }
 
@@ -38,7 +38,7 @@ public class Star {
         if(currentTheme.equals("space_theme")){
             y += playerSpeed;
             y += speed;
-            if (y > maxY) {
+            if (y > maxY + 200) {
                 x = generator.nextInt(maxX);;
                 y = 0;
                 speed = generator.nextInt(15);
@@ -52,7 +52,7 @@ public class Star {
             if (x < 0) {
                 x = maxX;
                 Random generator = new Random();
-                y = generator.nextInt(maxY);
+                y = generator.nextInt(maxY+200);
                 speed = generator.nextInt(15);
 
             }
