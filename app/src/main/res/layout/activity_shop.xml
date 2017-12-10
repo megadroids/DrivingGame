@@ -9,21 +9,35 @@
 
     <ImageButton
         android:id="@+id/coin"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
         android:onClick="getPoints"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.003"
-        app:srcCompat="@drawable/coin_gold_cute" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/money" />
+
+    <ImageButton
+        android:id="@+id/button_adv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/home"
+        android:onClick="back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.002"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/cars"
@@ -33,81 +47,72 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-smallcaps"
+        android:fontFamily="@font/rubik_mono_one"
         android:text="Cars"
-        android:textColor="@android:color/white"
-        android:textSize="19sp"
-        android:textStyle="bold"
+        android:textColor="#33FF00"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.024"
+        app:layout_constraintHorizontal_bias="0.174"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.025" />
-
-    <ImageButton
-        android:id="@+id/button_adv"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:background="@drawable/menu"
-        android:onClick="back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0.074" />
 
     <TextView
         android:id="@+id/points"
         android:layout_width="wrap_content"
         android:layout_height="31dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
-        android:text="Points"
         android:textColor="@android:color/white"
         android:textSize="19sp"
         android:textStyle="bold"
+        android:drawableRight="@drawable/coin_gold"
+        android:drawablePadding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintHorizontal_bias="0.556"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Points: 0" />
 
     <ImageView
         android:id="@+id/parking"
         android:layout_width="match_parent"
-        android:layout_height="358dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="346dp"
+        android:layout_marginTop="56dp"
         android:background="@android:color/transparent"
         android:rotation="90"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/parking"
-        tools:layout_editor_absoluteX="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/parking" />
 
 
     <ImageButton
         android:id="@+id/taxi_car"
-        android:layout_width="55dp"
-        android:layout_height="125dp"
+        android:layout_width="50dp"
+        android:layout_height="120dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.074"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.135"
+        app:layout_constraintVertical_bias="0.208"
         app:srcCompat="@drawable/def_car_shop" />
 
     <ImageButton
         android:id="@+id/car_two"
         android:layout_width="55dp"
-        android:layout_height="125dp"
+        android:layout_height="120dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -116,17 +121,17 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintHorizontal_bias="0.456"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.135"
+        app:layout_constraintVertical_bias="0.208"
         app:srcCompat="@drawable/car_2" />
 
 
     <ImageButton
         android:id="@+id/car_three"
         android:layout_width="55dp"
-        android:layout_height="125dp"
+        android:layout_height="120dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -135,16 +140,16 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.808"
+        app:layout_constraintHorizontal_bias="0.795"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.135"
+        app:layout_constraintVertical_bias="0.208"
         app:srcCompat="@drawable/car_3_shop" />
 
     <ImageButton
         android:id="@+id/car_four"
         android:layout_width="55dp"
-        android:layout_height="125dp"
+        android:layout_height="120dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
@@ -155,15 +160,33 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintHorizontal_bias="0.06"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="0.506"
         app:srcCompat="@drawable/car_4_shop" />
 
     <ImageButton
         android:id="@+id/car_five"
         android:layout_width="55dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.449"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.506"
+        app:srcCompat="@drawable/car_5_shop" />
+
+    <ImageButton
+        android:id="@+id/car_six"
+        android:layout_width="65dp"
         android:layout_height="125dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -173,28 +196,10 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintHorizontal_bias="0.788"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45"
-        app:srcCompat="@drawable/car_5_shop" />
-
-    <ImageButton
-        android:id="@+id/car_six"
-        android:layout_width="75dp"
-        android:layout_height="133dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.805"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.44"
+        app:layout_constraintVertical_bias="0.501"
         app:srcCompat="@drawable/car_6_shop" />
 
     <TextView
@@ -205,37 +210,41 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-smallcaps"
+        android:fontFamily="@font/rubik_mono_one"
         android:text="Themes"
-        android:textColor="@android:color/white"
+        android:textColor="#33FF00"
         android:textColorHint="@android:color/background_dark"
-        android:textSize="19sp"
-        android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintHorizontal_bias="0.193"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65" />
+        app:layout_constraintVertical_bias="0.698"
+        tools:fontFamily="@font/rubik_mono_one" />
 
     <ImageView
         android:id="@+id/frame"
-        android:layout_width="377dp"
-        android:layout_height="190dp"
+        android:layout_width="391dp"
+        android:layout_height="173dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.979"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/shop_frame3" />
 
     <ImageButton
         android:id="@+id/road_game"
-        android:layout_width="144dp"
-        android:layout_height="144dp"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -244,16 +253,16 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.852"
+        app:layout_constraintHorizontal_bias="0.815"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.939"
+        app:layout_constraintVertical_bias="0.959"
         app:srcCompat="@drawable/game_road" />
 
     <ImageButton
         android:id="@+id/space_game"
-        android:layout_width="144dp"
-        android:layout_height="144dp"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -265,7 +274,7 @@
         app:layout_constraintHorizontal_bias="0.142"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.939"
+        app:layout_constraintVertical_bias="0.958"
         app:srcCompat="@drawable/game_space" />
 
     <ImageView
@@ -286,13 +295,13 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:visibility="invisible"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/car_two"
         app:layout_constraintEnd_toEndOf="@+id/car_two"
         app:layout_constraintStart_toStartOf="@+id/car_two"
@@ -302,13 +311,13 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:visibility="invisible"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/car_three"
         app:layout_constraintEnd_toEndOf="@+id/car_three"
         app:layout_constraintStart_toStartOf="@+id/car_three"
@@ -318,13 +327,13 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:visibility="invisible"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/car_four"
         app:layout_constraintEnd_toEndOf="@+id/car_four"
         app:layout_constraintStart_toStartOf="@+id/car_four"
@@ -334,13 +343,13 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:visibility="invisible"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/car_five"
         app:layout_constraintEnd_toEndOf="@+id/car_five"
         app:layout_constraintStart_toStartOf="@+id/car_five"
@@ -350,13 +359,13 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:visibility="invisible"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/car_six"
         app:layout_constraintEnd_toEndOf="@+id/car_six"
         app:layout_constraintStart_toStartOf="@+id/car_six"
