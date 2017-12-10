@@ -15,8 +15,8 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/app_name"
         android:src="@drawable/shop_popup"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/cross"
@@ -40,7 +40,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-smallcaps"
-        android:text=" watch a video \nget 100 points"
+        android:text=" watch a video \nget 25 points"
         android:gravity="center_horizontal"
         android:textAppearance="?android:textAppearanceLarge"
         android:textColor="#FFFFFF"
