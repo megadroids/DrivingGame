@@ -3,7 +3,7 @@ package megadroid.drivinggame.model;
 import java.util.Random;
 
 /**
- * Created by megadroids
+ * Class used to generate the stars in the game
  */
 
 public class Star {
@@ -19,7 +19,12 @@ public class Star {
     private Random generator;
     private float starWidth;
 
-
+    /**
+     * Constructor method to set the X and Y position of the star object
+     * @param screenX - screen width
+     * @param screenY - screen height
+     * @param currentTheme - the current theme selected by the user
+     */
     public Star(int screenX, int screenY,String currentTheme){
         maxX = screenX;
         maxY = screenY;
@@ -34,6 +39,10 @@ public class Star {
 
     }
 
+    /**
+     * Method used to set the X and Y position of the star object
+     * @param playerSpeed
+     */
     public void update(int playerSpeed){
         if(currentTheme.equals("space_theme")){
             y += playerSpeed;
@@ -59,6 +68,7 @@ public class Star {
         }
     }
 
+    //method to get the random star width
     public float getStarWidth(){
         float minX  = 1.0f;
         float maxX = starWidth;//6.0f;
@@ -68,14 +78,17 @@ public class Star {
         return finalX;
     }
 
+    //get X position of the star
     public int getX() {
         return x;
     }
 
+    //get Y position of the star
     public int getY() {
         return y;
     }
 
+    //set the widthh of the star object
     public void setStarWidth(float starWidth) {
         this.starWidth = starWidth;
     }

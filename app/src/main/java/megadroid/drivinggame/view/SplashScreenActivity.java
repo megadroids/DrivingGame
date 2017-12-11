@@ -6,16 +6,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.model.SoundHelper;
 
+/**
+ * Class used to generate the initial splash screen of the game
+ */
 public class SplashScreenActivity extends AppCompatActivity {
     private SoundHelper msoundHelper;
+
+    /**
+     * Method invoked when the activity is created and used to create the music and logo objects
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //play the initial sound fo the game
         msoundHelper = new SoundHelper(this);
         msoundHelper.prepareMusicPlayer3(this,R.raw.start);//loading_page
         msoundHelper.playMusic();
@@ -24,7 +32,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_splash_screen);
-      //  getSupportActionBar().hide();
         LogoLauncher logoLauncher = new LogoLauncher();
         logoLauncher.start();
 
@@ -39,6 +46,9 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Class used to implement wait logic for the splash screen and redirect to the Main activity
+     */
     public class LogoLauncher extends Thread {
         public void run() {
             try {
@@ -54,6 +64,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
     }
+
+    /**
+     * Method invoked when the activity is paused
+     */
     protected void onPause() {
         super.onPause();
         //stop music when going to Main activity

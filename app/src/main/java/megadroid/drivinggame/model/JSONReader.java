@@ -15,11 +15,17 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by megadroids.
+ * Class used to read the JSON file which is used for storing the user data
  */
 
 public class JSONReader {
 
+    /**
+     * Constructor method used to read the JSON file and return the text in a array
+     * @param context
+     * @return - Jsonarray holding the content of the Json file
+     * @throws JSONException
+     */
     public JSONArray load(Context context ) throws JSONException {
 
         JSONArray messages = null;
@@ -33,13 +39,24 @@ public class JSONReader {
         return messages;
     }
 
-
+    /**
+     * Method used to read the input stream
+     * @param inputStream - stream object to be read
+     * @param encoding - the encoding format to be used for reading
+     * @return - string data from the file
+     * @throws IOException
+     */
     public String readFullyAsString(InputStream inputStream, String encoding) throws IOException {
 
         return readFully(inputStream).toString(encoding);
     }
 
-
+    /**
+     * Method used to read the input stream
+     * @param inputStream - stream object to be read
+     * @return - bytearray on reading the input stream
+     * @throws IOException
+     */
     private ByteArrayOutputStream readFully(InputStream inputStream)  throws IOException {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

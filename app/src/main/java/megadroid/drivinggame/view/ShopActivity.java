@@ -1,32 +1,25 @@
 package megadroid.drivinggame.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.Purchase;
-
 import android.widget.Toast;
-
 import com.google.android.gms.ads.MobileAds;
-
 import org.json.JSONException;
-
 import megadroid.drivinggame.model.SoundHelper;
 
+/**
+ * Class used to create the Shop logic for the game
+ */
 public class ShopActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundHelper msoundHelper;
@@ -60,9 +53,6 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         //set the orientation to landscape
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        //uncommetn and potentiallt rename the button id's and their corresponding string name
-        //uncertain if the default car has to be there as there is no alternative image,
-        // as there is no price on the original image
         //This is so that the image without the pricetag can be presented corresponding to the strings found in the json database
         alternativeImages = new HashMap<>();
         alternativeImages.put("def_car", R.drawable.def_car_shop);
@@ -84,7 +74,6 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //This is so that the button can have a string Id corresponding to json database
-        //uncomment and potenitaly rename the button id's an their corresponding string name
         intIdToString = new HashMap<>();
         intIdToString.put(R.id.taxi_car, "def_car");
         intIdToString.put(R.id.car_two, "car_2");
@@ -102,6 +91,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
         }
         initializeButtons();
 
+        //verify the mute flag and play the music accordingly
         Intent intent = getIntent();
         muteFlag = intent.getIntExtra("muteFlag", 0); //if it's a string you stored.
 
@@ -172,7 +162,7 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
      * so that it may be easier to call, it will also set their onCLickListeners.
      */
     private void initializeButtons() {
-        //Todo add more butttons
+
         carButtons = new ArrayList<>();
         themeButtons = new ArrayList<>();
 
@@ -328,19 +318,30 @@ public class ShopActivity extends AppCompatActivity implements View.OnClickListe
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
+    /**
+     * Method used to update the points from the AdvActivity
+     * @param v
+     */
     public void getPoints(View v)
     {
         Intent intent = new Intent(getApplicationContext(), AdvActivity.class);
         startActivityForResult(intent,1);
     }
 
+    /**
+     * Method to handle Onclick on the Home button
+     * @param view
+     */
     public void back(View view) {
              this.finish();
     }
 
-
+    /**
+     * Method invoked on back button press
+     */
     @Override
     public void onBackPressed() {
+        //do nothing so that the back pressed is disabled
     }
 
 }

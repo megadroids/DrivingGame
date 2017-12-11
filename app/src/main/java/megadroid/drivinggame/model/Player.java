@@ -1,8 +1,6 @@
 package megadroid.drivinggame.model;
 
-/**
- * Created by megadroids on 11/23/2017.
- */
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,16 +9,13 @@ import android.graphics.Rect;
 import megadroid.drivinggame.view.GameView;
 
 /**
- * Created by megadroids .
+ * Class to generate the player in the game
  */
 public class Player {
 
     //Bitmap to get character from image
     private Bitmap bitmap;
-
     private Rect detectCollision;
-
-
 
     //coordinates
     private int x;
@@ -49,8 +44,16 @@ public class Player {
     private int screenY;
     private int minX;
     private final int maxX;
-private boolean ontouch;
-    //constructor
+    private boolean ontouch;
+
+    /**
+     * Constructor class used to generate the player and set the X and Y position
+     * @param context
+     * @param screenX - screen width
+     * @param screenY - screen height
+     * @param carID - the player bitmap resource ID to be assigned as player
+     * @param currentTheme - the current selection of theme
+     */
     public Player(Context context, int screenX, int screenY,int carID, String currentTheme) {
         x = screenX/2-30;
         y = screenY-330;//340;
@@ -59,9 +62,6 @@ private boolean ontouch;
 
         //calculating maxY
         maxY = screenY -280;//340;//- bitmap.getHeight();
-
-        //top edge's y point is 0 so min y will always be zero
-       // minY = -200;//0;
 
         //setting the boosting value to false initially
         boosting = false;
@@ -78,8 +78,6 @@ private boolean ontouch;
 
         Xpos=x;
 
-
-
         //initializing rect object
         detectCollision =  new Rect(x+10, y+10, bitmap.getWidth()-15, bitmap.getHeight()-15);
 
@@ -88,7 +86,9 @@ private boolean ontouch;
 
     }
 
-    //Method to update coordinate of character
+    /**
+     * Method to update X and Y coordinate of character
+     */
     public void update(){
         //updating x coordinate
         //if the ship is boosting
@@ -141,22 +141,6 @@ private boolean ontouch;
             speed = MIN_SPEED;
         }
 
-        //moving the ship down
-        /*
-        y -= speed + GRAVITY;
-
-
-
-        //but controlling it also so that it won't go off the screen
-        if (y < minY) {
-            y = maxY;
-        }
-        if (y > maxY) {
-            y = maxY;
-        }
-
-        */
-
         //but controlling it also so that it won't go off the screen
         if (x < minX) {
             x = minX;
@@ -164,7 +148,6 @@ private boolean ontouch;
         if (x > maxX) {
             x = maxX;
         }
-
 
         //adding top, left, bottom and right to the rect object
         detectCollision.left = x+10;
@@ -187,20 +170,22 @@ private boolean ontouch;
 
     }
 
-
-
+    //getter method for the bitmp image
     public Bitmap getBitmap() {
         return bitmap;
     }
 
+    //method to get the X position of the player
     public int getX() {
         return x;
     }
 
+    //method to get the Y position of the player
     public int getY() {
         return y;
     }
 
+    //method to get the speed of the player
     public int getSpeed() {
         return speed;
     }
@@ -210,20 +195,17 @@ private boolean ontouch;
         return detectCollision;
     }
 
-
+    /**
+     * Method to calculate the X position of the player based on the tilt of the device
+     */
     public void updatetilt() {
 
         //Calculating velocity & acceleration for smooth side to side movement
-
         float frameTime = 1.666f;
         GameView.xVel = (GameView.xAccel * frameTime);
 
-
         float xS = (GameView.xVel / 2) * frameTime;
-
-
         x -= xS;
-
 
         if (x > maxX) {
             x = maxX;

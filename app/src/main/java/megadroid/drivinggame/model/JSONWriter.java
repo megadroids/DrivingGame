@@ -13,16 +13,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by megadroids.
+ * Class used to write the user specific data to the JSON file
  */
 
 public class JSONWriter {
 
-
+    /**
+     * Constructor used to get the user data and write to JSON file
+     * @param context
+     * @param highscore - high score achieved by the user
+     * @param point - the items collected by the user
+     * @param cars - the cars bought by the user
+     * @param themes - the themes bought by the user
+     * @param currentCar - the current car selected by the user
+     * @param currentTheme - the current theme selected by the user
+     * @throws JSONException - the exception encountered during the file write operation
+     */
     public void JSONWrite(Context context, int highscore, int point, ArrayList<String> cars, ArrayList<String> themes,String currentCar, String currentTheme) throws JSONException {
 
         //Json file layout
-        //[{"highscore":222,"points":20,"cars":["01","02","03"],"themes":["christmas.png","farm.png","city.png"],"currentcar":"01","currenttheme":"city.png"}]
+        //[{"highscore":222,"points":20,"cars":["01","02","03"],"themes":["christmas.png","farm.png","city.png"],
+        // "currentcar":"01","currenttheme":"city.png"}]
 
         //load the existing file content to update
         JSONReader reader = new JSONReader();
@@ -44,20 +55,7 @@ public class JSONWriter {
         else {
             jsonObj = (JSONObject) value.get(0);
             carArr = new JSONArray();
-            //carArr.put("def_car");
-            //carArr = jsonObj.getJSONArray("cars");
-            //if no cars bought yet
-           // if(carArr == null){
-           //     carArr = new JSONArray();
-           // }
-            //if no themes bought yet
-            //themeArr = jsonObj.getJSONArray("themes");
             themeArr = new JSONArray();
-           // themeArr.put("backgroundcanvas");
-
-           // if(themeArr == null){
-           //     themeArr = new JSONArray();
-           // }
         }
 
         //update only if the correct value has been passed

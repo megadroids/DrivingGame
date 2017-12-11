@@ -7,11 +7,10 @@ import android.graphics.Rect;
 import java.util.Random;
 
 /**
- * Created by megadroids.
+ * Class used to generate the obstacles blocking the player
  */
 
 public class Obstacles {
-
 
     private Bitmap bitmap;
     private int x;
@@ -27,16 +26,21 @@ public class Obstacles {
     //creating a rect object for a friendly ship
     private Rect detectCollision;
 
-
+    /**
+     * Constructor method used to generate the obstacle object and set its position on teh canvas
+     * @param context
+     * @param screenX - screen width
+     * @param screenY - screen height
+     * @param bitmap - image used fir the obstacle
+     * @param Xstart - start position of the obstacle
+     * @param Xend - end position of the obstacle
+     */
     public Obstacles(Context context, int screenX, int screenY, Bitmap bitmap , int Xstart, int Xend) {
         this.bitmap = bitmap;
-       // bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy);
-       // maxX = screenX;
         maxY = screenY;
         maxX=Xend;
-        minX= Xstart ;//Xstart -(80*range);
+        minX= Xstart ;
 
-        //minX = 0;
         minY = 0;
         Random generator = new Random();
         speed = generator.nextInt(6) + 5;
@@ -70,32 +74,35 @@ public class Obstacles {
         //Adding the top, left, bottom and right to the rect object
         detectCollision.left = x+10;
         detectCollision.top = y+10;
-
         detectCollision.right = x + bitmap.getWidth()-10;
         detectCollision.bottom = y + bitmap.getHeight()-15;
 
     }
 
-    //one more getter for getting the rect object
+    //getter for getting the rect object
     public Rect getDetectCollision() {
         return detectCollision;
     }
 
-    //getters
+    //getters for the bitamp used as obstacle
     public Bitmap getBitmap() {
         return bitmap;
     }
 
+    //to get the X position of the obsatcle
     public int getX() {
         return x;
     }
 
+    //to get the Y position of the obstacle
     public int getY() {
         return y;
     }
 
+    //to set the X position of the obstacle
     public void setX(int newX){ this.x = newX;}
 
+    //to set the bitmap image for the obstacle
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
