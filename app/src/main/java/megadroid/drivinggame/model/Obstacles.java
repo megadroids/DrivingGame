@@ -43,7 +43,7 @@ public class Obstacles {
 
         minY = 0;
         Random generator = new Random();
-        speed = generator.nextInt(8) + 5;
+        speed = generator.nextInt(6) + 5;
         x = generator.nextInt(maxX) - bitmap.getWidth();
         y = 0 - bitmap.getHeight();
 
@@ -53,18 +53,14 @@ public class Obstacles {
 
     }
 
-    /**
-     * Method to update the position of the obstacle
-     * @param playerSpeed
-     */
     public void update(int playerSpeed) {
         y += playerSpeed;
         y += speed;
         if (y > maxY + bitmap.getWidth()) {
             Random generator = new Random();
-            speed = generator.nextInt(15) + 5;
-            x = generator.nextInt(maxX) - bitmap.getWidth();//maxX;
-            y = 0 - bitmap.getHeight();//maxY;//generator.nextInt(maxY) - bitmap.getHeight();
+            speed = generator.nextInt(10) + 5;
+            x = generator.nextInt(maxX) - bitmap.getWidth();
+            y = 0 - bitmap.getHeight();
         }
 
         //but controlling it also so that it won't go off the screen
