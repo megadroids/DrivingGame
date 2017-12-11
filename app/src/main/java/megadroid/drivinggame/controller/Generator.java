@@ -6,8 +6,10 @@ import android.util.Log;
 
 import org.json.JSONException;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
-
+import java.util.ArrayList;
 import megadroid.drivinggame.R;
 
 /**
@@ -25,8 +27,12 @@ public class Generator {
    // int[] randomObstacleCars;
     private Random random = new Random();
     private String themeVal;
-
-
+    //private int[] randomObstacleCars;
+    private ArrayList<Integer> randomObstacleCars;
+    //private int[] randommusic;
+    private ArrayList<Integer> randommusic;
+    // private int[] randomObstacleSpace;
+    private ArrayList<Integer> randomObstacleSpace;
 
     public Generator(Context context){
         monitor = new ScoreMonitor();
@@ -56,7 +62,35 @@ public class Generator {
         selectedTheme = resources.getIdentifier(themeVal, "drawable",
                 context.getPackageName());
 
+        //randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
+        randommusic  = new ArrayList<Integer>(3);
+        randommusic.add(R.raw.main_game1);
+        randommusic.add(R.raw.main_game2);
+        randommusic.add(R.raw.main_game3);
+        Collections.shuffle(randommusic);
 
+        //randomObstacleCars = new int[] {R.drawable.car_obst_0, R.drawable.car_obst_1, R.drawable.car_obst_2, R.drawable.car_obst_3, R.drawable.car_obst_4, R.drawable.car_obst_5,R.drawable.car_obst_6};
+        randomObstacleCars = new ArrayList<Integer>(7);
+        randomObstacleCars.add(R.drawable.car_obst_0);
+        randomObstacleCars.add(R.drawable.car_obst_1);
+        randomObstacleCars.add(R.drawable.car_obst_2);
+        randomObstacleCars.add(R.drawable.car_obst_3);
+        randomObstacleCars.add(R.drawable.car_obst_4);
+        randomObstacleCars.add(R.drawable.car_obst_5);
+        randomObstacleCars.add(R.drawable.car_obst_6);
+        Collections.shuffle(randomObstacleCars);
+
+        //randomObstacleSpace = new int[] {R.drawable.space_obst1, R.drawable.space_obst2, R.drawable.space_obst3, R.drawable.space_obst4, R.drawable.space_obst5, R.drawable.space_obst6,R.drawable.space_obst7,R.drawable.asteroid};
+        randomObstacleSpace = new ArrayList<Integer>(8);
+        randomObstacleSpace.add(R.drawable.space_obst1);
+        randomObstacleSpace.add(R.drawable.space_obst2);
+        randomObstacleSpace.add(R.drawable.space_obst3);
+        randomObstacleSpace.add(R.drawable.space_obst4);
+        randomObstacleSpace.add(R.drawable.space_obst5);
+        randomObstacleSpace.add(R.drawable.space_obst6);
+        randomObstacleSpace.add(R.drawable.space_obst7);
+        randomObstacleSpace.add(R.drawable.asteroid);
+        Collections.shuffle(randomObstacleSpace);
     }
 
     public String getThemeVal() {
@@ -95,21 +129,25 @@ public class Generator {
         }
     }
 
-    public int randomMainMusic() {
-        int[] randommusic = new int[] {R.raw.main_game1, R.raw.main_game2, R.raw.main_game3};
-        int x = random.nextInt(randommusic.length);
-        return randommusic[x];
+    public int randomMainMusic(int x) {
+
+        //int x = random.nextInt(randommusic.length);
+        //return randommusic[x];
+        return randommusic.get(x);
     }
 
-    public int randomObstacleCars() {
-        int[] randomObstacleCars = new int[] {R.drawable.car_obst_0, R.drawable.car_obst_1, R.drawable.car_obst_2, R.drawable.car_obst_3, R.drawable.car_obst_4, R.drawable.car_obst_5,R.drawable.car_obst_6};
-        int x = random.nextInt(randomObstacleCars.length);
-        return randomObstacleCars[x];
+    public int randomObstacleCars(int x) {
+
+
+        //int x = random.nextInt(randomObstacleCars.length);
+        //return randomObstacleCars[x];
+        return randomObstacleCars.get(x);
     }
 
-    public int randomObstacleSpace() {
-        int[] randomObstacleSpace = new int[] {R.drawable.space_obst1, R.drawable.space_obst2, R.drawable.space_obst3, R.drawable.space_obst4, R.drawable.space_obst5, R.drawable.space_obst6,R.drawable.space_obst7,R.drawable.asteroid};
-        int x = random.nextInt(randomObstacleSpace.length);
-        return randomObstacleSpace[x];
+    public int randomObstacleSpace(int x) {
+
+        //int x = random.nextInt(randomObstacleSpace.length);
+        //return randomObstacleSpace[x];
+        return randomObstacleSpace.get(x);
     }
 }
