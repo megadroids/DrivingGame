@@ -16,7 +16,7 @@ import megadroid.drivinggame.model.JSONReader;
 import megadroid.drivinggame.model.JSONWriter;
 
 /**
- * Created by megadroids.
+ * Class used to handle the read and write operations on the JSON file
  */
 
 public class ScoreMonitor {
@@ -49,6 +49,7 @@ public class ScoreMonitor {
         return textToPrint;
     }
 
+    //method to read the JSON array and return specific values related to the user
     private void readJsonArray(JSONArray values, String screenType){
         //read scores from JSON file
 
@@ -96,28 +97,31 @@ public class ScoreMonitor {
 
     }
 
-
+    //method to get the highscore
     public int getHighScore() {
         return highScore;
     }
 
+    //method to get the points
     public int getPoints() {
         return points;
     }
 
-
+    //method to get the list of themes purchased by player
     public ArrayList<String> getThemelist() {
         return themelist;
     }
 
-
+    //method to get the list of cars purchased by player
     public ArrayList<String> getCarlist() {
         return carlist;
     }
 
+    //to get the current car selected by the user
     public String getCurrentCar() {
         return currentCar;
     }
+    //to get the current theme selected by the user
     public String getCurrentTheme() {
         return currentTheme;
     }

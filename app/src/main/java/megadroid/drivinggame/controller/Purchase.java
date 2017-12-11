@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * Created by megadroids on 11/23/2017.
+ * Class to generate the shop logic to purchase the car and theme
  */
 
 public class Purchase {
@@ -27,6 +27,12 @@ public class Purchase {
     private HashMap<String, Integer> carPrices;
     private HashMap<String, Integer> themePrices;
 
+    /**
+     * Constructor method to read the previous values from the JSON and also set price for the cars
+     * @param context
+     * @param screenType - it indicate if the json read is invoked from Shop screen
+     * @throws JSONException - exception raised during Json read failure
+     */
     public Purchase(Context context, String screenType) throws JSONException {
 
         carPrices = new HashMap<>();
@@ -49,7 +55,11 @@ public class Purchase {
         points = scoreMonitor.getPoints();
     }
 
-
+    /**
+     * Method to verify if the car is already bought by the player
+     * @param id
+     * @return
+     */
     public boolean isCarBought(String id) {
         Iterator<String> it = carlist.iterator();
         while(it.hasNext()) {

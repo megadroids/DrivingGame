@@ -4,19 +4,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import megadroid.drivinggame.R;
 
-
-
-
+/**
+ * Class used for Exit poup logic
+ */
 public class ExitActivity extends Activity implements View.OnClickListener {
+
+    /**
+     * Method invoked on create of activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       // setTheme(R.style.AppTheme_Dialog);
-      //  setTheme(R.style.AppTheme_Dialog);
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.popupexit);
         setContentView(R.layout.activity_exit);
 
         //hide the bottom navigation bar
@@ -30,12 +31,14 @@ public class ExitActivity extends Activity implements View.OnClickListener {
 
     }
 
-
+    /**
+     * Method used to handle the onclick event of the exit button and close button
+     * @param v
+     */
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
-            //the transition from MenuActivity to GameActivity
             case R.id.cross:
                 this.finish();
                 break;
@@ -52,10 +55,15 @@ public class ExitActivity extends Activity implements View.OnClickListener {
                 break;
         }
 
-
     }
+
+    /**
+     * Method invoked on back button press
+     */
     @Override
     public void onBackPressed() {
+        //do nothing so that the back pressed is disabled
     }
+
 
 }

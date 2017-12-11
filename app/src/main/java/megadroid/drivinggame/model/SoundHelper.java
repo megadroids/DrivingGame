@@ -10,11 +10,10 @@ import android.media.SoundPool;
 import megadroid.drivinggame.R;
 
 /**
- * Created by megadroids .
+ * Class used for generating the music player and sound pool objects used in the game
  */
 
 public class SoundHelper {
-
 
     //this object is created for playing music
     private MediaPlayer mMusicPlayer;
@@ -26,6 +25,10 @@ public class SoundHelper {
     private boolean mLoaded;
     private float mVolume;
 
+    /**
+     * Constructor method used to generate the Sound pool and assign the different sounds to the object
+     * @param activity
+     */
     public SoundHelper(Activity activity) {
 
         //create audio manager for playing sounds
@@ -139,6 +142,7 @@ public class SoundHelper {
         }
     }
 
+    //Method to release the sound pool and music player objects
     public void stopMusic(){
 
         if(mSoundPool != null) {
@@ -152,12 +156,12 @@ public class SoundHelper {
 
     }
 
-
+    //getter method to get th esound pool object
     public SoundPool getmSoundPool() {
         return mSoundPool;
     }
 
-
+    //getter method to get the music player object
     public MediaPlayer getmMusicPlayer() {
         return mMusicPlayer;
     }

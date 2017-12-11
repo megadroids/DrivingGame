@@ -1,5 +1,3 @@
-
-
 package megadroid.drivinggame.view;
 
 import android.app.Activity;
@@ -16,15 +14,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
 import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 import java.util.ArrayList;
 import java.util.Random;
-
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.Generator;
 import megadroid.drivinggame.model.Background;
@@ -36,7 +31,7 @@ import megadroid.drivinggame.model.SoundHelper;
 import megadroid.drivinggame.model.Star;
 
 /**
- * Created by megadroids.
+ * Class used to generate the Game screen with the methods to update and draw the canvas
  */
 
 public class GameView extends SurfaceView implements Runnable,SensorEventListener {
@@ -44,17 +39,14 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     //Accelerator X value
     public static float xAccel, xVel = 0.0f;
 
-
     //Sensor Manager that controls the tilt
     private SensorManager sensorManager;
 
-
     //used to count when the crystal item will be released
-       private int counter;
+    private int counter;
 
     //music player
     private SoundHelper msoundHelper;
-    private Random random = new Random();
 
     //properties of the background image and instantiation of the background class
     private Items[] item;
@@ -116,7 +108,14 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
     private boolean highscorebeaten;
     private int prevMusic;
     private String currentTheme;
-    //Class constructor
+
+    /**
+     * Constructor method used to initialise all the game objects
+     * @param context
+     * @param screenX - the width of the screen
+     * @param screenY - the height of the screen
+     * @param muteFlag - flag indicating if mute button is pressed
+     */
     public GameView(Context context, int screenX, int screenY, int muteFlag) {
         super(context);
 
@@ -143,10 +142,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             msoundHelper.pauseMusic();
         }
 
-
         //declaring Sensor Manager and sensor type
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-
 
         //initializing player object
         //this time also passing screen size to player constructor
@@ -193,6 +190,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         int starNums;
         float starwidth;
 
+        //choose a different set of obstacles based on theme selected
         if(currentTheme.equals("space_theme")){
 
             //setting obstacles for space
@@ -231,7 +229,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
         pausePop = false;
 
-
+        //create the elements for the star list
         for (int i = 0; i < starNums; i++) {
             Star s = new Star(screenX, screenY,currentTheme);
             s.setStarWidth(starwidth);
@@ -244,12 +242,16 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         HEIGHT= BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
 
     }
+
+    /**
+     * method invoked by the thread in the resume of activty
+     */
     public void run() {
         while (playing) {
-            //to update the frame
+            //to update the elements on Canvas
             update();
 
-            //to draw the frame
+            //to draw the elements in Canvas
             draw();
 
             //to control
@@ -257,9 +259,10 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         }
     }
 
-
+    /**
+     * Method used to update the elements in the canvas
+     */
     private void update() {
-
 
         //increament counter for the release of the crystal
         if(playingCounter%50==0){
@@ -277,7 +280,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //update the background to move
         bg.update(playingCounter);
 
-        // update the stars
+        // update the stars speed and position
         for(Star s : stars) {
             s.update(player.getSpeed());
 
@@ -389,6 +392,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     }
 
+    //Method for logic to be implemented when the player collides with the obstacle
     private void gameOver(Obstacles obstacles){
 
         //displaying the boom at the collision
@@ -410,6 +414,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     }
 
+    /**
+     * Method used to draw the elements of the canvas
+     */
     private void draw() {
 
         playingCounter++;
@@ -542,17 +549,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                         obstacles4.getY(),
                         paint
                 );
-
-
             }
-
-
 
             // create a rectangle that we'll draw later
             RectF rectangle = new RectF(0, 0, screenX, screenY/15);
             paint.setColor(Color.BLACK);
             canvas.drawRect(rectangle, paint);
-
 
             //drawing the score on the game screen
             paint.setColor(Color.WHITE);
@@ -574,15 +576,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     paint
             );
 
-
             //draw game Over when the game is over
             if (isGameOver) {
-            /*    paint.setTextSize(150);
-                paint.setTextAlign(Paint.Align.CENTER);
-                paint.setARGB(255, 0, 0, 255);
-                int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
-                canvas.drawText("Game Over", canvas.getWidth() / 2, yPos, paint);
-            */
                 Intent gameover = new Intent(getContext(), GameOverActivity.class);
                 gameover.putExtra("highscorebeaten",highscorebeaten);
                 gameover.putExtra("muteFlag",muteFlag);
@@ -597,7 +592,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         }
     }
 
-
+    /**
+     * Method used to control the thread for a period of time
+     */
     private void control() {
         try {
             gameThread.sleep(17);
@@ -606,6 +603,9 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         }
     }
 
+    /**
+     * Method used to pause the activity
+     */
     public void pause() {
         sensorManager.unregisterListener(this);
         //when the game is paused
@@ -619,8 +619,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //unregister Sensor listener
-        // manager.unregisterListener(this);
 
         //write the score and points to JSON
         generator.writeJson(this.getContext(),highScore,points);
@@ -632,7 +630,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 msoundHelper.pauseMusic();
                 msoundHelper.stopMusic();
                 msoundHelper.prepareMusicPlayer3(this.getContext(),R.raw.car_crash);
-                    msoundHelper.playMusic();
+                msoundHelper.playMusic();
 
                 //stop the music
                 msoundHelper.getmMusicPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener()
@@ -640,10 +638,10 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     @Override
                     public void onCompletion(MediaPlayer mp)
                     {
-                        // Code to start the next audio in the sequence
-                        msoundHelper.pauseMusic();
-                        msoundHelper.stopMusic();
-                        msoundHelper = null;
+                // Code to start the next audio in the sequence
+                msoundHelper.pauseMusic();
+                msoundHelper.stopMusic();
+                msoundHelper = null;
 
                     }
                 });
@@ -666,15 +664,12 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
     }
 
+    //method invoked on resume of activity
     public void resume() {
-
-
         pausePop = false;
 
         //when the game is resumed
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
-
-        //       manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         if(msoundHelper == null){
             msoundHelper = new SoundHelper((Activity)this.getContext());
@@ -688,9 +683,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
             msoundHelper.pauseMusic();
         }
 
-        //WIDTH = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getWidth();
-        //HEIGHT = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcanvas).getHeight();
-
         int selectedTheme =generator.getSelectedTheme();
         //starting the thread again
         bg = new Background(BitmapFactory.decodeResource(getResources(), selectedTheme));
@@ -698,15 +690,16 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         //updating the item coordinate with respect to player speed
         bg.setVector(bgSpeed);
 
-        //stop the music
-        //msoundHelper.playMusic();
-
         gameThread = new Thread(this);
         gameThread.start();
         playing = true;
     }
 
-
+    /**
+     * Method invoked when user touches the screen
+     * @param motionEvent
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
@@ -731,11 +724,8 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     pauseIntent.putExtra("muteFlag",muteFlag);
                     getContext().startActivity(pauseIntent);
 
-                    //getContext().startActivity(new Intent(getContext(), PauseActivity.class));
-
                 }
             }
-            // Toast.makeText(this.getContext(),"paused",Toast.LENGTH_SHORT).show();
         }
         else {
 
@@ -745,8 +735,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                     //When the user presses on the screen
                     //stopping the boosting when screen is released
 
-                    //int cellY = (int)motionEvent.getY();
-
                     player.stopBoosting();
                     break;
 
@@ -754,7 +742,6 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
                 case MotionEvent.ACTION_DOWN:
                     //When the user releases the screen
                     //boosting the space jet when screen is pressed
-
                     int w = getWidth();
                     int h = getHeight();
                     int cellX = (int) motionEvent.getX();
@@ -767,20 +754,21 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         return true;
     }
 
+    /**
+     * Method invoked when the phone is tilted
+     * @param event
+     */
     @Override
     public void onSensorChanged(SensorEvent event) {
 
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             xAccel = event.values[0];
             player.updatetilt();
-
-
         }
     }
 
     public void onAccuracyChanged (Sensor sensor,int i){
 
     }
-
 
 }

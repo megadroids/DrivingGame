@@ -12,13 +12,19 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-
 import megadroid.drivinggame.R;
 import megadroid.drivinggame.model.SoundHelper;
 
+/**
+ * Class used to generate the Game Start screen
+ */
 public class MainActivity extends AppCompatActivity {
     private SoundHelper msoundHelper;
+
+    /**
+     * Method invoked on the creation of activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Method invoked when user touches the screen to begin game
+     * @param motionEvent
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -64,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Method invoked when activity is paused
+     */
     protected void onPause() {
         super.onPause();
 

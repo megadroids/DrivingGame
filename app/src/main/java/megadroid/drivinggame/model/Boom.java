@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 import megadroid.drivinggame.R;
 
 /**
- * Created by megadroids.
+ * Class includes the logic for creating the explosion effect when player collides with the obstacles
  */
 
 public class Boom {
@@ -41,11 +41,12 @@ public class Boom {
         this.y = y;
     }
 
-    //getters
+    //Method to get the bitmap image used for the explosion effect
     public Bitmap getBitmap() {
         return bitmap;
     }
 
+    //Method used to set the image for the explosion effect
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }

@@ -1,6 +1,5 @@
 package megadroid.drivinggame.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -8,16 +7,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-
 import megadroid.drivinggame.R;
 
+/**
+ * Class used to create the Pause poup to enable the game to be paused
+ */
 public class PauseActivity extends AppCompatActivity implements Button.OnClickListener {
 
 private int muteFlag;
 
+    /**
+     * Method invoked on creation of the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       // setTheme(R.style.AppTheme_Dialog);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pause);
 
@@ -50,7 +55,10 @@ private int muteFlag;
 
     }
 
-    // the onclick methods to handle clicking different buttons
+    /**
+     *  Method to handle onclick of the buttons in the view    *
+     * @param v
+     */
     @Override
     public void onClick(View v) {
 
@@ -60,23 +68,24 @@ private int muteFlag;
                 Intent menuIntent = new Intent(PauseActivity.this, MenuActivity.class);
                 menuIntent.putExtra("muteFlag", muteFlag ); //Optional parameters
                 PauseActivity.this.startActivity(menuIntent);
-                //startActivity(new Intent(PauseActivity.this, MenuActivity.class));
                 break;
 
             //the transition from MenuActivity to ShopActivity
             case R.id.resume:
-                //startActivity(new Intent(PauseActivity.this, GameActivity.class));
                 this.finish();
                 break;
-
 
             default:
                 break;
         }
     }
 
+    /**
+     * Method invoked on back button press
+     */
     @Override
     public void onBackPressed() {
+        //do nothing so that the back pressed is disabled
     }
 
 }
