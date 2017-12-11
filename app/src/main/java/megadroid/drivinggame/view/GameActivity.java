@@ -14,13 +14,18 @@ import megadroid.drivinggame.R;
 import megadroid.drivinggame.controller.ScoreMonitor;
 import megadroid.drivinggame.model.SoundHelper;
 
+/**
+ * Class used to create the Game view and display contents of the view
+ */
 public class GameActivity extends AppCompatActivity  {
-
 
     //declaring gameview
     private GameView gameView;
 
-
+    /**
+     * Method called on create of the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +35,6 @@ public class GameActivity extends AppCompatActivity  {
 
         Intent intent = getIntent();
         int muteFlag = intent.getIntExtra("muteFlag",0); //if it's a string you stored.
-
 
         //Getting the screen resolution into point object
         Point size = new Point();
@@ -54,7 +58,9 @@ public class GameActivity extends AppCompatActivity  {
 
     }
 
-    //pausing the game when activity is paused
+    /**
+     * Method used in pausing the game when activity is paused     *
+     */
     @Override
     protected void onPause() {
 
@@ -63,7 +69,9 @@ public class GameActivity extends AppCompatActivity  {
         gameView.pause();
     }
 
-    //running the game when activity is resumed
+    /**
+     * Method used in running the game when activity is resumed     *
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -71,8 +79,12 @@ public class GameActivity extends AppCompatActivity  {
 
     }
 
+    /**
+     * Method invoked on back button press
+     */
     @Override
     public void onBackPressed() {
+        //do nothing so that the back pressed is disabled
     }
 
 }

@@ -22,12 +22,19 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
+/**
+ * Class used to generate the Play Menu screen
+ */
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ScoreMonitor monitor;
     private SoundHelper msoundHelper;
     private int tagVal;
 
+    /**
+     * Method invoked on creation of activity and used to initialise the UI elements
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
@@ -65,7 +72,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         ImageView image = (ImageView) findViewById(R.id.Sound);
         image.setTag(Integer.valueOf(R.drawable.sound));
 
-
         readJson();
 
         //hide the bottom navigation bar
@@ -78,14 +84,15 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
-    // the onclick methods to handle clicking different buttons
+    /**
+     * the onclick method to handle clicking of the buttons in the screen
+     */
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             //the transition from MenuActivity to GameActivity
             case R.id.buttonPlay:
-                //startActivity(new Intent(MenuActivity.this, GameActivity.class));
                 Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
                 myIntent.putExtra("muteFlag", tagVal ); //Optional parameters
                 MenuActivity.this.startActivity(myIntent);
@@ -94,7 +101,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
             //the transition from MenuActivity to ShopActivity
             case R.id.buttonShop:
-                //startActivity(new Intent(MenuActivity.this, ShopActivity.class));
                 Intent shopIntent = new Intent(MenuActivity.this, ShopActivity.class);
                 shopIntent.putExtra("muteFlag", tagVal ); //Optional parameters
                 MenuActivity.this.startActivity(shopIntent);
@@ -124,23 +130,19 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                         msoundHelper.pauseMusic();
                     }
                 }
-                //tagVal = (Integer) image.getTag();
                 break;
 
             case R.id.exit:
-                //Intent startMain = new Intent(Intent.ACTION_MAIN);
-                //startMain.addCategory(Intent.CATEGORY_HOME);
-                //startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                //startActivity(startMain);
-                //break;
-
-                startActivity(new Intent(MenuActivity.this,ExitActivity.class));
+                 startActivity(new Intent(MenuActivity.this,ExitActivity.class));
 
             default:
                 break;
         }
     }
 
+    /**
+     * Method invoked when activity is resumed
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -172,13 +174,15 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
+    /**
+     * Method used to read the Json file and load with defaults if file is empty
+     */
     private void readJson(){
         try {
 
             String values = monitor.readJSON(this.getApplicationContext(),"Menu");
 
             if(values.isEmpty()){
-               // Toast.makeText(this,"No Scores",Toast.LENGTH_LONG).show();
                 //Initial json setup, load default values
                 ScoreMonitor monitor = new ScoreMonitor();
                 ArrayList<String> cars = new ArrayList<>();
@@ -196,20 +200,18 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
             }else
             {
-
                 TextView txtHighscore = (TextView) findViewById(R.id.txtHighScore);
                 txtHighscore.setText("Score : "+Integer.toString(monitor.getHighScore()));
-
             }
-
-            //Toast.makeText(this,textToPrint,Toast.LENGTH_LONG).show();
 
         } catch (JSONException e) {
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
         }
     }
 
-
+    /**
+     * Method used invoked when activity is paused
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -221,8 +223,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         msoundHelper = null;
     }
 
+    /**
+     * Method invoked on back button press
+     */
     @Override
     public void onBackPressed() {
+        //do nothing so that the back pressed is disabled
     }
+
 
 }

@@ -13,14 +13,17 @@ import megadroid.drivinggame.R;
 import megadroid.drivinggame.model.SoundHelper;
 
 /**
- * Created by Pemi on 2017-12-06.
+ * Class used to display the Game over screen
  */
-
 public class GameOverActivity extends AppCompatActivity {
 
     private int muteFlag;
     private SoundHelper msoundHelper ;
 
+    /**
+     * Method invoked on creation of activity and used to display the game view
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +38,7 @@ public class GameOverActivity extends AppCompatActivity {
         BackToMenu backToMenu = new BackToMenu();
         backToMenu.start();
 
-
         msoundHelper = new SoundHelper(this);
-
 
         if (value) {
             ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.gameoverlayout);
@@ -48,11 +49,10 @@ public class GameOverActivity extends AppCompatActivity {
             ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.gameoverlayout);
             constraintLayout.setBackgroundResource(R.drawable.gameover_notbeatenscore);
             msoundHelper.prepareMusicPlayer3(this, R.raw.game_over);
-
         }
 
+        //verify if the mute button is pressed before playing the music
         if(muteFlag == 0) {
-
             msoundHelper.playMusic();
         }else
         {
@@ -70,11 +70,12 @@ public class GameOverActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Class created to implement time delay and redirect to main page
+     */
     public class BackToMenu extends Thread {
         public void run() {
             try {
-
-
                 sleep(3500);                        //*****SLEEP TIMER*****
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -89,10 +90,17 @@ public class GameOverActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method invoked on back button press
+     */
     @Override
     public void onBackPressed() {
+        //do nothing so that the back pressed is disabled
     }
 
+    /**
+     * Method invoked when the activity is paused
+     */
     @Override
     protected void onPause() {
         super.onPause();
