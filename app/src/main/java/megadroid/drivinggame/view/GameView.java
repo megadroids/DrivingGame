@@ -134,7 +134,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         currentTheme = generator.getThemeVal();
         //play the music
         msoundHelper = new SoundHelper((Activity)this.getContext());
-        prevMusic = generator.randomMainMusic();
+        prevMusic = generator.randomMainMusic(0);
         msoundHelper.prepareMusicPlayer((Activity)this.getContext(),prevMusic);
         if(muteFlag == 0) {
             msoundHelper.playMusic();
@@ -196,10 +196,10 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
         if(currentTheme.equals("space_theme")){
 
             //setting obstacles for space
-            bitmap = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
-            bitmapcar = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
-            bitmapSecond = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
-            bitmapThird = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace());
+            bitmap = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace(0));
+            bitmapcar = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace(1));
+            bitmapSecond = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace(2));
+            bitmapThird = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleSpace(3));
             starNums = 300;
             starwidth = 4.0f;
 
@@ -212,10 +212,10 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
             //setting obstacles for road
 
-            bitmap = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars());
-            bitmapcar = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars());
-            bitmapSecond = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars());
-            bitmapThird = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars());
+            bitmap = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars(0));
+            bitmapcar = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars(1));
+            bitmapSecond = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars(2));
+            bitmapThird = BitmapFactory.decodeResource(this.getResources(), generator.randomObstacleCars(3));
             starNums = 1000;
             starwidth = 6.0f;
 
@@ -549,21 +549,21 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
 
             // create a rectangle that we'll draw later
-            RectF rectangle = new RectF(0, 0, screenX, screenY/18);
+            RectF rectangle = new RectF(0, 0, screenX, screenY/15);
             paint.setColor(Color.BLACK);
             canvas.drawRect(rectangle, paint);
 
 
             //drawing the score on the game screen
             paint.setColor(Color.WHITE);
-            paint.setTextSize(45);
-            canvas.drawText("Score: " + score, screenX/2+100, 50, paint);
+            paint.setTextSize(65);
+            canvas.drawText("Score: " + score, screenX/2+50, 70, paint);
 
             //drawing the points on the game screen
             paint.setColor(Color.WHITE);
-            paint.setTextSize(45);
+            paint.setTextSize(65);
             canvas.drawBitmap(item1[0].getBitmap(),20,0,paint);
-            canvas.drawText(": " + points, item1[0].getBitmap().getWidth()+20, 50, paint);
+            canvas.drawText(": " + points, item1[0].getBitmap().getWidth()+20, 70, paint);
 
             //pause button
             canvas.drawBitmap(
