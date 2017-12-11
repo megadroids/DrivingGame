@@ -570,7 +570,7 @@ public class GameView extends SurfaceView implements Runnable,SensorEventListene
 
                     pauseButton,
                     screenX-pauseButton.getWidth(),
-                    0,
+                    -5,
                     paint
             );
 
