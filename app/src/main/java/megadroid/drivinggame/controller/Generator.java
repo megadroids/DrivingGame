@@ -88,7 +88,7 @@ public class Generator {
         randomObstacleSpace.add(R.drawable.space_obst4);
         randomObstacleSpace.add(R.drawable.space_obst5);
         randomObstacleSpace.add(R.drawable.space_obst6);
-        randomObstacleSpace.add(R.drawable.space_obst7);
+
         randomObstacleSpace.add(R.drawable.asteroid);
         Collections.shuffle(randomObstacleSpace);
     }
